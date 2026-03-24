@@ -1,0 +1,93 @@
+site_name: AI-native Systems Research
+site_description: >-
+  Closing the loop — AI as the primary agent of continuous system evolution.
+  Research and practice across inference platforms, GPU kernels, and storage systems.
+site_url: https://ai-native.github.io/ai-native-systems-research
+repo_url: https://github.com/AI-native/ai-native-systems-research
+repo_name: AI-native/ai-native-systems-research
+
+theme:
+  name: material
+  palette:
+    - media: "(prefers-color-scheme: light)"
+      scheme: default
+      primary: indigo
+      accent: indigo
+      toggle:
+        icon: material/brightness-7
+        name: Switch to dark mode
+    - media: "(prefers-color-scheme: dark)"
+      scheme: slate
+      primary: indigo
+      accent: indigo
+      toggle:
+        icon: material/brightness-4
+        name: Switch to light mode
+  features:
+    - navigation.tabs
+    - navigation.indexes
+    - navigation.sections
+    - navigation.expand
+    - navigation.footer
+    - navigation.top
+    - search.highlight
+    - search.suggest
+    - content.code.copy
+    - toc.follow
+  icon:
+    logo: material/brain
+  custom_dir: overrides
+
+extra_css:
+  - stylesheets/extra.css
+
+markdown_extensions:
+  - admonition
+  - attr_list
+  - md_in_html
+  - pymdownx.details
+  - pymdownx.superfences:
+      custom_fences:
+        - name: mermaid
+          class: mermaid
+          format: !!python/name:pymdownx.superfences.fence_code_format
+  - pymdownx.highlight:
+      anchor_linenums: true
+  - pymdownx.tabbed:
+      alternate_style: true
+  - pymdownx.tasklist:
+      custom_checkbox: true
+  - pymdownx.emoji:
+      emoji_index: !!python/name:material.extensions.emoji.twemoji
+      emoji_generator: !!python/name:material.extensions.emoji.to_svg
+  - tables
+  - toc:
+      permalink: true
+
+plugins:
+  - search
+  - blog:
+      blog_dir: blog
+      post_date_format: long
+      categories_allowed:
+        - Vision
+        - llm-d
+        - AI Kernels
+        - Storage Systems
+        - Architecture
+        - Deep Dives
+
+extra:
+  version:
+    provider: mike
+    default: latest
+
+nav:
+  - Home: index.md
+  - Technical Domains:
+      - technical-domains/index.md
+      - "llm-d: Inference Platform": technical-domains/llm-d.md
+      - AI-Generated Kernels: technical-domains/ai-kernels.md
+      - Storage Systems: technical-domains/storage-systems.md
+  - Blog:
+      - blog/index.md
