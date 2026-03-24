@@ -6,6 +6,9 @@ site_url: https://ai-native.github.io/ai-native-systems-research
 repo_url: https://github.com/AI-native/ai-native-systems-research
 repo_name: AI-native/ai-native-systems-research
 
+exclude_docs: |
+  superpowers/
+
 theme:
   name: material
   palette:
