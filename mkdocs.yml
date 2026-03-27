@@ -2,9 +2,9 @@ site_name: AI-native Systems Research
 site_description: >-
   Closing the loop — AI as the primary agent of continuous system evolution.
   Research and practice across inference platforms, GPU kernels, and storage systems.
-site_url: https://ai-native.github.io/ai-native-systems-research
-repo_url: https://github.com/AI-native/ai-native-systems-research
-repo_name: AI-native/ai-native-systems-research
+site_url: https://ai-native-systems-research.github.io/ai-native-systems-research
+repo_url: https://github.com/AI-native-Systems-Research/ai-native-systems-research
+repo_name: AI-native-Systems-Research/ai-native-systems-research
 
 exclude_docs: |
   superpowers/
