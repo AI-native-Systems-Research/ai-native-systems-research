@@ -77,7 +77,7 @@ The agentic AI-driven layer that continuously improves the System Under Control.
 - **Spec-driven development** — specifications are live documents that evolve with the system
 - **Experimentation as a first-class activity** — exploring a space of possibilities, not relying on single proposed fixes
 - **Hyper-specialization** — systems optimized for how they are actually used in each specific deployment
-- **Simulation environments** -  enabling rapid evolution and verification when real‑world experimentation is too costly (e.g., [BLIS](https://inference-sim.github.io/inference-sim/latest/), our high-fidelity and accurate llm-d simulator).
+- **Simulation environments** — enabling rapid evolution and verification when real‑world experimentation is too costly (e.g., [BLIS](https://inference-sim.github.io/inference-sim/latest/), our high-fidelity and accurate llm-d simulator).
 
 ---
 
