@@ -23,10 +23,10 @@ Spec-driven development of holistic storage stacks:
 - **Assurance** of quality and correctness through deep specification of both functional and non-functional requirements, coupled with run-time testing and formal verfication
 - Leverage of **component-based** architectures to create contextual domains and prevent agentic coding sprawl
 
-Continuous evolution through the observasation of storage telemetry and identifies opportunities:
+Continuous evolution through the observation of storage telemetry and identifies opportunities:
 
-- **Configuration optimization** of cache sizes, prefetch policies, compaction schedules tuned to actual access patterns
-- **Algorithmic improvements** for better data placement, tiering decisions, pre-fetching policies or replication strategies
+- **Configuration optimization** of cache sizes, pre-fetch policies, compaction schedules tuned to actual access patterns
+- **Algorithmic improvements** for better data placement, tiering decisions, pre-fetching policies, or replication strategies
 - **Structural changes** including refactored indexing, new caching layers, and workload-specific optimizations
 
 ---
