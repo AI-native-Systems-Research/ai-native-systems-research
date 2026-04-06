@@ -111,7 +111,7 @@ Autonomous generation and optimization of compute kernels for GPUs and accelerat
 
 ### :material-database: Storage Systems
 
-Applying the AI-native continuous improvement loop to storage infrastructure — enabling self-optimizing, workload-aware storage systems.
+Applying spec-driven development and AI-native continuous improvement to storage infrastructure — enabling domain-specific, self-optimizing, and workload-aware storage systems.
 
 [:octicons-arrow-right-24: Learn more](technical-domains/storage-systems.md)
 

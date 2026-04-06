@@ -28,7 +28,7 @@ Autonomous generation and continuous optimization of compute kernels for GPUs an
 
 ### :material-database: Storage Systems
 
-Self-optimizing storage infrastructure that evolves based on actual usage patterns and workload characteristics.
+Applying spec-driven development and AI-native continuous improvement to storage infrastructure — enabling highly reliable, self-optimizing, and workload-aware storage systems.
 
 [:octicons-arrow-right-24: Storage Systems](storage-systems.md)
 
