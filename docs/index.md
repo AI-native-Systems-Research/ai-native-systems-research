@@ -6,7 +6,7 @@ hide:
 
 <div class="hero" markdown>
 
-# AI-native Systems Research
+# AI-Native Systems Research
 
 <p class="hero-subtitle">
 What if a system could observe its own behavior, hypothesize improvements,
@@ -26,7 +26,7 @@ validate them, and deploy — continuously, at machine speed?
 
 Modern software systems serving AI workloads are extraordinarily complex and must evolve under relentless pressure — new models, new hardware, changing usage patterns, shifting objectives. Today, even with powerful AI tools, every improvement is mediated by humans step by step. This human-mediated loop has become the bottleneck.
 
-**AI-native Systems** close this loop. In an AI-native System, AI is the primary agent of continuous creation, evolution, and operation. Humans define objectives, constraints, and governance — while the system continuously executes within those boundaries.
+**AI-Native Systems** close this loop. In an AI-native System, AI is the primary agent of continuous creation, evolution, and operation. Humans define objectives, constraints, and governance — while the system continuously executes within those boundaries.
 
 ```mermaid
 graph LR
@@ -123,10 +123,10 @@ Applying spec-driven development and AI-native continuous improvement to storage
 
 ## Latest from the Blog
 
-Check the [Blog](blog/index.md) for our latest posts on AI-native Systems research, progress updates, and deep dives into specific domains.
+Check the [Blog](blog/index.md) for our latest posts on AI-Native Systems research, progress updates, and deep dives into specific domains.
 
 ---
 
 <p style="text-align: center; opacity: 0.6; font-size: 0.85rem;">
-AI-native Systems Research · Apache 2.0
+AI-Native Systems Research · Apache 2.0
 </p>

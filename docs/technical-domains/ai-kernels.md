@@ -1,6 +1,6 @@
 # AI-Generated Kernels for GPUs and Accelerators
 
-Compute kernels for accelerators like GPUs are at the heart of AI workloads. These kernels must be optimized for specific model families, data layouts, mathematical representations, and hardware models. Today, this optimization is a manual, expert-driven process. AI-native Systems change this fundamentally.
+Compute kernels for accelerators like GPUs are at the heart of AI workloads. These kernels must be optimized for specific model families, data layouts, mathematical representations, and hardware models. Today, this optimization is a manual, expert-driven process. AI-Native Systems change this fundamentally.
 
 ---
 
@@ -42,4 +42,4 @@ The system uses LLM-based evolutionary approaches, reinforcement learning, or hy
 
 ## Related Work
 
-This builds on evolutionary code improvement techniques demonstrated by systems such as Sky-Discover, Kernel Bench, and OpenEvolve. AI-native Systems generalize these ideas into a continuous, governed loop.
+This builds on evolutionary code improvement techniques demonstrated by systems such as Sky-Discover, Kernel Bench, and OpenEvolve. AI-Native Systems generalize these ideas into a continuous, governed loop.
