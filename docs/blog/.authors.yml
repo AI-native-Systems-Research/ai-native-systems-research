@@ -1,5 +1,13 @@
 authors:
-  fabio:
+  eilam:
+    name: Tamar Eilam
+    description: AI-native Systems Researcher
+    avatar: https://github.com/eilamt.png
+  oliveira:
     name: Fabio A. Oliveira
     description: AI-native Systems Researcher
     avatar: https://github.com/fabolive.png
+  factor:
+    name: Michael Factor
+    description: AI-native Systems Researcher
+    avatar: https://github.com/factorm.png
