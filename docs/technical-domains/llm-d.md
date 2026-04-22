@@ -26,7 +26,7 @@ LLM inference platforms are ideal proving grounds for the AI-native approach. Th
 
 ---
 
-## AI-native Opportunities
+## AI-Native Opportunities
 
 In the AI-native vision, the inference platform continuously observes its own behavior — request latencies, queue depths, cache hit rates, GPU utilization — and uses this telemetry to drive improvements. These improvements span:
 
