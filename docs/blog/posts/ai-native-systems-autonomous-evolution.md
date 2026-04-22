@@ -1,5 +1,5 @@
 ---
-date: 2025-06-18
+date: 2026-04-21
 categories:
   - Vision
   - Architecture
