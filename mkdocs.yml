@@ -77,7 +77,6 @@ plugins:
         - llm-d
         - AI Kernels
         - Storage Systems
-        - Architecture
         - Deep Dives
 
 extra:

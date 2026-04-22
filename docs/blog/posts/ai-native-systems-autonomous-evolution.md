@@ -2,7 +2,6 @@
 date: 2026-04-21
 categories:
   - Vision
-  - Architecture
 authors:
   - eilam
   - oliveira
