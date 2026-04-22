@@ -15,7 +15,7 @@ Storage systems exhibit the characteristics that benefit most from continuous AI
 
 ---
 
-## AI-native Vision for Storage
+## AI-Native Vision for Storage
 
 Spec-driven development of holistic storage stacks:
 
