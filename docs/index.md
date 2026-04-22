@@ -123,7 +123,7 @@ Applying spec-driven development and AI-native continuous improvement to storage
 
 ## Latest from the Blog
 
-Check the [Blog](blog/index.md) for our latest posts on AI-Native Systems research, progress updates, and deep dives into specific domains.
+Check [our blogs](blog/index.md) for latest posts on AI-Native Systems research, progress updates, and deep dives into specific domains.
 
 ---
 
