@@ -83,6 +83,12 @@ extra:
   version:
     provider: mike
     default: latest
+  analytics:
+    property: G-83Z819J0CL
+  generator: false  # hide the "Made with Material" footer text
+
+not_in_nav: |
+  /privacy.md
 
 nav:
   - Home: index.md

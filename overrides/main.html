@@ -1,0 +1,118 @@
+{% extends "base.html" %}
+
+{#
+  Custom override for AI-native Systems Research docs.
+  Injects cookieless, hardened Google Analytics 4 (gtag.js) on every page.
+  Skips injection on localhost so `mkdocs serve` does not pollute production.
+  See docs/superpowers/specs/2026-04-27-blog-analytics-design.md for rationale.
+#}
+
+{% block extrahead %}
+  {{ super() }}
+  {% if config.extra.analytics and config.extra.analytics.property %}
+  <script>
+    (function() {
+      if (location.hostname === 'localhost' || location.hostname === '127.0.0.1') {
+        return;
+      }
+      var s = document.createElement('script');
+      s.async = true;
+      s.src = 'https://www.googletagmanager.com/gtag/js?id={{ config.extra.analytics.property }}';
+      document.head.appendChild(s);
+
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){ dataLayer.push(arguments); }
+      window.gtag = gtag;
+      gtag('js', new Date());
+      gtag('config', '{{ config.extra.analytics.property }}', {
+        client_storage: 'none',
+        anonymize_ip: true,
+        allow_google_signals: false,
+        allow_ad_personalization_signals: false,
+        ads_data_redaction: true,
+        page_location: location.origin + location.pathname,
+        send_page_view: true
+      });
+    })();
+  </script>
+  {% endif %}
+  <style>
+    .ga-notice {
+      position: fixed;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      background: var(--md-default-bg-color);
+      border-top: 1px solid var(--md-default-fg-color--lightest);
+      padding: 0.8rem 1rem;
+      z-index: 1000;
+      display: none;
+      box-shadow: 0 -2px 8px rgba(0, 0, 0, 0.05);
+      font-family: var(--md-text-font);
+    }
+    .ga-notice__inner {
+      max-width: 1200px;
+      margin: 0 auto;
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      flex-wrap: wrap;
+    }
+    .ga-notice__text {
+      flex: 1;
+      font-size: 0.8rem;
+      color: var(--md-default-fg-color);
+      min-width: 280px;
+      line-height: 1.4;
+    }
+    .ga-notice__text a {
+      color: var(--md-typeset-a-color);
+      text-decoration: underline;
+    }
+    .ga-notice__btn {
+      background: var(--md-primary-fg-color);
+      color: var(--md-primary-bg-color);
+      border: none;
+      padding: 0.5rem 1.2rem;
+      border-radius: 0.2rem;
+      cursor: pointer;
+      font-size: 0.8rem;
+      font-weight: 600;
+      font-family: inherit;
+    }
+    .ga-notice__btn:hover {
+      opacity: 0.9;
+    }
+  </style>
+{% endblock %}
+
+{% block scripts %}
+  {{ super() }}
+  <div class="ga-notice" id="ga-notice" role="region" aria-label="Analytics notice">
+    <div class="ga-notice__inner">
+      <span class="ga-notice__text">
+        We use cookieless Google Analytics to count how many readers each post gets &mdash;
+        no cookies, no tracking across sites. Your page URL (without query parameters), browser,
+        and approximate location may be processed.
+        <a href="{{ 'privacy/' | url }}">Read what's collected &rarr;</a>
+      </span>
+      <button class="ga-notice__btn" id="ga-notice-dismiss" type="button">Got it</button>
+    </div>
+  </div>
+  <script>
+    (function() {
+      var notice = document.getElementById('ga-notice');
+      var btn = document.getElementById('ga-notice-dismiss');
+      if (!notice || !btn) return;
+      try {
+        if (!localStorage.getItem('analytics-notice-dismissed')) {
+          notice.style.display = 'block';
+        }
+      } catch (e) { /* localStorage unavailable; just don't show */ }
+      btn.addEventListener('click', function() {
+        try { localStorage.setItem('analytics-notice-dismissed', '1'); } catch (e) {}
+        notice.style.display = 'none';
+      });
+    })();
+  </script>
+{% endblock %}
