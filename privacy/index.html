@@ -10,31 +10,27 @@
       
       
       
-        <link rel="canonical" href="https://ai-native-systems-research.github.io/ai-native-systems-research/technical-domains/storage-systems/">
+        <link rel="canonical" href="https://ai-native-systems-research.github.io/ai-native-systems-research/privacy/">
       
       
-        <link rel="prev" href="../ai-kernels/">
-      
-      
-        <link rel="next" href="../../blog/">
       
       
         
       
       
-      <link rel="icon" href="../../assets/images/favicon.png">
+      <link rel="icon" href="../assets/images/favicon.png">
       <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.6">
     
     
       
-        <title>Storage Systems - AI-native Systems Research</title>
+        <title>Analytics & Privacy - AI-native Systems Research</title>
       
     
     
-      <link rel="stylesheet" href="../../assets/stylesheets/main.484c7ddc.min.css">
+      <link rel="stylesheet" href="../assets/stylesheets/main.484c7ddc.min.css">
       
         
-        <link rel="stylesheet" href="../../assets/stylesheets/palette.ab4e12ef.min.css">
+        <link rel="stylesheet" href="../assets/stylesheets/palette.ab4e12ef.min.css">
       
       
 
@@ -53,9 +49,9 @@
       
     
     
-      <link rel="stylesheet" href="../../stylesheets/extra.css">
+      <link rel="stylesheet" href="../stylesheets/extra.css">
     
-    <script>__md_scope=new URL("../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    <script>__md_scope=new URL("..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
     
       
   
@@ -159,7 +155,7 @@
     <div data-md-component="skip">
       
         
-        <a href="#storage-systems" class="md-skip">
+        <a href="#analytics-privacy" class="md-skip">
           Skip to content
         </a>
       
@@ -177,7 +173,7 @@
 
 <header class="md-header" data-md-component="header">
   <nav class="md-header__inner md-grid" aria-label="Header">
-    <a href="../.." title="AI-native Systems Research" class="md-header__button md-logo" aria-label="AI-native Systems Research" data-md-component="logo">
+    <a href=".." title="AI-native Systems Research" class="md-header__button md-logo" aria-label="AI-native Systems Research" data-md-component="logo">
       
   
   <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M21.33 12.91c.09 1.55-.62 3.04-1.89 3.95l.77 1.49c.23.45.26.98.06 1.45-.19.47-.58.84-1.06 1l-.79.25a1.687 1.687 0 0 1-1.86-.55L14.44 18c-.89-.15-1.73-.53-2.44-1.1-.5.15-1 .23-1.5.23-.88 0-1.76-.27-2.5-.79-.53.16-1.07.23-1.62.22-.79.01-1.57-.15-2.3-.45a4.1 4.1 0 0 1-2.43-3.61c-.08-.72.04-1.45.35-2.11-.29-.75-.32-1.57-.07-2.33C2.3 7.11 3 6.32 3.87 5.82c.58-1.69 2.21-2.82 4-2.7 1.6-1.5 4.05-1.66 5.83-.37.42-.11.86-.17 1.3-.17 1.36-.03 2.65.57 3.5 1.64 2.04.53 3.5 2.35 3.58 4.47.05 1.11-.25 2.2-.86 3.13.07.36.11.72.11 1.09m-5-1.41c.57.07 1.02.5 1.02 1.07a1 1 0 0 1-1 1h-.63c-.32.9-.88 1.69-1.62 2.29.25.09.51.14.77.21 5.13-.07 4.53-3.2 4.53-3.25a2.59 2.59 0 0 0-2.69-2.49 1 1 0 0 1-1-1 1 1 0 0 1 1-1c1.23.03 2.41.49 3.33 1.3.05-.29.08-.59.08-.89-.06-1.24-.62-2.32-2.87-2.53-1.25-2.96-4.4-1.32-4.4-.4-.03.23.21.72.25.75a1 1 0 0 1 1 1c0 .55-.45 1-1 1-.53-.02-1.03-.22-1.43-.56-.48.31-1.03.5-1.6.56-.57.05-1.04-.35-1.07-.9a.97.97 0 0 1 .88-1.1c.16-.02.94-.14.94-.77 0-.66.25-1.29.68-1.79-.92-.25-1.91.08-2.91 1.29C6.75 5 6 5.25 5.45 7.2 4.5 7.67 4 8 3.78 9c1.08-.22 2.19-.13 3.22.25.5.19.78.75.59 1.29-.19.52-.77.78-1.29.59-.73-.32-1.55-.34-2.3-.06-.32.27-.32.83-.32 1.27 0 .74.37 1.43 1 1.83.53.27 1.12.41 1.71.4q-.225-.39-.39-.81a1.038 1.038 0 0 1 1.96-.68c.4 1.14 1.42 1.92 2.62 2.05 1.37-.07 2.59-.88 3.19-2.13.23-1.38 1.34-1.5 2.56-1.5m2 7.47-.62-1.3-.71.16 1 1.25zm-4.65-8.61a1 1 0 0 0-.91-1.03c-.71-.04-1.4.2-1.93.67-.57.58-.87 1.38-.84 2.19a1 1 0 0 0 1 1c.57 0 1-.45 1-1 0-.27.07-.54.23-.76.12-.1.27-.15.43-.15.55.03 1.02-.38 1.02-.92"/></svg>
@@ -197,7 +193,7 @@
         <div class="md-header__topic" data-md-component="header-topic">
           <span class="md-ellipsis">
             
-              Storage Systems
+              Analytics &amp; Privacy
             
           </span>
         </div>
@@ -310,7 +306,7 @@
   
   
     <li class="md-tabs__item">
-      <a href="../.." class="md-tabs__link">
+      <a href=".." class="md-tabs__link">
         
   
   
@@ -327,13 +323,11 @@
   
   
   
-    
-  
   
     
     
-      <li class="md-tabs__item md-tabs__item--active">
-        <a href="../" class="md-tabs__link">
+      <li class="md-tabs__item">
+        <a href="../technical-domains/" class="md-tabs__link">
           
   
   
@@ -355,7 +349,7 @@
     
     
       <li class="md-tabs__item">
-        <a href="../../blog/" class="md-tabs__link">
+        <a href="../blog/" class="md-tabs__link">
           
   
   
@@ -391,7 +385,7 @@
 
 <nav class="md-nav md-nav--primary md-nav--lifted" aria-label="Navigation" data-md-level="0">
   <label class="md-nav__title" for="__drawer">
-    <a href="../.." title="AI-native Systems Research" class="md-nav__button md-logo" aria-label="AI-native Systems Research" data-md-component="logo">
+    <a href=".." title="AI-native Systems Research" class="md-nav__button md-logo" aria-label="AI-native Systems Research" data-md-component="logo">
       
   
   <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M21.33 12.91c.09 1.55-.62 3.04-1.89 3.95l.77 1.49c.23.45.26.98.06 1.45-.19.47-.58.84-1.06 1l-.79.25a1.687 1.687 0 0 1-1.86-.55L14.44 18c-.89-.15-1.73-.53-2.44-1.1-.5.15-1 .23-1.5.23-.88 0-1.76-.27-2.5-.79-.53.16-1.07.23-1.62.22-.79.01-1.57-.15-2.3-.45a4.1 4.1 0 0 1-2.43-3.61c-.08-.72.04-1.45.35-2.11-.29-.75-.32-1.57-.07-2.33C2.3 7.11 3 6.32 3.87 5.82c.58-1.69 2.21-2.82 4-2.7 1.6-1.5 4.05-1.66 5.83-.37.42-.11.86-.17 1.3-.17 1.36-.03 2.65.57 3.5 1.64 2.04.53 3.5 2.35 3.58 4.47.05 1.11-.25 2.2-.86 3.13.07.36.11.72.11 1.09m-5-1.41c.57.07 1.02.5 1.02 1.07a1 1 0 0 1-1 1h-.63c-.32.9-.88 1.69-1.62 2.29.25.09.51.14.77.21 5.13-.07 4.53-3.2 4.53-3.25a2.59 2.59 0 0 0-2.69-2.49 1 1 0 0 1-1-1 1 1 0 0 1 1-1c1.23.03 2.41.49 3.33 1.3.05-.29.08-.59.08-.89-.06-1.24-.62-2.32-2.87-2.53-1.25-2.96-4.4-1.32-4.4-.4-.03.23.21.72.25.75a1 1 0 0 1 1 1c0 .55-.45 1-1 1-.53-.02-1.03-.22-1.43-.56-.48.31-1.03.5-1.6.56-.57.05-1.04-.35-1.07-.9a.97.97 0 0 1 .88-1.1c.16-.02.94-.14.94-.77 0-.66.25-1.29.68-1.79-.92-.25-1.91.08-2.91 1.29C6.75 5 6 5.25 5.45 7.2 4.5 7.67 4 8 3.78 9c1.08-.22 2.19-.13 3.22.25.5.19.78.75.59 1.29-.19.52-.77.78-1.29.59-.73-.32-1.55-.34-2.3-.06-.32.27-.32.83-.32 1.27 0 .74.37 1.43 1 1.83.53.27 1.12.41 1.71.4q-.225-.39-.39-.81a1.038 1.038 0 0 1 1.96-.68c.4 1.14 1.42 1.92 2.62 2.05 1.37-.07 2.59-.88 3.19-2.13.23-1.38 1.34-1.5 2.56-1.5m2 7.47-.62-1.3-.71.16 1 1.25zm-4.65-8.61a1 1 0 0 0-.91-1.03c-.71-.04-1.4.2-1.93.67-.57.58-.87 1.38-.84 2.19a1 1 0 0 0 1 1c.57 0 1-.45 1-1 0-.27.07-.54.23-.76.12-.1.27-.15.43-.15.55.03 1.02-.38 1.02-.92"/></svg>
@@ -421,7 +415,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../.." class="md-nav__link">
+      <a href=".." class="md-nav__link">
         
   
   
@@ -445,8 +439,6 @@
       
   
   
-    
-  
   
   
     
@@ -466,23 +458,22 @@
     
     
       
-        
-        
-      
       
         
       
     
     
-    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
+    <li class="md-nav__item md-nav__item--nested">
       
         
         
-        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2" checked>
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_2" >
         
           
           <div class="md-nav__link md-nav__container">
-            <a href="../" class="md-nav__link ">
+            <a href="../technical-domains/" class="md-nav__link ">
               
   
   
@@ -500,13 +491,13 @@
             </a>
             
               
-              <label class="md-nav__link " for="__nav_2" id="__nav_2_label" tabindex="">
+              <label class="md-nav__link " for="__nav_2" id="__nav_2_label" tabindex="0">
                 <span class="md-nav__icon md-icon"></span>
               </label>
             
           </div>
         
-        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_2_label" aria-expanded="true">
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_2_label" aria-expanded="false">
           <label class="md-nav__title" for="__nav_2">
             <span class="md-nav__icon md-icon"></span>
             
@@ -526,7 +517,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../llm-d/" class="md-nav__link">
+      <a href="../technical-domains/llm-d/" class="md-nav__link">
         
   
   
@@ -554,7 +545,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../ai-kernels/" class="md-nav__link">
+      <a href="../technical-domains/ai-kernels/" class="md-nav__link">
         
   
   
@@ -579,37 +570,10 @@
                 
   
   
-    
   
   
-  
-    <li class="md-nav__item md-nav__item--active">
-      
-      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
-      
-      
-        
-      
-      
-        <label class="md-nav__link md-nav__link--active" for="__toc">
-          
-  
-  
-  <span class="md-ellipsis">
-    
-  
-    Storage Systems
-  
-
-    
-  </span>
-  
-  
-
-          <span class="md-nav__icon md-icon"></span>
-        </label>
-      
-      <a href="./" class="md-nav__link md-nav__link--active">
+    <li class="md-nav__item">
+      <a href="../technical-domains/storage-systems/" class="md-nav__link">
         
   
   
@@ -625,59 +589,6 @@
   
 
       </a>
-      
-        
-
-<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
-  
-  
-  
-    
-  
-  
-    <label class="md-nav__title" for="__toc">
-      <span class="md-nav__icon md-icon"></span>
-      Table of contents
-    </label>
-    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
-      
-        <li class="md-nav__item">
-  <a href="#why-storage" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Why Storage?
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#ai-native-vision-for-storage" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        AI-Native Vision for Storage
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#research-directions" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Research Directions
-      
-    </span>
-  </a>
-  
-</li>
-      
-    </ul>
-  
-</nav>
-      
     </li>
   
 
@@ -726,7 +637,7 @@
         
           
           <div class="md-nav__link md-nav__container">
-            <a href="../../blog/" class="md-nav__link ">
+            <a href="../blog/" class="md-nav__link ">
               
   
   
@@ -830,7 +741,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../blog/archive/2026/" class="md-nav__link">
+      <a href="../blog/archive/2026/" class="md-nav__link">
         
   
   
@@ -926,7 +837,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../blog/category/vision/" class="md-nav__link">
+      <a href="../blog/category/vision/" class="md-nav__link">
         
   
   
@@ -989,10 +900,10 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#why-storage" class="md-nav__link">
+  <a href="#what-we-collect-and-why" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Why Storage?
+        What we collect and why
       
     </span>
   </a>
@@ -1000,10 +911,10 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#ai-native-vision-for-storage" class="md-nav__link">
+  <a href="#what-gets-sent-to-google-analytics" class="md-nav__link">
     <span class="md-ellipsis">
       
-        AI-Native Vision for Storage
+        What gets sent to Google Analytics
       
     </span>
   </a>
@@ -1011,10 +922,32 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#research-directions" class="md-nav__link">
+  <a href="#what-we-do-not-collect" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Research Directions
+        What we do not collect
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#how-to-opt-out" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        How to opt out
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#contact" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Contact
       
     </span>
   </a>
@@ -1041,42 +974,43 @@
   
 
 
-<h1 id="storage-systems">Storage Systems<a class="headerlink" href="#storage-systems" title="Permanent link">&para;</a></h1>
-<p>Storage systems — filesystems, object stores, block virtualization — are among the most complex and long-lived software systems in production. They serve diverse workloads, run on heterogeneous hardware, and must balance performance, durability, cost, and consistency. These properties make them both challenging and highly rewarding targets for AI-native approaches.</p>
+<h1 id="analytics-privacy">Analytics &amp; Privacy<a class="headerlink" href="#analytics-privacy" title="Permanent link">&para;</a></h1>
+<p>This page explains what data this site collects when you read a post, why, and what choices you have.</p>
+<h2 id="what-we-collect-and-why">What we collect and why<a class="headerlink" href="#what-we-collect-and-why" title="Permanent link">&para;</a></h2>
+<p>We use <strong>Google Analytics 4</strong> to count how many times each post is read. We do not collect anything for advertising, profiling, or cross-site tracking.</p>
+<h2 id="what-gets-sent-to-google-analytics">What gets sent to Google Analytics<a class="headerlink" href="#what-gets-sent-to-google-analytics" title="Permanent link">&para;</a></h2>
+<p>When you load a page on this site, the following are sent to Google:</p>
+<ul>
+<li>The page URL <strong>without</strong> query parameters or fragments (e.g., <code>/blog/2026/04/21/post-name/</code>)</li>
+<li>The page title</li>
+<li>The URL of the page that referred you here (if any)</li>
+<li>Your IP address &mdash; used briefly to derive your country, then truncated and discarded by Google before storage</li>
+<li>Your User-Agent string (browser type and operating system)</li>
+<li>Your screen resolution, viewport size, and color depth</li>
+<li>Your browser language and timezone offset</li>
+<li>Your country, region, and city, derived from your IP address before truncation</li>
+</ul>
+<h2 id="what-we-do-not-collect">What we do not collect<a class="headerlink" href="#what-we-do-not-collect" title="Permanent link">&para;</a></h2>
+<ul>
+<li><strong>No cookies.</strong> No <code>_ga</code>, <code>_gid</code>, or any other tracking cookies are set.</li>
+<li><strong>No persistent identifier.</strong> Nothing is stored on your device that links your visits across sessions.</li>
+<li><strong>No demographics, interests, age, or gender.</strong> Google Signals is disabled.</li>
+<li><strong>No advertising data.</strong> Ad-personalization features are disabled and ad-related data is redacted.</li>
+<li><strong>No outbound link clicks, file downloads, scrolling, video, search, or form events.</strong> Enhanced Measurement is disabled at the property level.</li>
+</ul>
+<h2 id="how-to-opt-out">How to opt out<a class="headerlink" href="#how-to-opt-out" title="Permanent link">&para;</a></h2>
+<p>You can prevent Google Analytics from running on this site at any time by:</p>
+<ul>
+<li>Using a content blocker such as <strong>uBlock Origin</strong> or <strong>Privacy Badger</strong></li>
+<li>Enabling strict tracking-prevention mode in your browser (e.g., <strong>Firefox Enhanced Tracking Protection</strong> set to Strict, <strong>Safari Intelligent Tracking Prevention</strong>, or <strong>Brave Shields</strong>) — these block the analytics script at the network level</li>
+<li>Installing the <a href="https://tools.google.com/dlpage/gaoptout">Google Analytics Opt-out Browser Add-on</a></li>
+</ul>
+<p>We do not gate any content on this &mdash; opting out has no effect on what you can read.</p>
+<p><strong>Important practical note:</strong> we do not store any identifier that links visits to a specific person.</p>
+<h2 id="contact">Contact<a class="headerlink" href="#contact" title="Permanent link">&para;</a></h2>
+<p>For questions or data requests, open an issue at the <a href="https://github.com/AI-native-Systems-Research/ai-native-systems-research">project repository</a> or contact the maintainers.</p>
 <hr />
-<h2 id="why-storage">Why Storage?<a class="headerlink" href="#why-storage" title="Permanent link">&para;</a></h2>
-<p>Storage systems exhibit the characteristics that benefit most from continuous AI-driven evolution:</p>
-<ul>
-<li><strong>Deep complexity</strong> — distributed coordination, caching hierarchies, replication strategies, failure handling</li>
-<li><strong>Multi-objective tradeoffs</strong> — latency vs. throughput vs. durability vs. cost vs. resources</li>
-<li><strong>Workload sensitivity</strong> — performance depends heavily on access patterns that may change over time</li>
-<li><strong>Rich observability</strong> — I/O traces, latency distributions, cache statistics, capacity metrics</li>
-</ul>
-<hr />
-<h2 id="ai-native-vision-for-storage">AI-Native Vision for Storage<a class="headerlink" href="#ai-native-vision-for-storage" title="Permanent link">&para;</a></h2>
-<p>Spec-driven development of holistic storage stacks:</p>
-<ul>
-<li><strong>Design and capability refinement</strong> based on workload requirements using AI-native methodologies to create push-button solutions</li>
-<li><strong>Assurance</strong> of quality and correctness through deep specification of both functional and non-functional requirements, coupled with run-time testing and formal verfication</li>
-<li>Leverage of <strong>component-based</strong> architectures to create contextual domains and prevent agentic coding sprawl</li>
-</ul>
-<p>Continuous evolution through the observation of storage telemetry identifies opportunities:</p>
-<ul>
-<li><strong>Configuration optimization</strong> of cache sizes, pre-fetch policies, compaction schedules tuned to actual access patterns</li>
-<li><strong>Algorithmic improvements</strong> for better data placement, tiering decisions, pre-fetching policies, or replication strategies</li>
-<li><strong>Structural changes</strong> including refactored indexing, new caching layers, and workload-specific optimizations</li>
-</ul>
-<hr />
-<h2 id="research-directions">Research Directions<a class="headerlink" href="#research-directions" title="Permanent link">&para;</a></h2>
-<ul>
-<li>Tailoring of architecture and features for domain-specific workloads</li>
-<li>Improved assurance through the use of deep spec-driven development</li>
-<li>Integration of model-based engineering and model-checking/symbolic execution techniques</li>
-<li>Workload-adaptive caching and tiering</li>
-<li>AI-driven data placement and migration</li>
-<li>Self-tuning distributed consensus and replication</li>
-<li>Continuous performance optimization for specific deployment environments</li>
-</ul>
+<p><em>Last updated: 2026-04-27</em></p>
 
 
 
@@ -1110,44 +1044,6 @@
         <footer class="md-footer">
   
     
-      
-      <nav class="md-footer__inner md-grid" aria-label="Footer" >
-        
-          
-          <a href="../ai-kernels/" class="md-footer__link md-footer__link--prev" aria-label="Previous: AI-Generated Kernels">
-            <div class="md-footer__button md-icon">
-              
-              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
-            </div>
-            <div class="md-footer__title">
-              <span class="md-footer__direction">
-                Previous
-              </span>
-              <div class="md-ellipsis">
-                AI-Generated Kernels
-              </div>
-            </div>
-          </a>
-        
-        
-          
-          <a href="../../blog/" class="md-footer__link md-footer__link--next" aria-label="Next: Blog">
-            <div class="md-footer__title">
-              <span class="md-footer__direction">
-                Next
-              </span>
-              <div class="md-ellipsis">
-                Blog
-              </div>
-            </div>
-            <div class="md-footer__button md-icon">
-              
-              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M4 11v2h12l-5.5 5.5 1.42 1.42L19.84 12l-7.92-7.92L10.5 5.5 16 11z"/></svg>
-            </div>
-          </a>
-        
-      </nav>
-    
   
   <div class="md-footer-meta md-typeset">
     <div class="md-footer-meta__inner md-grid">
@@ -1169,11 +1065,11 @@
     
       
       
-      <script id="__config" type="application/json">{"annotate": null, "base": "../..", "features": ["navigation.tabs", "navigation.indexes", "navigation.sections", "navigation.expand", "navigation.footer", "navigation.top", "search.highlight", "search.suggest", "content.code.copy", "toc.follow"], "search": "../../assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": {"default": "latest", "provider": "mike"}}</script>
+      <script id="__config" type="application/json">{"annotate": null, "base": "..", "features": ["navigation.tabs", "navigation.indexes", "navigation.sections", "navigation.expand", "navigation.footer", "navigation.top", "search.highlight", "search.suggest", "content.code.copy", "toc.follow"], "search": "../assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": {"default": "latest", "provider": "mike"}}</script>
     
     
   
-      <script src="../../assets/javascripts/bundle.79ae519e.min.js"></script>
+      <script src="../assets/javascripts/bundle.79ae519e.min.js"></script>
       
     
   <div class="ga-notice" id="ga-notice" role="region" aria-label="Analytics notice">
@@ -1182,7 +1078,7 @@
         We use cookieless Google Analytics to count how many readers each post gets &mdash;
         no cookies, no tracking across sites. Your page URL (without query parameters), browser,
         and approximate location may be processed.
-        <a href="../../privacy/">Read what's collected &rarr;</a>
+        <a href="./">Read what's collected &rarr;</a>
       </span>
       <button class="ga-notice__btn" id="ga-notice-dismiss" type="button">Got it</button>
     </div>
