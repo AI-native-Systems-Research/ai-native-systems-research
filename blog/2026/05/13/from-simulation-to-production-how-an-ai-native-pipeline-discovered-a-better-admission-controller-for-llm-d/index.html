@@ -6,16 +6,16 @@
       <meta charset="utf-8">
       <meta name="viewport" content="width=device-width,initial-scale=1">
       
-        <meta name="description" content="What if a deployed system could observe its own behavior, hypothesize improvements, validate them, and deploy — continuously, at machine speed? AI Native Systems are our answer.
+        <meta name="description" content="A case study in closing the AI-native loop: observe, reason, change, validate, deploy. How simulation-driven agentic exploration discovered the probabilistic admitter, cutting tail latency by up to 97% on overloaded llm-d workloads.
 ">
       
       
       
-        <link rel="canonical" href="https://ai-native-systems-research.github.io/ai-native-systems-research/blog/2026/04/21/ai-native-systems-autonomous-evolution-at-machine-speed/">
+        <link rel="canonical" href="https://ai-native-systems-research.github.io/ai-native-systems-research/blog/2026/05/13/from-simulation-to-production-how-an-ai-native-pipeline-discovered-a-better-admission-controller-for-llm-d/">
       
       
+        <link rel="prev" href="../../../04/21/ai-native-systems-autonomous-evolution-at-machine-speed/">
       
-        <link rel="next" href="../../../05/13/from-simulation-to-production-how-an-ai-native-pipeline-discovered-a-better-admission-controller-for-llm-d/">
       
       
         
@@ -26,7 +26,7 @@
     
     
       
-        <title>AI Native Systems: Autonomous Evolution at Machine Speed - AI-native Systems Research</title>
+        <title>From Simulation to Production: How an AI-Native Pipeline Discovered a Better Admission Controller for llm-d - AI-native Systems Research</title>
       
     
     
@@ -158,7 +158,7 @@
     <div data-md-component="skip">
       
         
-        <a href="#ai-native-systems-autonomous-evolution-at-machine-speed" class="md-skip">
+        <a href="#from-simulation-to-production-how-an-ai-native-pipeline-discovered-a-better-admission-controller-for-llm-d" class="md-skip">
           Skip to content
         </a>
       
@@ -196,7 +196,7 @@
         <div class="md-header__topic" data-md-component="header-topic">
           <span class="md-ellipsis">
             
-              AI Native Systems: Autonomous Evolution at Machine Speed
+              From Simulation to Production: How an AI-Native Pipeline Discovered a Better Admission Controller for llm-d
             
           </span>
         </div>
@@ -982,10 +982,10 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#1-introduction-the-bottleneck-in-system-evolution-and-ai-native-systems" class="md-nav__link">
+  <a href="#introduction" class="md-nav__link">
     <span class="md-ellipsis">
       
-        1. Introduction: The Bottleneck in System Evolution and AI Native Systems
+        Introduction
       
     </span>
   </a>
@@ -993,22 +993,33 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#2-the-ai-native-architecture" class="md-nav__link">
+  <a href="#observe-the-admission-control-problem" class="md-nav__link">
     <span class="md-ellipsis">
       
-        2. The AI Native Architecture
+        Observe: The Admission Control Problem
       
     </span>
   </a>
   
-    <nav class="md-nav" aria-label="2. The AI Native Architecture">
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#reason-change-simulation-driven-discovery" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Reason + Change: Simulation-Driven Discovery
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Reason + Change: Simulation-Driven Discovery">
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
-  <a href="#21-system-under-control" class="md-nav__link">
+  <a href="#the-simulator-blis" class="md-nav__link">
     <span class="md-ellipsis">
       
-        2.1 System Under Control
+        The Simulator: BLIS
       
     </span>
   </a>
@@ -1016,32 +1027,10 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#22-the-controlling-system" class="md-nav__link">
+  <a href="#the-discovery-framework-nous" class="md-nav__link">
     <span class="md-ellipsis">
       
-        2.2 The Controlling System
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#23-the-continuous-meta-loop" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        2.3 The Continuous Meta-Loop
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#24-what-makes-a-system-ai-native-ready" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        2.4 What Makes a System AI Native-Ready?
+        The Discovery Framework: Nous
       
     </span>
   </a>
@@ -1054,110 +1043,10 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#3-specifications-experimentation-validation-and-trustworthiness" class="md-nav__link">
+  <a href="#ai-assisted-sim2real-translation-simulation-to-production-code" class="md-nav__link">
     <span class="md-ellipsis">
       
-        3. Specifications, Experimentation, Validation, and Trustworthiness
-      
-    </span>
-  </a>
-  
-    <nav class="md-nav" aria-label="3. Specifications, Experimentation, Validation, and Trustworthiness">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#31-specifications" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        3.1 Specifications
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#32-experimentation-to-drive-changes" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        3.2 Experimentation to Drive Changes
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#33-validation-as-a-first-class-artifact" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        3.3 Validation as a First-Class Artifact
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#34-why-should-we-trust-the-system" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        3.4 Why Should We Trust the System?
-      
-    </span>
-  </a>
-  
-</li>
-        
-      </ul>
-    </nav>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#4-applying-the-vision" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        4. Applying the Vision
-      
-    </span>
-  </a>
-  
-    <nav class="md-nav" aria-label="4. Applying the Vision">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#41-kernel-generation" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        4.1 Kernel Generation
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#42-a-distributed-inference-serving-stack" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        4.2 A Distributed Inference Serving Stack
-      
-    </span>
-  </a>
-  
-</li>
-        
-      </ul>
-    </nav>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#5-emerging-tensions-and-research-challenges" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        5. Emerging Tensions and Research Challenges
+        AI-Assisted sim2real Translation: Simulation to Production Code
       
     </span>
   </a>
@@ -1165,10 +1054,54 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#6-conclusion" class="md-nav__link">
+  <a href="#validate-real-cluster-benchmark-results" class="md-nav__link">
     <span class="md-ellipsis">
       
-        6. Conclusion
+        Validate: Real-Cluster Benchmark Results
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#deploy-a-contribution-to-llm-d" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Deploy: A Contribution to llm-d
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#closing-the-loop" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Closing the Loop
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#what-we-learned" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        What We Learned
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#what-comes-next" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        What Comes Next
       
     </span>
   </a>
@@ -1204,12 +1137,72 @@
                 
                   <div class="md-profile md-post__profile">
                     <span class="md-author md-author--long">
-                      <img src="https://github.com/eilamt.png" alt="Tamar Eilam">
+                      <img src="https://github.com/jgchn.png" alt="Jing Chen">
                     </span>
                     <span class="md-profile__description">
                       <strong>
                         
-                          Tamar Eilam
+                          Jing Chen
+                        
+                      </strong>
+                      <br>
+                      AI-native Systems Researcher
+                    </span>
+                  </div>
+                
+                  <div class="md-profile md-post__profile">
+                    <span class="md-author md-author--long">
+                      <img src="https://github.com/toslali-ibm.png" alt="Mert Toslali">
+                    </span>
+                    <span class="md-profile__description">
+                      <strong>
+                        
+                          Mert Toslali
+                        
+                      </strong>
+                      <br>
+                      AI-native Systems Researcher
+                    </span>
+                  </div>
+                
+                  <div class="md-profile md-post__profile">
+                    <span class="md-author md-author--long">
+                      <img src="https://github.com/kalantar.png" alt="Michael Kalantar">
+                    </span>
+                    <span class="md-profile__description">
+                      <strong>
+                        
+                          Michael Kalantar
+                        
+                      </strong>
+                      <br>
+                      AI-native Systems Researcher
+                    </span>
+                  </div>
+                
+                  <div class="md-profile md-post__profile">
+                    <span class="md-author md-author--long">
+                      <img src="https://github.com/susiejojo.png" alt="Dipanwita Guhathakurta">
+                    </span>
+                    <span class="md-profile__description">
+                      <strong>
+                        
+                          Dipanwita Guhathakurta
+                        
+                      </strong>
+                      <br>
+                      AI-native Systems Researcher
+                    </span>
+                  </div>
+                
+                  <div class="md-profile md-post__profile">
+                    <span class="md-author md-author--long">
+                      <img src="https://github.com/sriumcp.png" alt="Srinivasan Parthasarathy">
+                    </span>
+                    <span class="md-profile__description">
+                      <strong>
+                        
+                          Srinivasan Parthasarathy
                         
                       </strong>
                       <br>
@@ -1232,21 +1225,6 @@
                     </span>
                   </div>
                 
-                  <div class="md-profile md-post__profile">
-                    <span class="md-author md-author--long">
-                      <img src="https://github.com/factorm.png" alt="Michael Factor">
-                    </span>
-                    <span class="md-profile__description">
-                      <strong>
-                        
-                          Michael Factor
-                        
-                      </strong>
-                      <br>
-                      AI-native Systems Researcher
-                    </span>
-                  </div>
-                
               </div>
             
             <ul class="md-post__meta md-nav__list">
@@ -1261,7 +1239,7 @@
                     <li class="md-nav__item">
                       <div class="md-nav__link">
                         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 19H5V8h14m-3-7v2H8V1H6v2H5c-1.11 0-2 .89-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V5a2 2 0 0 0-2-2h-1V1m-1 11h-5v5h5z"/></svg>
-                        <time datetime="2026-04-21 00:00:00+00:00" class="md-ellipsis">April 21, 2026</time>
+                        <time datetime="2026-05-13 00:00:00+00:00" class="md-ellipsis">May 13, 2026</time>
                       </div>
                     </li>
                     
@@ -1272,7 +1250,8 @@
                           <span class="md-ellipsis">
                             in
                             
-                              <a href="../../../../category/vision/">Vision</a></span>
+                              <a href="../../../../category/llm-d/">llm-d</a>, 
+                              <a href="../../../../category/deep-dives/">Deep Dives</a></span>
                         </div>
                       </li>
                     
@@ -1283,7 +1262,7 @@
                           <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 20a8 8 0 0 0 8-8 8 8 0 0 0-8-8 8 8 0 0 0-8 8 8 8 0 0 0 8 8m0-18a10 10 0 0 1 10 10 10 10 0 0 1-10 10C6.47 22 2 17.5 2 12A10 10 0 0 1 12 2m.5 5v5.25l4.5 2.67-.75 1.23L11 13V7z"/></svg>
                           <span class="md-ellipsis">
                             
-                              13 min read
+                              10 min read
                             
                           </span>
                         </div>
@@ -1310,75 +1289,140 @@
   
 
 
-<h1 id="ai-native-systems-autonomous-evolution-at-machine-speed">AI Native Systems: Autonomous Evolution at Machine Speed<a class="headerlink" href="#ai-native-systems-autonomous-evolution-at-machine-speed" title="Permanent link">&para;</a></h1>
-<p><em>Tamar Eilam, Fabio Oliveira, Michael Factor</em></p>
-<h2 id="1-introduction-the-bottleneck-in-system-evolution-and-ai-native-systems">1. Introduction: The Bottleneck in System Evolution and AI Native Systems<a class="headerlink" href="#1-introduction-the-bottleneck-in-system-evolution-and-ai-native-systems" title="Permanent link">&para;</a></h2>
-<p>Modern software systems, especially those that serve AI workloads, are extraordinarily complex and must evolve continuously under pressure from new models, new hardware, changing usage patterns, and shifting business objectives. These pressures drive constant change, both in configuration and in code. Yet, even with increasingly powerful AI tools, improvement of such systems remains fundamentally human-driven. Engineers inspect logs and metrics, diagnose problems, open tickets, draft and review pull requests, extend tests, and orchestrate deployments through fragmented workflows. AI assists at each step, but progress is mediated by people, one decision at a time.</p>
+<h1 id="from-simulation-to-production-how-an-ai-native-pipeline-discovered-a-better-admission-controller-for-llm-d">From Simulation to Production: How an AI-Native Pipeline Discovered a Better Admission Controller for llm-d<a class="headerlink" href="#from-simulation-to-production-how-an-ai-native-pipeline-discovered-a-better-admission-controller-for-llm-d" title="Permanent link">&para;</a></h1>
+<p><em>A case study in closing the AI-native loop: observe, reason, change, validate, deploy.</em></p>
+<h2 id="introduction">Introduction<a class="headerlink" href="#introduction" title="Permanent link">&para;</a></h2>
+<p>An <a href="../../../04/21/ai-native-systems-autonomous-evolution-at-machine-speed/">AI-native system</a> is one that continuously and autonomously closes the loop from observation to action to deployment, with AI as the primary agent driving this process. Rather than humans manually directing each improvement, humans establish objectives and boundaries while the system autonomously executes the cycle, at machine speed.</p>
 <!-- more -->
 
-<p>This human-mediated loop has become the dominant bottleneck in system evolution. More importantly, it biases systems toward reactive change. When something breaks or a service level objective (SLO) is violated, attention follows. When nothing appears broken, latent inefficiencies persist unnoticed. Opportunities to improve cost, performance, or reliability go unrealized simply because no alert was fired. In other words, there is no proactive evolution of the system based upon the observed behavior of the system in production.</p>
-<p>This observation motivates the central question of our work: What if a deployed system could observe its own behavior, hypothesize potential code or configuration improvements, design and implement them, experimentally validate their impact, deploy to production in a controlled and governed manner, and repeat continuously at a pace and scale no human team can match? What if this feedback loop operated not only in response to failures, but proactively, identifying and addressing inefficiencies long before they manifest as problems? And what if this process were grounded in the context of a specific deployment, workload pattern and underlying infrastructure, enabling hyper-specialization where a system is always optimal for how it is actually used?</p>
-<p><em>AI Native Systems</em> are our answer to these questions. An AI Native System is a complex software system that continuously and autonomously closes the loop from observation to reasoning to change to validation to deployment, with AI as the primary agent driving this process. Over time, the system evolves itself, modifying both code and configuration, while adhering to constraints and objectives defined by humans. Later we give some concrete examples and share initial results.</p>
-<p>AI Native Systems differ fundamentally from earlier visions of autonomic computing or AIOps. Rather than treating operations and development as separate domains, AI Native Systems unify them under a single engineering discipline. Configuration changes, deployment updates, defect fixes, and new features are all treated uniformly as software engineering changes. They are all motivated by the system's own observations, reasoned about and planned by collaborating AI agents, and executed using standard development practices, including specification updates, tests generation, planning, execution, and validation. Governance, safety, and trust are not afterthoughts; they are architectural requirements. All changes are driven by documented observation and reasoning applying standard software engineering practices autonomously and continuously.</p>
-<h2 id="2-the-ai-native-architecture">2. The AI Native Architecture<a class="headerlink" href="#2-the-ai-native-architecture" title="Permanent link">&para;</a></h2>
-<p>An AI Native system consists of the System Under Control and the Controlling System as shown in the following figure and described below.</p>
-<figure>
-  <img alt="AI Native Architecture" src="../../../../../assets/ai-native-diagram.png" width="100%" />
-<br />
-<figcaption>The AI Native Architecture: the Controlling System (Reasoner and Changer) continuously observes, reasons about, and evolves the System Under Control.</figcaption>
-</figure>
-<h3 id="21-system-under-control">2.1 System Under Control<a class="headerlink" href="#21-system-under-control" title="Permanent link">&para;</a></h3>
-<p>The System Under Control is the software system that delivers business value and is subject to continuous evolution. Examples include inference platforms, collections of accelerator kernels and their compilation pipelines, and large systems such as filesystems or resource managers. The System Under Control is not necessarily an AI system or a system using AI.</p>
-<p>These systems are typically distributed and multi-component, with complex emergent behavior. They are also multi-objective: performance, cost, fairness, correctness, and stability all matter and must be traded off against one another. The relative importance of these objectives is typically ill-defined. Reasoning about such systems locally is difficult; improving them holistically is harder still.</p>
-<h3 id="22-the-controlling-system">2.2 The Controlling System<a class="headerlink" href="#22-the-controlling-system" title="Permanent link">&para;</a></h3>
-<p>The Controlling System is the agentic AI-driven layer that continuously improves the System Under Control. Conceptually, it has two functions that operate together across all timescales: a Reasoner and a Changer.</p>
-<p>The Reasoner observes system behavior through telemetry data, including logs and a variety of metrics. It forms and refines hypotheses, detects problems and latent opportunities, identifies new requirements, and proposes goals that reflect multi-objective tradeoffs. It can also be given new requirements explicitly.</p>
-<p>The Changer determines how to achieve those goals. It inspects code and configuration, plans multi-step changes, runs experiments in test environments or simulators, and produces concrete artifacts such as pull requests, tests, and updated configurations. It may also address limitations in the existing set of tests and benchmarks as well as the testing environment, e.g., by creating a new simulator.</p>
-<p>The Reasoner and Changer participate in all classes of change. Both a fast configuration update to address a workload spike and a long-running refactor to support a new model backend involve reasoning about objectives and implementing validated changes. The distinction between the Reasoner and the Changer is functional, not temporal.</p>
-<h3 id="23-the-continuous-meta-loop">2.3 The Continuous Meta-Loop<a class="headerlink" href="#23-the-continuous-meta-loop" title="Permanent link">&para;</a></h3>
-<p>Together, the Reasoner and Changer execute a continuous meta-loop: observation, reasoning, change, experimentation, and validation. This loop runs continuously, not only in response to failures. It operates across timescales ranging from seconds, for configuration adjustments, to months, for architectural evolution. It may be driven by explicit user request, by empirical observation of the system being used in production, or by experimental analysis in a test environment.</p>
-<p>A defining feature of this loop is that runtime behavior feeds back into design-time decisions. Execution profiles, workload distributions, and real-world telemetry inform not only tuning decisions but also structural changes to code and algorithms. The system evolves based on how it is actually used, not solely on offline assumptions.</p>
-<p>Crucially, this loop preserves standard software engineering discipline. The goal is not to bypass these practices, but to apply them autonomously, at machine speed.</p>
-<h3 id="24-what-makes-a-system-ai-native-ready">2.4 What Makes a System AI Native-Ready?<a class="headerlink" href="#24-what-makes-a-system-ai-native-ready" title="Permanent link">&para;</a></h3>
-<p>Not every system is equally amenable to the AI Native approach a priori. Systems with strong modularity, clear APIs, and rich semantic observability make it easier for the Reasoner to reason and for the Changer to act safely. Equally important is validation infrastructure: tests, benchmarks, and sometimes simulators form the substrate on which safe exploration is possible.</p>
-<p>Established systems are not excluded, but they often require a phased approach. AI can assist in extracting specifications and invariants, introducing modular boundaries, and building validation scaffolding. Over time, this enables incremental evolution within well-defined safety bounds. In other words, we use an AI Native approach to make established systems AI Native-Ready.</p>
-<h2 id="3-specifications-experimentation-validation-and-trustworthiness">3. Specifications, Experimentation, Validation, and Trustworthiness<a class="headerlink" href="#3-specifications-experimentation-validation-and-trustworthiness" title="Permanent link">&para;</a></h2>
-<h3 id="31-specifications">3.1 Specifications<a class="headerlink" href="#31-specifications" title="Permanent link">&para;</a></h3>
-<p>AI Native Systems rely on explicit expressions of intent both as input from the human engineer and to reflect decisions made by the reasoner. Specifications capture functional requirements, invariants, and API semantics, i.e., the boundaries that must not be crossed. The reasoner can add but must not remove boundaries. The set of tests that define whether the system is correctly behaving is directly derived from the specification.</p>
-<p>Part of the specification can include objective functions that capture what the system is trying to optimize across multiple dimensions such as performance, cost, and stability. Often the relative tradeoff between these dimensions cannot be generally and precisely specified, complicating the task.</p>
-<p>The specification (along with the tests and objective functions) allows evaluating whether a proposed change is both correct and beneficial. The level of specificity, degrees of freedom, and structure and formalism depend on the domain and the risk tolerance. Specifications may be in natural language, formal representations, or some mix. Crucially, the specification is a live document. It evolves together with the system and must always be kept in sync with it. This consistency can be ensured by treating the specification and not the code as the source of authoritative truth. Its creation and evolution are iterative processes where human and AI collaborate.</p>
-<p>Given the foundational role of specifications and tests, AI Native Systems have a strong affinity to Spec-Driven and Test-Driven Development. However, AI Native Systems go further than the current state of the art by envisioning a process that does not complete when the artifact is produced and released. Rather, the AI Native System operates alongside the running code artifact, evolving the specification and tests; in this way, it drives operational fine tuning and functional evolution based on observations, using a unified specification.</p>
-<h3 id="32-experimentation-to-drive-changes">3.2 Experimentation to Drive Changes<a class="headerlink" href="#32-experimentation-to-drive-changes" title="Permanent link">&para;</a></h3>
-<p>A foundational capability of AI Native Systems is the ability to systematically explore change through experimentation. Given observations of system behavior, the Controlling System can generate alternative realizations of code or configuration and evaluate them against the system's objectives. Rather than relying on a single proposed fix, the system can explore a space of possibilities, learning from prior attempts and refining future hypotheses based on empirical evidence.</p>
-<p>This approach builds on a growing body of "evolutionary" techniques for improving systems code. Recent work in systems such as SkyDiscover, KernelBench, OpenEvolve, and others have demonstrated that models can propose non-obvious improvements and iteratively refine them through feedback. AI Native Systems generalize these ideas beyond human-directed and human-initiated code improvements, embedding experimentation into a continuous, governed loop that spans configuration tuning, algorithmic changes, and structural refactoring. Experimentation thus becomes not an occasional activity, but a continuous driver of learning and adaptation, closing the loop between observation, hypothesis, and durable system improvement.</p>
-<h3 id="33-validation-as-a-first-class-artifact">3.3 Validation as a First-Class Artifact<a class="headerlink" href="#33-validation-as-a-first-class-artifact" title="Permanent link">&para;</a></h3>
-<p>In AI Native Systems, validation assets are as important as implementation and configuration artifacts. Tests, benchmarks, and simulators are not static; they must be created, maintained, and evolved alongside the system itself. The Changer is responsible not only for generating code, but also for expanding and refining validation coverage.</p>
-<p>Cheap and fast validation is desirable but not always possible. Different domains require different strategies, from simulators and shadow deployments to reference checks and golden traces. Regardless of the approach, validation must reflect the system's multi-objective requirements and goals and provide trustworthy evidence for decision-making. It is the responsibility of the Reasoner and Changer working together to ensure that the right validation environment exists.</p>
-<p>One of the important tasks of continuous validation is the detection and remediation of security vulnerabilities. This is particularly important as the rate and pace of code generation increases, and AI agents that can act as hackers proliferate.</p>
-<h3 id="34-why-should-we-trust-the-system">3.4 Why Should We Trust the System?<a class="headerlink" href="#34-why-should-we-trust-the-system" title="Permanent link">&para;</a></h3>
-<p>Trust in AI Native Systems comes from governed autonomy. Every change must have complete provenance: what was changed, why it was changed, and what evidence supported the decision. This provenance must be understandable by humans and guide the AI agents. Versioning and rollback enable rapid recovery from regressions, while bounded experimentation limits risk during exploration.</p>
-<p>Human-in-the-loop approval remains essential for high-risk changes. Over time, as the system demonstrates reliable, bounded behavior, the scope of autonomous action can expand. Governance is not a constraint on autonomy; it is what makes autonomy viable.</p>
-<h2 id="4-applying-the-vision">4. Applying the Vision<a class="headerlink" href="#4-applying-the-vision" title="Permanent link">&para;</a></h2>
-<p>Our vision will not be realized in a day, and it will require progress in many directions. To make this concrete, we touch on some initial promising results for two systems we are actively building: in the context of accelerator kernels, we describe how evolutionary approaches can leverage knowledge from different environments, and in the context of a distributed-inference platform, we describe how we can enable automated, efficient validation. In future blogs we will explore these and other domains in more detail.</p>
-<h3 id="41-kernel-generation">4.1 Kernel Generation<a class="headerlink" href="#41-kernel-generation" title="Permanent link">&para;</a></h3>
-<p>AI inference workloads are executed as graphs of compute kernels on accelerators such as GPUs. Achieving high efficiency requires each kernel to be optimized for a specific combination of hardware, data shape, model architecture, and numerical precision. Even for expert developers, producing such optimized kernels is difficult and time-consuming. In production environments, only a subset of kernels is exercised heavily and dominate overall cost and latency, while many others are rarely invoked. Yet traditional optimization efforts are reactive and do not reflect the workload being executed in practice in a given environment.</p>
-<p>An AI Native approach changes this dynamic. The system continuously observes kernel-level behavior on the accelerator and detects shifts in usage patterns. When a kernel becomes performance-critical, the system hypothesizes that further optimization may be beneficial, even in the absence of any service-level objective (SLO) violation. It then conducts a series of targeted experiments, for example, using LLM-driven evolutionary techniques, to generate kernel variants optimized for their observed usage context. Once validated, a newly optimized kernel can be deployed automatically, improving system efficiency without human intervention.</p>
-<p>A key enabler of this process is cross-architecture knowledge transfer. We have been exploring how kernel generation can be accelerated by providing, as input, a functionally equivalent kernel already optimized for a different hardware platform. In early experiments, seeding the system with an optimized CUDA implementation of FlashAttention v2 enabled it to produce an MLX version for Apple Silicon in a matter of hours, achieving performance comparable to state-of-the-art hand-tuned implementations. Developing a kernel of similar quality manually would typically require weeks of expert effort.</p>
-<p>A future post will describe this work in detail.</p>
-<h3 id="42-a-distributed-inference-serving-stack">4.2 A Distributed Inference Serving Stack<a class="headerlink" href="#42-a-distributed-inference-serving-stack" title="Permanent link">&para;</a></h3>
-<p>Consider llm-d, a high-performance distributed inference serving stack built for production deployments on Kubernetes. llm-d is a sophisticated system in which multiple mechanisms operate in concert: admission control, routing, scheduling, autoscaling, KV-cache management, and prefill-decode (PD) disaggregation. As the authors of this blog know firsthand, configuring the system for optimal behavior is non-trivial, and extending it with new functionality even more so.</p>
-<p>Autoscaling is a case in point. The team spent the better part of a year developing and evaluating autoscaling approaches for llm-d and the right strategy remains an open question, with saturation-based, queueing-theoretic, and machine-learning-based methods each offering different tradeoffs. Model onboarding presents a similar challenge: determining the right variant definition for a new model, which accelerator to use, what parallelism strategy to adopt, and whether to enable PD disaggregation is far from obvious. This difficulty is compounded by the diversity of workload characteristics. A load-balancing strategy well-suited to one workload class (say, KV-cache affinity routing for long-context, prefix-sharing requests) may perform poorly on another (where utilization-based routing across homogeneous replicas is preferable).</p>
-<p>Developing new mechanisms, automating model onboarding, and implementing adaptive policies are all areas where the AI-native approach can deliver substantial acceleration. However, applying the approach requires addressing key challenges. One key challenge is validation. In a search loop (the meta-loop described above), running the entire llm-d platform on a set of accelerators with varying workloads is very costly and time consuming. We need a less expensive and faster way to assess candidate solutions that can then be tested and further validated in a production llm-d environment as a step towards upstream contribution. This is why we developed and open sourced <a href="https://inference-sim.github.io/inference-sim/latest/">BLIS</a>, a discrete-event simulator for LLM inference serving systems. BLIS models multi-instance clusters with configurable admission control, request routing, KV-cache dynamics, scheduling policies, and token generation. It has a pluggable architecture for latency models, and it runs without requiring any real GPUs. A simulation run is orders of magnitude faster than running real workloads on GPUs. Our preliminary evaluation shows that BLIS achieves superior accuracy for inference workloads when tested against other leading open simulators.</p>
-<p>Our BLIS open-source simulator will be the subject of future blog posts.</p>
-<h2 id="5-emerging-tensions-and-research-challenges">5. Emerging Tensions and Research Challenges<a class="headerlink" href="#5-emerging-tensions-and-research-challenges" title="Permanent link">&para;</a></h2>
-<p>Realizing AI Native Systems at scale raises open research questions. Validation at scale remains challenging, particularly for multi-objective systems. Determining which adaptations can safely occur at runtime versus design time requires careful governance. Similarly, determining when human approval is required versus when changes can be automated is nontrivial, because it depends on the tradeoff between the urgency of a change, such as responding to a sudden increase in utilization, versus the risk it poses.</p>
-<p>AI Native Systems make hyper-specialization economically feasible. Historically, the cost of human engineering effort required generality, reuse, and modularity: supporting many workloads with a single implementation was the only viable option for a reasonable return on investment. When AI becomes the primary agent of change, that constraint weakens. Systems can be specialized for particular sets of workloads, hardware configurations, or operating conditions, producing variants optimized for specific objectives and deployments.</p>
-<p>This specialization can deliver substantial benefits via simpler control logic, improved cost-performance, and greater reliability under known conditions. At the same time, it raises a new challenge: a proliferation of specialized implementations fragments the codebase and complicates maintenance, review, and long-term support. The same AI that creates these challenges may, however, minimize their impact. Understanding how to balance the value of hyper-specialization against the costs of redundancy, divergence, and potential operational complexity is a central tension introduced by AI Native Systems.</p>
-<p>These challenges are tightly coupled to questions of representation. For an AI system to safely evolve complex software, it must reason over more than raw code and metrics; it needs to capture system structure, invariants, intent, and historical context. Doing so requires explicit choices about how much freedom the model is given versus the level of risk that is acceptable. A central question, then, is how intent should be represented: where should we fall on the spectrum between free-flowing natural language and more structured or formal approaches, or some combination of the two? As code becomes increasingly machine-generated and machine-maintained, we must also ask how important it is for that code to remain human-comprehensible for people to effectively play a supervisory role. Is this situation analogous to assembly code generated by a compiler, opaque yet trustworthy through abstraction and tooling? Determining how much structure to impose, where formal methods are essential, and how to present machine reasoning in a form suitable for human oversight remains an open area of research. These questions are not peripheral; they shape whether AI Native Systems can scale safely and sustainably beyond narrow domains.</p>
-<p>Another important challenge is how humans will collaborate with other humans on the development, evolution, and management of AI native systems. The issue is not only whether humans will understand the reasoning behind AI-driven changes, but also, how humans will collaborate with each other on driving change when AI is the connecting fabric. Well-defined APIs will be key. What other code structure will be needed, so that humans and agents can work in parallel? This raises the possibility of new tensions arising from emergent behavior across overlapping spheres of control, which will need to be explicitly understood, managed, and resolved.</p>
-<h2 id="6-conclusion">6. Conclusion<a class="headerlink" href="#6-conclusion" title="Permanent link">&para;</a></h2>
-<p>AI already helps humans write code. AI Native Systems ask a deeper question: what becomes possible when AI becomes the primary agent of system evolution, and humans focus on goals, constraints, and trust?</p>
-<p>By closing the loop from observation to action, AI Native Systems enable continuous, proactive improvement, even in steady state. This first post has outlined the vision. In the posts that follow, we will explore concrete systems, results, and lessons learned as this vision is realized in practice.</p>
+<p>This post tells the story of the first end-to-end traversal of that loop for the system under control: <a href="https://github.com/llm-d/llm-d">llm-d</a>, an open-source distributed LLM inference platform. The concrete outcome is the <strong>probabilistic admitter</strong>, an AI-native-evolved admission control plugin that cuts tail latency by up to 97% on overloaded workloads. It is now merged into <a href="https://github.com/llm-d/llm-d-router">llm-d-router</a>, and users can enable it today following the instructions <a href="https://github.com/llm-d/llm-d-router/tree/main/pkg/epp/framework/plugins/requestcontrol/admitter/probabilisticadmitter">here</a>.</p>
+<p>The story follows this loop through each phase. It began with our AI-native discovery and reasoning framework (<a href="https://github.com/AI-native-Systems-Research/agentic-strategy-evolution">Nous</a>) giving the insight that there is an opportunity for performance improvement in llm-d's admission control behavior. By pairing Nous with a high-fidelity llm-d simulator (<a href="https://inference-sim.github.io/inference-sim/latest/">BLIS</a>), Nous iteratively proposed and evaluated new algorithms that yield strongest latency reduction in simulation. We then translated the most promising algorithm into production code, benchmarked and validated the results on llm-d with real hardware, and finally contributed the new algorithm upstream. Each section maps to a phase of the loop.</p>
+<h2 id="observe-the-admission-control-problem">Observe: The Admission Control Problem<a class="headerlink" href="#observe-the-admission-control-problem" title="Permanent link">&para;</a></h2>
+<p>We used Nous' hypothesis-driven experimentation framework to examine llm-d's current behavior and discovered that llm-d was treating all inference requests in the same way for admission control purposes. However, in the real world, some traffic is critical and must always be served, while other traffic has lower priority and can be dropped under load to protect the critical tiers.</p>
+<p>The default admission controller in llm-d admits everything until cluster saturates, then hard-rejects all sheddable traffic. Saturation is computed from queue depth and KV cache utilization across serving instances. This is a reasonable default for the framework, but in real-world deployments serving mixed-priority traffic, it creates a binary cliff: by the time saturation hits 1.0, queues are already deep, KV caches are nearly full, and even protected traffic is experiencing elevated latency.</p>
+<p>Nous sensed an opportunity here. The specifics of <em>how</em> to do better, the curve shape, the math, the parameters, were left entirely for Nous to discover as part of the hypothesis-driven reasoning and experimentation loop.</p>
+<h2 id="reason-change-simulation-driven-discovery">Reason + Change: Simulation-Driven Discovery<a class="headerlink" href="#reason-change-simulation-driven-discovery" title="Permanent link">&para;</a></h2>
+<p>The AI-native approach to answering this question is not to hand-tune a threshold in production. It is to systematically search the space of possible admission policies, and that search requires speed.</p>
+<h3 id="the-simulator-blis">The Simulator: BLIS<a class="headerlink" href="#the-simulator-blis" title="Permanent link">&para;</a></h3>
+<p>Algorithm discovery is fundamentally an exploration problem. The space of possible admission policies is vast: different shedding curves, different saturation formulas, different priority schemes, different parameter combinations. Finding a good algorithm means evaluating many candidates across diverse workload conditions.</p>
+<p>Experiments on real GPU clusters are not ideal for this. A single experiment involving discovering the algorithm, running tens of workloads, and collecting results could take hours of wall time and thousands of dollars in compute. At that pace, you can test a handful of ideas per week. That is far too slow for the kind of systematic exploration that discovers non-obvious algorithms for complex systems like llm-d.</p>
+<p>Simulation changes the economics of experimentation entirely. A single workload evaluation that takes 30 minutes on real hardware completes in seconds in a CPU-only simulator. This lets us narrow configurations down to the top candidates in simulation, reserving expensive GPU time for validating the few that actually merit real-hardware evaluation.</p>
+<p><a href="https://github.com/inference-sim/inference-sim">BLIS</a> (<a href="https://inference-sim.github.io/inference-sim/latest/blog/">introductory blogs</a>) is a high-fidelity discrete-event simulator purpose-built for distributed inference systems like llm-d. It models the dynamics that determine latency: request scheduling, KV cache allocation, chunked prefill, continuous batching, and multi-instance routing. It is close enough to predict which algorithm is better, even if absolute latency values differ slightly from real hardware. This is the core enabler of the AI-native systems evolution and optimization: <strong>simulation lets the loop run at machine speed</strong>. Without it, the cycle from hypothesis to evaluation is gated by hardware availability and cost. With it, the controlling system can explore freely.</p>
+<h3 id="the-discovery-framework-nous">The Discovery Framework: Nous<a class="headerlink" href="#the-discovery-framework-nous" title="Permanent link">&para;</a></h3>
+<p>Fast simulation gives us cheap experiments, but we still need a structured way to run the search at scale. Nous puts AI agents in the driver's seat. It pairs a <em>planner</em> that frames hypotheses and designs experiments with an <em>executor</em> that builds algorithms, runs them against the simulator, and analyzes results. Each iteration builds on the last: when a prediction is wrong, Nous extracts principles that narrow the design space for the next round.</p>
+<p>For admission control, we pointed Nous at BLIS and gave it one objective: beat the baseline latency by 30% or more. The discovery took two evolutionary phases.</p>
+<p>In the first evolution, Nous ran 10 iterations and found an algorithm using linear ramps that cut critical latency by 42%. But the result had four threshold parameters tuned to a specific model and workload. It worked, but it was not portable.</p>
+<p>For the second evolution, we hinted Nous to discover shedding algorithms that must lead to meaningful and explainable latency improvements. We also introduced an efficiency metric (milliseconds saved per request shed) to penalize wasteful shedding. The agents explored 10 more iterations, progressing from linear curves (over-shed at low load) to quadratic (not aggressive enough at overload) to higher-power polynomials. The quintic (5th power) was the sweet spot, and simulation results were generalizable to every workload. In simulation, the quintic algorithm reduced critical request latency by 24–47% for both E2E and TTFT (mean and p90) with minimal impact at client throughput. We call the resulting algorithm the <strong>probabilistic admitter</strong>.</p>
+<p>The algorithm is strikingly simple. For each incoming request:</p>
+<ol>
+<li><strong>Compute cluster saturation</strong>: average across all serving instances of <code>saturation = max(queue_depth / QD_threshold, kv_utilization / KV_threshold)</code>. This maps exactly to how llm-d computes saturation.</li>
+<li><strong>Protected traffic</strong> (priority &gt;= 0): always admit.</li>
+<li><strong>Droppable traffic</strong> (priority &lt; 0): reject with probability <code>min(saturation^5 * 300, 1.0)</code>.</li>
+</ol>
+<p>Both the 5th power and the 300 multiplier were automatically discovered by Nous through its hypothesis-experimentation loop. Together they create a natural shape that adapts to load without any explicit thresholds:</p>
+<table>
+<thead>
+<tr>
+<th style="text-align: left;">Cluster Saturation</th>
+<th style="text-align: left;">Rejection Probability</th>
+<th style="text-align: left;">Behavior</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: left;">0.12 (light load)</td>
+<td style="text-align: left;">~1%</td>
+<td style="text-align: left;">Virtually no shedding; droppable traffic flows freely</td>
+</tr>
+<tr>
+<td style="text-align: left;">0.25 (moderate load)</td>
+<td style="text-align: left;">~29%</td>
+<td style="text-align: left;">Proactive protection begins</td>
+</tr>
+<tr>
+<td style="text-align: left;">0.34 (overloaded)</td>
+<td style="text-align: left;">100%</td>
+<td style="text-align: left;">All droppable traffic shed</td>
+</tr>
+</tbody>
+</table>
+<p>The transition from "nearly nothing" to "full shedding" happens smoothly between saturation 0.2 and 0.34. There is no cliff. The system starts protecting itself well before it saturates, and the degree of protection is proportional to the degree of stress.</p>
+<p>This is the <em>change artifact</em> produced by the reasoning phase: a new admission algorithm, validated in simulation, expressed as code.</p>
+<h2 id="ai-assisted-sim2real-translation-simulation-to-production-code">AI-Assisted sim2real Translation: Simulation to Production Code<a class="headerlink" href="#ai-assisted-sim2real-translation-simulation-to-production-code" title="Permanent link">&para;</a></h2>
+<p>The next phase of the AI-native loop is where AI acts as the <em>changer</em>, producing deployable artifacts from the simulation-validated algorithm.</p>
+<p>The sim2real translation pipeline uses AI agents to read the simulation algorithm code, understand the target production framework (llm-d-router's API), map simulation signals to their production equivalents, and generate a proper Go plugin (in the case of llm-d-router) that implements the same logic against production interfaces. The output is not a prototype. The AI agents produce a complete package with unit tests, parameter validation, and error handling that passes the full build and test suite.</p>
+<p>This is a key distinction from simply asking AI to suggest an algorithm. The algorithm was not pulled from training data or proposed speculatively. It was discovered through repeated experimentation against a simulator, refined based on what the experiments revealed, and only then translated into production code with full provenance. We know what was discovered, under what conditions, with what evidence, and the production code traces directly back to that lineage.</p>
+<h2 id="validate-real-cluster-benchmark-results">Validate: Real-Cluster Benchmark Results<a class="headerlink" href="#validate-real-cluster-benchmark-results" title="Permanent link">&para;</a></h2>
+<p>Simulation produced promising results, but we can only know the true value of the algorithm by testing it on real hardware. The key advantage: real GPUs are now used only for validation, not for discovery. The expensive exploration already happened in simulation at a fraction of the cost and time. We used the same setup that the simulator was tested against: Qwen3-14B served by vLLM on 4x NVIDIA H100-SXM-80GB GPUs, routed through llm-d with the probabilistic admitter plugin. This ensures an apples-to-apples comparison between what the simulator predicted and what the real system delivers.</p>
+<p>We ran all 8 workload scenarios (4 shapes x 2 load levels) against both the default llm-d admission controller (baseline) and the probabilistic admitter (treatment). Note that these are the same workloads used for the simulation-driven algorithm discovery step.</p>
+<table>
+<thead>
+<tr>
+<th style="text-align: left;">Workload</th>
+<th style="text-align: left;">Traffic Mix</th>
+<th style="text-align: left;">Request Profile</th>
+<th style="text-align: left;">Underloaded</th>
+<th style="text-align: left;">Near-saturation Load</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: left;"><strong>Balanced</strong></td>
+<td style="text-align: left;">50% critical, 50% sheddable</td>
+<td style="text-align: left;">1K input / 256 output tokens</td>
+<td style="text-align: left;">35 req/s</td>
+<td style="text-align: left;">90 req/s</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>Chatbot</strong></td>
+<td style="text-align: left;">80% critical, 20% sheddable</td>
+<td style="text-align: left;">4K input / 1K output tokens</td>
+<td style="text-align: left;">5 req/s</td>
+<td style="text-align: left;">10 req/s</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>Code Completion</strong></td>
+<td style="text-align: left;">30% critical, 70% sheddable</td>
+<td style="text-align: left;">2K input / 128 output tokens</td>
+<td style="text-align: left;">40 req/s</td>
+<td style="text-align: left;">95 req/s</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>Blindspot</strong></td>
+<td style="text-align: left;">10% critical, 90% sheddable</td>
+<td style="text-align: left;">4K input / 1K output tokens</td>
+<td style="text-align: left;">5 req/s</td>
+<td style="text-align: left;">10 req/s</td>
+</tr>
+</tbody>
+</table>
+<p>The results show clear gains. The probabilistic admitter reduces critical-tier latency across all workloads. The biggest gains are in TTFT p90, up to 97% in the blindspot workload, because dropping sheddable requests early prevents queue buildup that causes scheduling delays. E2E latency improves 27–50% in most workloads, with lighter loads still seeing 8–17% gains.</p>
+<p><img alt="" src="../../../../../assets/sim2real-results.png" /></p>
+<p>The improvement varies with workload characteristics. Workloads with a high fraction of sheddable traffic (blindspot ~87%, codecompletion ~72%) benefit the most as the probabilistic admitter can drop more low-priority requests to relieve pressure. Workloads with long input prompts (again blindspot and code completion) benefit disproportionately as well, since each shed request frees more KV cache and queue capacity. Chatbot benefits the least (~2%) because its traffic is predominantly critical-tier, produces long outputs (~2k+ tokens), and latency is dominated by generation time, leaving little room for improvement through admission control.</p>
+<p>The tradeoff is modest. Compared to the baseline, the probabilistic admitter sheds 5–19 percentage points more traffic, reducing total throughput by 6–31%. However, the discarded requests are low-priority traffic that would have incurred extremely long latencies regardless. As a result, the system performs nearly the same amount of useful work while delivering substantially faster responses for high-value requests.</p>
+<h2 id="deploy-a-contribution-to-llm-d">Deploy: A Contribution to llm-d<a class="headerlink" href="#deploy-a-contribution-to-llm-d" title="Permanent link">&para;</a></h2>
+<p>With real-cluster benchmarks confirming the gains predicted by simulation, the natural next step is to contribute the algorithm upstream so the broader community can benefit. The probabilistic admitter is now part of llm-d-router as a new plugin: a real contribution that users can enable today. It ships with simulation-suggested defaults that work out of the box, and it is configurable for different cluster sizes and saturation profiles.</p>
+<p>Anyone running llm-d with a mix of critical and sheddable traffic who wants graceful degradation under load instead of a saturation cliff can use the probabilistic admitter. As the real benchmark results illustrate, the plugin is most effective for workloads with a high proportion of droppable traffic running at or near capacity (code completion, batch inference, background jobs) where proactive shedding protects latency-sensitive requests. Workloads that are mostly critical traffic see minimal benefit because there is almost nothing to discard.</p>
+<h2 id="closing-the-loop">Closing the Loop<a class="headerlink" href="#closing-the-loop" title="Permanent link">&para;</a></h2>
+<p>This case study traces a complete traversal of the AI-native loop:</p>
+<ul>
+<li><strong>Observe</strong>: identified that cliff-based admission control causes latency spikes under overload</li>
+<li><strong>Reason</strong>: used Nous and BLIS simulation to explore the space of admission policies at machine speed</li>
+<li><strong>Change</strong>: Nous AI agents evolved and translated the algorithm into production Go code</li>
+<li><strong>Validate</strong>: performed several validation experiments on the real llm-d on real GPU clusters showing up to 97% latency improvements, with gains across every workload tested</li>
+<li><strong>Deploy</strong>: contributed a new plugin into llm-d-router</li>
+</ul>
+<p>This is the first successful end-to-end journey: from agentic strategy evolution, to sim2real benchmark, to a tangible contribution to llm-d. This is not AI solving a textbook optimization or generating a file change. It is AI discovering, translating, and validating a novel algorithm for a real distributed system with real concurrency, real queuing dynamics, and realistic traffic, and the result available for consumption today.</p>
+<h2 id="what-we-learned">What We Learned<a class="headerlink" href="#what-we-learned" title="Permanent link">&para;</a></h2>
+<p>Building this pipeline taught us several things that were not obvious at the outset:</p>
+<ul>
+<li><strong>Simulation fidelity matters less than simulation speed.</strong> BLIS does not need to predict exact latency numbers. It needs to correctly rank algorithms: if A beats B in simulation, A should beat B on real hardware. Getting that ordering right while keeping evaluations cheap (seconds, not hours) is what makes agentic exploration viable.</li>
+<li><strong>Parameter-free designs transfer better.</strong> Our first evolution produced an algorithm with four tuned thresholds that worked for one workload. The second evolution, constrained to produce a formula with no free parameters, generalized to every workload without adjustment. Constraining the search space produced a more robust result.</li>
+<li><strong>AI agents need structured boundaries, not micromanagement.</strong> We gave Nous an objective (beat baseline by 30%), constraints (no tunable parameters, must be explainable), and a fitness metric (efficiency). We did not prescribe curve shapes or mathematical forms. The agents explored linear, quadratic, cubic, and quintic curves on their own, converging on the quintic through systematic elimination.</li>
+<li><strong>Translation is a distinct problem from discovery.</strong> Generating production Go code from a simulation algorithm requires understanding two codebases, mapping signals across abstraction layers, and passing a real build and test suite. Treating this as a separate AI-assisted phase (rather than asking discovery agents to also write production code) kept each phase focused and reliable.</li>
+</ul>
+<h2 id="what-comes-next">What Comes Next<a class="headerlink" href="#what-comes-next" title="Permanent link">&para;</a></h2>
+<p>The probabilistic admitter is the first artifact produced by this pipeline, but the methodology is the lasting contribution. The same simulation-driven algorithm discovery and sim2real loop is ready to be applied to other problems in llm-d, including but not limited to routing, prefill-decode disaggregation, autoscaling, queue management, and more. Each of these is a search problem over a large design space, exactly the kind of problem where simulation-driven agentic exploration excels. The loop is proven. Now we scale it.</p>
 
 
 
@@ -1422,22 +1466,22 @@
       
       <nav class="md-footer__inner md-grid" aria-label="Footer" >
         
-        
           
-          <a href="../../../05/13/from-simulation-to-production-how-an-ai-native-pipeline-discovered-a-better-admission-controller-for-llm-d/" class="md-footer__link md-footer__link--next" aria-label="Next: From Simulation to Production: How an AI-Native Pipeline Discovered a Better Admission Controller for llm-d">
-            <div class="md-footer__title">
-              <span class="md-footer__direction">
-                Next
-              </span>
-              <div class="md-ellipsis">
-                From Simulation to Production: How an AI-Native Pipeline Discovered a Better Admission Controller for llm-d
-              </div>
-            </div>
+          <a href="../../../04/21/ai-native-systems-autonomous-evolution-at-machine-speed/" class="md-footer__link md-footer__link--prev" aria-label="Previous: AI Native Systems: Autonomous Evolution at Machine Speed">
             <div class="md-footer__button md-icon">
               
-              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M4 11v2h12l-5.5 5.5 1.42 1.42L19.84 12l-7.92-7.92L10.5 5.5 16 11z"/></svg>
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+            </div>
+            <div class="md-footer__title">
+              <span class="md-footer__direction">
+                Previous
+              </span>
+              <div class="md-ellipsis">
+                AI Native Systems: Autonomous Evolution at Machine Speed
+              </div>
             </div>
           </a>
+        
         
       </nav>
     

@@ -2,42 +2,54 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
     <url>
          <loc>https://ai-native-systems-research.github.io/ai-native-systems-research/</loc>
-         <lastmod>2026-04-28</lastmod>
+         <lastmod>2026-05-14</lastmod>
     </url>
     <url>
          <loc>https://ai-native-systems-research.github.io/ai-native-systems-research/privacy/</loc>
-         <lastmod>2026-04-28</lastmod>
+         <lastmod>2026-05-14</lastmod>
     </url>
     <url>
          <loc>https://ai-native-systems-research.github.io/ai-native-systems-research/blog/</loc>
-         <lastmod>2026-04-28</lastmod>
+         <lastmod>2026-05-14</lastmod>
     </url>
     <url>
          <loc>https://ai-native-systems-research.github.io/ai-native-systems-research/blog/2026/04/21/ai-native-systems-autonomous-evolution-at-machine-speed/</loc>
-         <lastmod>2026-04-28</lastmod>
+         <lastmod>2026-05-14</lastmod>
+    </url>
+    <url>
+         <loc>https://ai-native-systems-research.github.io/ai-native-systems-research/blog/2026/05/13/from-simulation-to-production-how-an-ai-native-pipeline-discovered-a-better-admission-controller-for-llm-d/</loc>
+         <lastmod>2026-05-14</lastmod>
     </url>
     <url>
          <loc>https://ai-native-systems-research.github.io/ai-native-systems-research/technical-domains/</loc>
-         <lastmod>2026-04-28</lastmod>
+         <lastmod>2026-05-14</lastmod>
     </url>
     <url>
          <loc>https://ai-native-systems-research.github.io/ai-native-systems-research/technical-domains/ai-kernels/</loc>
-         <lastmod>2026-04-28</lastmod>
+         <lastmod>2026-05-14</lastmod>
     </url>
     <url>
          <loc>https://ai-native-systems-research.github.io/ai-native-systems-research/technical-domains/llm-d/</loc>
-         <lastmod>2026-04-28</lastmod>
+         <lastmod>2026-05-14</lastmod>
     </url>
     <url>
          <loc>https://ai-native-systems-research.github.io/ai-native-systems-research/technical-domains/storage-systems/</loc>
-         <lastmod>2026-04-28</lastmod>
+         <lastmod>2026-05-14</lastmod>
     </url>
     <url>
          <loc>https://ai-native-systems-research.github.io/ai-native-systems-research/blog/archive/2026/</loc>
-         <lastmod>2026-04-28</lastmod>
+         <lastmod>2026-05-14</lastmod>
+    </url>
+    <url>
+         <loc>https://ai-native-systems-research.github.io/ai-native-systems-research/blog/category/llm-d/</loc>
+         <lastmod>2026-05-14</lastmod>
+    </url>
+    <url>
+         <loc>https://ai-native-systems-research.github.io/ai-native-systems-research/blog/category/deep-dives/</loc>
+         <lastmod>2026-05-14</lastmod>
     </url>
     <url>
          <loc>https://ai-native-systems-research.github.io/ai-native-systems-research/blog/category/vision/</loc>
-         <lastmod>2026-04-28</lastmod>
+         <lastmod>2026-05-14</lastmod>
     </url>
 </urlset>
