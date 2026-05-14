@@ -26,7 +26,7 @@ An [AI-native system](ai-native-systems-autonomous-evolution.md) is one that con
 
 <!-- more -->
 
-This post tells the story of the first end-to-end traversal of that loop for the system under control: [llm-d](https://github.com/llm-d/llm-d), an open-source distributed LLM inference platform. The concrete outcome is the **probabilistic admitter**, an AI-native-evolved admission control plugin that cuts tail latency by up to 97% on overloaded workloads. It is now merged into [llm-d-router](https://github.com/llm-d/llm-d-router), and users can enable it today following the instructions [here](https://github.com/llm-d/llm-d-router/blob/main/docs/plugins/probabilistic-admitter.md).
+This post tells the story of the first end-to-end traversal of that loop for the system under control: [llm-d](https://github.com/llm-d/llm-d), an open-source distributed LLM inference platform. The concrete outcome is the **probabilistic admitter**, an AI-native-evolved admission control plugin that cuts tail latency by up to 97% on overloaded workloads. It is now merged into [llm-d-router](https://github.com/llm-d/llm-d-router), and users can enable it today following the instructions [here](https://github.com/llm-d/llm-d-router/tree/main/pkg/epp/framework/plugins/requestcontrol/admitter/probabilisticadmitter).
 
 The story follows this loop through each phase. It began with our AI-native discovery and reasoning framework ([Nous](https://github.com/AI-native-Systems-Research/agentic-strategy-evolution)) giving the insight that there is an opportunity for performance improvement in llm-d's admission control behavior. By pairing Nous with a high-fidelity llm-d simulator ([BLIS](https://inference-sim.github.io/inference-sim/latest/)), Nous iteratively proposed and evaluated new algorithms that yield strongest latency reduction in simulation. We then translated the most promising algorithm into production code, benchmarked and validated the results on llm-d with real hardware, and finally contributed the new algorithm upstream. Each section maps to a phase of the loop.
 
@@ -50,7 +50,7 @@ Experiments on real GPU clusters are not ideal for this. A single experiment inv
 
 Simulation changes the economics of experimentation entirely. A single workload evaluation that takes 30 minutes on real hardware completes in seconds in a CPU-only simulator. This lets us narrow configurations down to the top candidates in simulation, reserving expensive GPU time for validating the few that actually merit real-hardware evaluation.
 
-[BLIS](https://inference-sim.github.io/inference-sim/latest/) ([introductory blogs](https://inference-sim.github.io/inference-sim/latest/)) is a high-fidelity discrete-event simulator purpose-built for distributed inference systems like llm-d. It models the dynamics that determine latency: request scheduling, KV cache allocation, chunked prefill, continuous batching, and multi-instance routing. It is close enough to predict which algorithm is better, even if absolute latency values differ slightly from real hardware. This is the core enabler of the AI-native systems evolution and optimization: **simulation lets the loop run at machine speed**. Without it, the cycle from hypothesis to evaluation is gated by hardware availability and cost. With it, the controlling system can explore freely.
+[BLIS](https://github.com/inference-sim/inference-sim) ([introductory blogs](https://inference-sim.github.io/inference-sim/latest/blog/)) is a high-fidelity discrete-event simulator purpose-built for distributed inference systems like llm-d. It models the dynamics that determine latency: request scheduling, KV cache allocation, chunked prefill, continuous batching, and multi-instance routing. It is close enough to predict which algorithm is better, even if absolute latency values differ slightly from real hardware. This is the core enabler of the AI-native systems evolution and optimization: **simulation lets the loop run at machine speed**. Without it, the cycle from hypothesis to evaluation is gated by hardware availability and cost. With it, the controlling system can explore freely.
 
 ### The Discovery Framework: Nous
 
@@ -84,7 +84,7 @@ This is the *change artifact* produced by the reasoning phase: a new admission a
 
 The next phase of the AI-native loop is where AI acts as the *changer*, producing deployable artifacts from the simulation-validated algorithm.
 
-The sim2real translation pipeline uses AI agents to read the simulation algorithm code, understand the target production framework ([llm-d-router's API](https://github.com/llm-d/llm-d-router)), map simulation signals to their production equivalents, and generate a proper Go plugin (in the case of llm-d-router) that implements the same logic against production interfaces. The output is not a prototype. The AI agents produce a complete package with unit tests, parameter validation, and error handling that passes the full build and test suite.
+The sim2real translation pipeline uses AI agents to read the simulation algorithm code, understand the target production framework (llm-d-router's API), map simulation signals to their production equivalents, and generate a proper Go plugin (in the case of llm-d-router) that implements the same logic against production interfaces. The output is not a prototype. The AI agents produce a complete package with unit tests, parameter validation, and error handling that passes the full build and test suite.
 
 This is a key distinction from simply asking AI to suggest an algorithm. The algorithm was not pulled from training data or proposed speculatively. It was discovered through repeated experimentation against a simulator, refined based on what the experiments revealed, and only then translated into production code with full provenance. We know what was discovered, under what conditions, with what evidence, and the production code traces directly back to that lineage.
 
@@ -111,7 +111,7 @@ The tradeoff is modest. Compared to the baseline, the probabilistic admitter she
 
 ## Deploy: A Contribution to llm-d
 
-With real-cluster benchmarks confirming the gains predicted by simulation, the natural next step is to contribute the algorithm upstream so the broader community can benefit. The probabilistic admitter is now part of [llm-d-router](https://github.com/llm-d/llm-d-router) as a new plugin: a real contribution that users can enable today. It ships with simulation-suggested defaults that work out of the box, and it is configurable for different cluster sizes and saturation profiles.
+With real-cluster benchmarks confirming the gains predicted by simulation, the natural next step is to contribute the algorithm upstream so the broader community can benefit. The probabilistic admitter is now part of llm-d-router as a new plugin: a real contribution that users can enable today. It ships with simulation-suggested defaults that work out of the box, and it is configurable for different cluster sizes and saturation profiles.
 
 Anyone running llm-d with a mix of critical and sheddable traffic who wants graceful degradation under load instead of a saturation cliff can use the probabilistic admitter. As the real benchmark results illustrate, the plugin is most effective for workloads with a high proportion of droppable traffic running at or near capacity (code completion, batch inference, background jobs) where proactive shedding protects latency-sensitive requests. Workloads that are mostly critical traffic see minimal benefit because there is almost nothing to discard.
 
@@ -120,10 +120,10 @@ Anyone running llm-d with a mix of critical and sheddable traffic who wants grac
 This case study traces a complete traversal of the AI-native loop:
 
 - **Observe**: identified that cliff-based admission control causes latency spikes under overload
-- **Reason**: used Nous and [BLIS](https://inference-sim.github.io/inference-sim/latest/) simulation to explore the space of admission policies at machine speed
+- **Reason**: used Nous and BLIS simulation to explore the space of admission policies at machine speed
 - **Change**: Nous AI agents evolved and translated the algorithm into production Go code
 - **Validate**: performed several validation experiments on the real llm-d on real GPU clusters showing up to 97% latency improvements, with gains across every workload tested
-- **Deploy**: merged as a new plugin into [llm-d-router](https://github.com/llm-d/llm-d-router)
+- **Deploy**: contributed a new plugin into llm-d-router
 
 This is the first successful end-to-end journey: from agentic strategy evolution, to sim2real benchmark, to a tangible contribution to llm-d. This is not AI solving a textbook optimization or generating a file change. It is AI discovering, translating, and validating a novel algorithm for a real distributed system with real concurrency, real queuing dynamics, and realistic traffic, and the result available for consumption today.
 
