@@ -15,7 +15,7 @@ validate them, and deploy — continuously, at machine speed?
 
 <div class="hero-buttons">
   <a href="technical-domains/" class="md-button md-button--primary">Explore Domains</a>
-  <a href="blog/" class="md-button md-button--secondary">Read the Blog</a>
+  <a href="blog/2026/04/21/ai-native-systems-autonomous-evolution-at-machine-speed/" class="md-button md-button--secondary">Read the Blog</a>
 </div>
 
 </div>
