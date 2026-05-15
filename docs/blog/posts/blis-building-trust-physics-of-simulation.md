@@ -2,7 +2,7 @@
 date: 2026-04-09
 categories:
   - BLIS
-  - Deep Dives
+  - llm-d
 authors:
   - susiejojo
   - toslali-ibm
