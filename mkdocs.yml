@@ -8,6 +8,7 @@ repo_name: AI-native-Systems-Research/ai-native-systems-research
 
 exclude_docs: |
   superpowers/
+  blis-post-template.md
 
 theme:
   name: material
@@ -78,6 +79,7 @@ plugins:
         - AI Kernels
         - Storage Systems
         - Deep Dives
+        - BLIS
 
 extra:
   version:
