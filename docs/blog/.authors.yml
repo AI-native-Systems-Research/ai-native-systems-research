@@ -1,7 +1,7 @@
 authors:
   eilam:
     name: Tamar Eilam
-    description: IBM Fellow AI-native Systems
+    description: IBM Fellow
     avatar: https://github.com/eilamt.png
   oliveira:
     name: Fabio A. Oliveira
@@ -9,7 +9,7 @@ authors:
     avatar: https://github.com/fabolive.png
   factor:
     name: Michael Factor
-    description: IBM Fellow AI-native Systems
+    description: IBM Fellow
     avatar: https://github.com/mef63.png
   jgchn:
     name: Jing Chen
