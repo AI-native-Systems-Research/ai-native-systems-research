@@ -4,16 +4,23 @@ categories:
   - Deep Dives
 authors:
   - naima
+  - toslali-ibm
+  - sriumcp
+  - oliveira
 description: >
   We pointed Nous, an agentic research harness, at a streaming GNN inference
   pipeline on Apache Flink and let it run autonomously. It independently
   recovered all seven of our paper's major findings — then refined, extended,
-  and explained several of them in directions we hadn't followed.
+  and explained several of them in directions we had not followed.
 ---
 
-# Characterizing a Streaming GNN Inference Engine with an Agentic Research Harness
+# Can an Agentic Harness Rediscover the Insights in a Research Paper?
 
-**Can an agentic research harness independently arrive at the same conclusions as a human researcher on a real systems problem?** To test this, we pointed Nous, an agentic research harness, at the streaming GNN inference pipeline we'd built and characterized in a recent paper. We gave it a research question and access to the target system, then let it run. The goal was twofold: to test whether the harness could reproduce the findings we'd published, and to see whether it would surface anything we'd missed.
+*A case study characterizing a streaming GNN inference engine with Nous.*
+
+**Try Nous yourself: [github.com/AI-native-Systems-Research/agentic-strategy-evolution](https://github.com/AI-native-Systems-Research/agentic-strategy-evolution)**
+
+**Can an agentic research harness independently arrive at the same conclusions as a human researcher on a real systems problem?** To test this, we pointed [Nous](https://github.com/AI-native-Systems-Research/agentic-strategy-evolution), an agentic research harness, at the streaming GNN inference pipeline we had built and characterized in a recent paper. We gave it a research question and access to the target system, then let it run. The goal was twofold: to test whether the harness could reproduce the findings we had published, and to see whether it would surface anything we had missed.
 
 <!-- more -->
 
@@ -33,7 +40,7 @@ The paper evaluated this architecture on the Reddit dataset (233K nodes, 115M ed
 
 Nous is an agentic research harness built on top of state-of-the-art AI agents (e.g., Claude Code) and a structured scientific methodology for automated system experimentation. AI agents drive the research process; the harness provides the structure that guides hypothesis generation, experiment execution, evidence tracking, and iterative refinement. Internally, it runs an iterative loop: a planning agent proposes hypotheses with falsifiable predictions and candidate mechanisms, an execution agent runs experiments and records findings, and a principle store accumulates durable claims with evidence and confidence scores. Each iteration builds on what has been confirmed or refuted; predictions made in one iteration become tests for the next. This lets the harness systematically sweep configuration spaces, evaluate competing explanations in parallel, and characterize system behavior at a finer granularity than a time-constrained human researcher could realistically explore.
 
-We ran three Nous campaigns on the streaming GNN pipeline, each targeting a different question: (a) could the harness reproduce the paper's main directional findings on its own, (b) could it surface configurations and edge cases we hadn't thought to test, and (c) could it instrument and characterize the TorchServe inference path at finer granularity than the paper reported. Each campaign ran five iterations, fully autonomous after launch — no hints, no intermediate corrections, no experiment designs from us. Total cost across the three: \~$110 in LLM calls, \~32 hours of wallclock.
+We ran three Nous campaigns on the streaming GNN pipeline, each targeting a different question: (a) could the harness reproduce the paper's main directional findings on its own, (b) could it surface configurations and edge cases we had not thought to test, and (c) could it instrument and characterize the TorchServe inference path at finer granularity than the paper reported. Each campaign ran five iterations, fully autonomous after launch — no hints, no intermediate corrections, no experiment designs from us. Total cost across the three: \~$110 in LLM calls, \~32 hours of wallclock. Campaign artifacts (configurations, ledgers, principles, and reports) are available at [REPLACE-WITH-YOUR-REPO-URL](https://github.com/REPLACE-WITH-YOUR-REPO-URL).
 
 ## What did the harness validate and uncover?
 
@@ -55,7 +62,7 @@ The harness didn't just reproduce the paper's claim that async inference outperf
 
 **Nous found a failure mode we had never tested.**
 
-The same sweep also surfaced a regime where async, the supposedly-faster path, collapses below sync. With both ASYNC\_CAPACITY (in-flight requests per operator) and operator parallelism pinned to 1, async throughput dropped to \~90 records/s while sync mode at the same parallelism sustained \~510. The async path doesn't degrade gracefully as its in-flight budget shrinks; below a threshold it stalls. We hadn't probed this corner ourselves, it's the kind of finding that comes from sweeping the configuration space rather than reasoning from priors.
+The same sweep also surfaced a regime where async, the supposedly-faster path, collapses below sync. With both ASYNC\_CAPACITY (in-flight requests per operator) and operator parallelism pinned to 1, async throughput dropped to \~90 records/s while sync mode at the same parallelism sustained \~510. The async path does not degrade gracefully as its in-flight budget shrinks; below a threshold it stalls. We had not probed this corner ourselves; it is the kind of finding that comes from sweeping the configuration space rather than reasoning from priors.
 
 **Nous went from a black-box metric to a mechanistic explanation.**
 
@@ -63,15 +70,15 @@ The campaigns then went a layer deeper into the inference path. Each request to 
 
 **Nous connected the observation to its cause.**
 
-It also re-ran a null result from the paper; that increasing TorchServe's request batch size doesn't improve throughput and confirmed it. More usefully, it went a step further and explained why: preprocessing dominates handler time and runs per-request, so batching can't amortize it, and on CPU the inference step itself scales close to linearly with batch size, leaving little for batching to recover. The paper had stated the result; the harness restated it with a mechanism.
+It also re-ran a null result from the paper; that increasing TorchServe's request batch size does not improve throughput and confirmed it. More usefully, it went a step further and explained why: preprocessing dominates handler time and runs per-request, so batching cannot amortize it, and on CPU the inference step itself scales close to linearly with batch size, leaving little for batching to recover. The paper had stated the result; the harness restated it with a mechanism.
 
 **Nous independently rediscovered a costly bottleneck.**
 
-The same per-stage instrumentation also led the harness back to something we'd hit during the original build. A single PyTorch threading parameter (TORCH\_INTRA\_THREADS) had cost us roughly two weeks of debugging. PyTorch's default of 64 caused thread thrashing on every per-request inference call: the per-call thread-pool barrier overhead far exceeded the small amount of actual compute. The cause wasn't visible from system-level metrics, and we had never explicitly set the value. Setting it to 1 was the fix. The harness rediscovered the same anti-pattern — bumping the value from 1 to 4 dropped end-to-end throughput by **13–37%** with no improvement in per-request inference time and named the mechanism correctly: intra-op threads contending for cores on a 16-core machine, with thread-pool barrier overhead dominating the \~0.2 ms of actual compute.
+The same per-stage instrumentation also led the harness back to something we had hit during the original build. A single PyTorch threading parameter (TORCH\_INTRA\_THREADS) had cost us roughly two weeks of debugging. PyTorch's default of 64 caused thread thrashing on every per-request inference call: the per-call thread-pool barrier overhead far exceeded the small amount of actual compute. The cause was not visible from system-level metrics, and we had never explicitly set the value. Setting it to 1 was the fix. The harness rediscovered the same anti-pattern — bumping the value from 1 to 4 dropped end-to-end throughput by **13–37%** with no improvement in per-request inference time and named the mechanism correctly: intra-op threads contending for cores on a 16-core machine, with thread-pool barrier overhead dominating the \~0.2 ms of actual compute.
 
 ## What does this tell us about agentic research harnesses?
 
-The most interesting outcome was not that the harness found something entirely different from the paper. It was that, starting from only a campaign description, it independently recovered all of the paper's major conclusions and then explored parts of the configuration space we had not characterized in detail. The harness reproduced the directional shape of every quantitative claim, refined one of those claims (the async-vs-sync result) with a sharper threshold, and identified a configuration combination that we hadn't thought to test ourselves.
+The most interesting outcome was not that the harness found something entirely different from the paper. It was that, starting from only a campaign description, it independently recovered all of the paper's major conclusions and then explored parts of the configuration space we had not characterized in detail. The harness reproduced the directional shape of every quantitative claim, refined one of those claims (the async-vs-sync result) with a sharper threshold, and identified a configuration combination that we had not thought to test ourselves.
 
 That suggests a possible role for agentic research harnesses: not as a replacement for the researchers who design and build the system in the first place, but as a way to extend what any single researcher with limited time can practically characterize — sweeping combinations a human would skip, refining results that were reported at coarser granularity in the original work, and pointing back at specific lines of the implementation where the next fix or follow-up belongs.
 
