@@ -1,0 +1,1602 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+        <meta name="description" content="Closing the loop — AI as the primary agent of continuous system evolution. Research and practice across inference platforms, GPU kernels, and storage systems.">
+      
+      
+      
+        <link rel="canonical" href="https://ai-native-systems-research.github.io/ai-native-systems-research/blog/2026/06/17/certus-the-end-of-one-size-fits-all-storage/">
+      
+      
+        <link rel="prev" href="../can-an-agentic-harness-rediscover-the-insights-in-a-research-paper/">
+      
+      
+      
+        
+      
+      
+      <link rel="icon" href="../../../../../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.6">
+    
+    
+      
+        <title>Certus: The End of One-Size-Fits-All Storage - AI-native Systems Research</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../../../../assets/stylesheets/main.484c7ddc.min.css">
+      
+        
+        <link rel="stylesheet" href="../../../../../assets/stylesheets/palette.ab4e12ef.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+      <link rel="stylesheet" href="../../../../../stylesheets/extra.css">
+    
+    <script>__md_scope=new URL("../../../../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+  
+
+
+    
+    
+  
+  
+  <script>
+    (function() {
+      if (location.hostname === 'localhost' || location.hostname === '127.0.0.1') {
+        return;
+      }
+      var s = document.createElement('script');
+      s.async = true;
+      s.src = 'https://www.googletagmanager.com/gtag/js?id=G-83Z819J0CL';
+      document.head.appendChild(s);
+
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){ dataLayer.push(arguments); }
+      window.gtag = gtag;
+      gtag('js', new Date());
+      gtag('config', 'G-83Z819J0CL', {
+        client_storage: 'none',
+        anonymize_ip: true,
+        allow_google_signals: false,
+        allow_ad_personalization_signals: false,
+        ads_data_redaction: true,
+        page_location: location.origin + location.pathname,
+        send_page_view: true
+      });
+    })();
+  </script>
+  
+  <style>
+    .ga-notice {
+      position: fixed;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      background: var(--md-default-bg-color);
+      border-top: 1px solid var(--md-default-fg-color--lightest);
+      padding: 0.8rem 1rem;
+      z-index: 1000;
+      display: none;
+      box-shadow: 0 -2px 8px rgba(0, 0, 0, 0.05);
+      font-family: var(--md-text-font);
+    }
+    .ga-notice__inner {
+      max-width: 1200px;
+      margin: 0 auto;
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      flex-wrap: wrap;
+    }
+    .ga-notice__text {
+      flex: 1;
+      font-size: 0.8rem;
+      color: var(--md-default-fg-color);
+      min-width: 280px;
+      line-height: 1.4;
+    }
+    .ga-notice__text a {
+      color: var(--md-typeset-a-color);
+      text-decoration: underline;
+    }
+    .ga-notice__btn {
+      background: var(--md-primary-fg-color);
+      color: var(--md-primary-bg-color);
+      border: none;
+      padding: 0.5rem 1.2rem;
+      border-radius: 0.2rem;
+      cursor: pointer;
+      font-size: 0.8rem;
+      font-weight: 600;
+      font-family: inherit;
+    }
+    .ga-notice__btn:hover {
+      opacity: 0.9;
+    }
+  </style>
+
+  </head>
+  
+  
+    
+    
+      
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="indigo">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#certus-the-end-of-one-size-fits-all-storage" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+      <div data-md-color-scheme="default" data-md-component="outdated" hidden>
+        
+      </div>
+    
+    
+      
+
+<header class="md-header" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href="../../../../.." title="AI-native Systems Research" class="md-header__button md-logo" aria-label="AI-native Systems Research" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M21.33 12.91c.09 1.55-.62 3.04-1.89 3.95l.77 1.49c.23.45.26.98.06 1.45-.19.47-.58.84-1.06 1l-.79.25a1.687 1.687 0 0 1-1.86-.55L14.44 18c-.89-.15-1.73-.53-2.44-1.1-.5.15-1 .23-1.5.23-.88 0-1.76-.27-2.5-.79-.53.16-1.07.23-1.62.22-.79.01-1.57-.15-2.3-.45a4.1 4.1 0 0 1-2.43-3.61c-.08-.72.04-1.45.35-2.11-.29-.75-.32-1.57-.07-2.33C2.3 7.11 3 6.32 3.87 5.82c.58-1.69 2.21-2.82 4-2.7 1.6-1.5 4.05-1.66 5.83-.37.42-.11.86-.17 1.3-.17 1.36-.03 2.65.57 3.5 1.64 2.04.53 3.5 2.35 3.58 4.47.05 1.11-.25 2.2-.86 3.13.07.36.11.72.11 1.09m-5-1.41c.57.07 1.02.5 1.02 1.07a1 1 0 0 1-1 1h-.63c-.32.9-.88 1.69-1.62 2.29.25.09.51.14.77.21 5.13-.07 4.53-3.2 4.53-3.25a2.59 2.59 0 0 0-2.69-2.49 1 1 0 0 1-1-1 1 1 0 0 1 1-1c1.23.03 2.41.49 3.33 1.3.05-.29.08-.59.08-.89-.06-1.24-.62-2.32-2.87-2.53-1.25-2.96-4.4-1.32-4.4-.4-.03.23.21.72.25.75a1 1 0 0 1 1 1c0 .55-.45 1-1 1-.53-.02-1.03-.22-1.43-.56-.48.31-1.03.5-1.6.56-.57.05-1.04-.35-1.07-.9a.97.97 0 0 1 .88-1.1c.16-.02.94-.14.94-.77 0-.66.25-1.29.68-1.79-.92-.25-1.91.08-2.91 1.29C6.75 5 6 5.25 5.45 7.2 4.5 7.67 4 8 3.78 9c1.08-.22 2.19-.13 3.22.25.5.19.78.75.59 1.29-.19.52-.77.78-1.29.59-.73-.32-1.55-.34-2.3-.06-.32.27-.32.83-.32 1.27 0 .74.37 1.43 1 1.83.53.27 1.12.41 1.71.4q-.225-.39-.39-.81a1.038 1.038 0 0 1 1.96-.68c.4 1.14 1.42 1.92 2.62 2.05 1.37-.07 2.59-.88 3.19-2.13.23-1.38 1.34-1.5 2.56-1.5m2 7.47-.62-1.3-.71.16 1 1.25zm-4.65-8.61a1 1 0 0 0-.91-1.03c-.71-.04-1.4.2-1.93.67-.57.58-.87 1.38-.84 2.19a1 1 0 0 0 1 1c.57 0 1-.45 1-1 0-.27.07-.54.23-.76.12-.1.27-.15.43-.15.55.03 1.02-.38 1.02-.92"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            AI-native Systems Research
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              Certus: The End of One-Size-Fits-All Storage
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+        <form class="md-header__option" data-md-component="palette">
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="(prefers-color-scheme: light)" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="indigo"  aria-label="Switch to dark mode"  type="radio" name="__palette" id="__palette_0">
+    
+      <label class="md-header__button md-icon" title="Switch to dark mode" for="__palette_1" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a4 4 0 0 0-4 4 4 4 0 0 0 4 4 4 4 0 0 0 4-4 4 4 0 0 0-4-4m0 10a6 6 0 0 1-6-6 6 6 0 0 1 6-6 6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12z"/></svg>
+      </label>
+    
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="(prefers-color-scheme: dark)" data-md-color-scheme="slate" data-md-color-primary="indigo" data-md-color-accent="indigo"  aria-label="Switch to light mode"  type="radio" name="__palette" id="__palette_1">
+    
+      <label class="md-header__button md-icon" title="Switch to light mode" for="__palette_0" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 18c-.89 0-1.74-.2-2.5-.55C11.56 16.5 13 14.42 13 12s-1.44-4.5-3.5-5.45C10.26 6.2 11.11 6 12 6a6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12z"/></svg>
+      </label>
+    
+  
+</form>
+      
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+        <div class="md-search__suggest" data-md-component="search-suggest"></div>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      
+    
+    
+      <div class="md-header__source">
+        <a href="https://github.com/AI-native-Systems-Research/ai-native-systems-research" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M439.6 236.1 244 40.5c-5.4-5.5-12.8-8.5-20.4-8.5s-15 3-20.4 8.4L162.5 81l51.5 51.5c27.1-9.1 52.7 16.8 43.4 43.7l49.7 49.7c34.2-11.8 61.2 31 35.5 56.7-26.5 26.5-70.2-2.9-56-37.3L240.3 199v121.9c25.3 12.5 22.3 41.8 9.1 55-6.4 6.4-15.2 10.1-24.3 10.1s-17.8-3.6-24.3-10.1c-17.6-17.6-11.1-46.9 11.2-56v-123c-20.8-8.5-24.6-30.7-18.6-45L142.6 101 8.5 235.1C3 240.6 0 247.9 0 255.5s3 15 8.5 20.4l195.6 195.7c5.4 5.4 12.7 8.4 20.4 8.4s15-3 20.4-8.4l194.7-194.7c5.4-5.4 8.4-12.8 8.4-20.4s-3-15-8.4-20.4"/></svg>
+  </div>
+  <div class="md-source__repository">
+    AI-native-Systems-Research/ai-native-systems-research
+  </div>
+</a>
+      </div>
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+            
+<nav class="md-tabs" aria-label="Tabs" data-md-component="tabs">
+  <div class="md-grid">
+    <ul class="md-tabs__list">
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../../../../.." class="md-tabs__link">
+        
+  
+  
+    
+  
+  Home
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../../../../technical-domains/" class="md-tabs__link">
+          
+  
+  
+    
+  
+  Technical Domains
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+    
+  
+  
+    
+    
+      <li class="md-tabs__item md-tabs__item--active">
+        <a href="../../../../" class="md-tabs__link">
+          
+  
+  
+    
+  
+  Blog
+
+        </a>
+      </li>
+    
+  
+
+      
+    </ul>
+  </div>
+</nav>
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+                
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" hidden>
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+  
+
+
+<nav class="md-nav md-nav--primary md-nav--lifted" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../../../../.." title="AI-native Systems Research" class="md-nav__button md-logo" aria-label="AI-native Systems Research" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M21.33 12.91c.09 1.55-.62 3.04-1.89 3.95l.77 1.49c.23.45.26.98.06 1.45-.19.47-.58.84-1.06 1l-.79.25a1.687 1.687 0 0 1-1.86-.55L14.44 18c-.89-.15-1.73-.53-2.44-1.1-.5.15-1 .23-1.5.23-.88 0-1.76-.27-2.5-.79-.53.16-1.07.23-1.62.22-.79.01-1.57-.15-2.3-.45a4.1 4.1 0 0 1-2.43-3.61c-.08-.72.04-1.45.35-2.11-.29-.75-.32-1.57-.07-2.33C2.3 7.11 3 6.32 3.87 5.82c.58-1.69 2.21-2.82 4-2.7 1.6-1.5 4.05-1.66 5.83-.37.42-.11.86-.17 1.3-.17 1.36-.03 2.65.57 3.5 1.64 2.04.53 3.5 2.35 3.58 4.47.05 1.11-.25 2.2-.86 3.13.07.36.11.72.11 1.09m-5-1.41c.57.07 1.02.5 1.02 1.07a1 1 0 0 1-1 1h-.63c-.32.9-.88 1.69-1.62 2.29.25.09.51.14.77.21 5.13-.07 4.53-3.2 4.53-3.25a2.59 2.59 0 0 0-2.69-2.49 1 1 0 0 1-1-1 1 1 0 0 1 1-1c1.23.03 2.41.49 3.33 1.3.05-.29.08-.59.08-.89-.06-1.24-.62-2.32-2.87-2.53-1.25-2.96-4.4-1.32-4.4-.4-.03.23.21.72.25.75a1 1 0 0 1 1 1c0 .55-.45 1-1 1-.53-.02-1.03-.22-1.43-.56-.48.31-1.03.5-1.6.56-.57.05-1.04-.35-1.07-.9a.97.97 0 0 1 .88-1.1c.16-.02.94-.14.94-.77 0-.66.25-1.29.68-1.79-.92-.25-1.91.08-2.91 1.29C6.75 5 6 5.25 5.45 7.2 4.5 7.67 4 8 3.78 9c1.08-.22 2.19-.13 3.22.25.5.19.78.75.59 1.29-.19.52-.77.78-1.29.59-.73-.32-1.55-.34-2.3-.06-.32.27-.32.83-.32 1.27 0 .74.37 1.43 1 1.83.53.27 1.12.41 1.71.4q-.225-.39-.39-.81a1.038 1.038 0 0 1 1.96-.68c.4 1.14 1.42 1.92 2.62 2.05 1.37-.07 2.59-.88 3.19-2.13.23-1.38 1.34-1.5 2.56-1.5m2 7.47-.62-1.3-.71.16 1 1.25zm-4.65-8.61a1 1 0 0 0-.91-1.03c-.71-.04-1.4.2-1.93.67-.57.58-.87 1.38-.84 2.19a1 1 0 0 0 1 1c.57 0 1-.45 1-1 0-.27.07-.54.23-.76.12-.1.27-.15.43-.15.55.03 1.02-.38 1.02-.92"/></svg>
+
+    </a>
+    AI-native Systems Research
+  </label>
+  
+    <div class="md-nav__source">
+      <a href="https://github.com/AI-native-Systems-Research/ai-native-systems-research" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M439.6 236.1 244 40.5c-5.4-5.5-12.8-8.5-20.4-8.5s-15 3-20.4 8.4L162.5 81l51.5 51.5c27.1-9.1 52.7 16.8 43.4 43.7l49.7 49.7c34.2-11.8 61.2 31 35.5 56.7-26.5 26.5-70.2-2.9-56-37.3L240.3 199v121.9c25.3 12.5 22.3 41.8 9.1 55-6.4 6.4-15.2 10.1-24.3 10.1s-17.8-3.6-24.3-10.1c-17.6-17.6-11.1-46.9 11.2-56v-123c-20.8-8.5-24.6-30.7-18.6-45L142.6 101 8.5 235.1C3 240.6 0 247.9 0 255.5s3 15 8.5 20.4l195.6 195.7c5.4 5.4 12.7 8.4 20.4 8.4s15-3 20.4-8.4l194.7-194.7c5.4-5.4 8.4-12.8 8.4-20.4s-3-15-8.4-20.4"/></svg>
+  </div>
+  <div class="md-source__repository">
+    AI-native-Systems-Research/ai-native-systems-research
+  </div>
+</a>
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../.." class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Home
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_2" >
+        
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../../../../../technical-domains/" class="md-nav__link ">
+              
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Technical Domains
+  
+
+    
+  </span>
+  
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_2" id="__nav_2_label" tabindex="0">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Technical Domains
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../../technical-domains/llm-d/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    llm-d: Inference Platform
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../../technical-domains/ai-kernels/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    AI-Generated Kernels
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../../technical-domains/storage-systems/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Storage Systems
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+        
+        
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3" checked>
+        
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../../../../" class="md-nav__link ">
+              
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Blog
+  
+
+    
+  </span>
+  
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_3" id="__nav_3_label" tabindex="">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_3">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Blog
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+      
+    
+    
+    
+      
+      
+        
+          
+          
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_3_2" >
+        
+          
+          <label class="md-nav__link" for="__nav_3_2" id="__nav_3_2_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Archive
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_3_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3_2">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Archive
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+    
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../archive/2026/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    2026
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+        
+          
+          
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_3_3" >
+        
+          
+          <label class="md-nav__link" for="__nav_3_3" id="__nav_3_3_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Categories
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_3_3_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3_3">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Categories
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+    
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../category/blis/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    BLIS
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../category/deep-dives/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Deep Dives
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../category/storage-systems/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Storage Systems
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../category/vision/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Vision
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../category/llm-d/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    llm-d
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+                
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#the-cost-of-generality" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        The Cost of Generality
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#the-kv-cache-workload-a-case-study" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        The KV-Cache Workload: A Case Study
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#why-specialization-has-always-been-out-of-reach" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Why Specialization Has Always Been Out of Reach
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#certusapplying-ai-native-systems-to-storage-solutions" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Certus—Applying AI Native Systems to Storage Solutions
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Certus—Applying AI Native Systems to Storage Solutions">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#spec-driven-development-describing-systems-behavior-rather-than-writing-code" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Spec-Driven Development: Describing Systems Behavior Rather Than Writing Code
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#component-based-composition-a-vocabulary-for-storage-systems" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Component-Based Composition: A Vocabulary for Storage Systems
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#synthesized-formal-verification-proving-what-you-generate" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Synthesized Formal Verification: Proving What You Generate
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#evolutionary-frameworks-searching-for-the-best-system" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Evolutionary Frameworks: Searching for the Best System
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#hardware-adaptability-a-strategic-advantage" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Hardware Adaptability: A Strategic Advantage
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#early-results" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Early Results
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Early Results">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#component-selection-block-device-back-ends" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Component Selection: Block Device Back-Ends
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#end-to-end-certus-vs-filesystem-baseline" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        End-to-End: Certus vs. Filesystem Baseline
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#broader-implications" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Broader Implications
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#references" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        References
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+  <div class="md-content md-content--post" data-md-component="content">
+    <div class="md-sidebar md-sidebar--post" data-md-component="sidebar" data-md-type="navigation">
+      <div class="md-sidebar__scrollwrap">
+        <div class="md-sidebar__inner md-post">
+          <nav class="md-nav md-nav--primary">
+            <div class="md-post__back">
+              <div class="md-nav__title md-nav__container">
+                <a href="../../../../" class="md-nav__link">
+                  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+                  <span class="md-ellipsis">
+                    Back to index
+                  </span>
+                </a>
+              </div>
+            </div>
+            
+              <div class="md-post__authors md-typeset">
+                
+                  <div class="md-profile md-post__profile">
+                    <span class="md-author md-author--long">
+                      <img src="https://github.com/dwaddington.png" alt="Daniel Waddington">
+                    </span>
+                    <span class="md-profile__description">
+                      <strong>
+                        
+                          Daniel Waddington
+                        
+                      </strong>
+                      <br>
+                      AI-native Systems Principal Researcher
+                    </span>
+                  </div>
+                
+                  <div class="md-profile md-post__profile">
+                    <span class="md-author md-author--long">
+                      <img src="https://github.com/mef63.png" alt="Michael Factor">
+                    </span>
+                    <span class="md-profile__description">
+                      <strong>
+                        
+                          Michael Factor
+                        
+                      </strong>
+                      <br>
+                      IBM Fellow
+                    </span>
+                  </div>
+                
+                  <div class="md-profile md-post__profile">
+                    <span class="md-author md-author--long">
+                      <img src="https://github.com/Narangerelt.png" alt="Nara Batsoyol">
+                    </span>
+                    <span class="md-profile__description">
+                      <strong>
+                        
+                          Nara Batsoyol
+                        
+                      </strong>
+                      <br>
+                      AI-native Systems Researcher
+                    </span>
+                  </div>
+                
+              </div>
+            
+            <ul class="md-post__meta md-nav__list">
+              <li class="md-nav__item md-nav__item--section">
+                <div class="md-post__title">
+                  <span class="md-ellipsis">
+                    Metadata
+                  </span>
+                </div>
+                <nav class="md-nav">
+                  <ul class="md-nav__list">
+                    <li class="md-nav__item">
+                      <div class="md-nav__link">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 19H5V8h14m-3-7v2H8V1H6v2H5c-1.11 0-2 .89-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V5a2 2 0 0 0-2-2h-1V1m-1 11h-5v5h5z"/></svg>
+                        <time datetime="2026-06-17 00:00:00+00:00" class="md-ellipsis">June 17, 2026</time>
+                      </div>
+                    </li>
+                    
+                    
+                      <li class="md-nav__item">
+                        <div class="md-nav__link">
+                          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9 3v15h3V3zm3 2 4 13 3-1-4-13zM5 5v13h3V5zM3 19v2h18v-2z"/></svg>
+                          <span class="md-ellipsis">
+                            in
+                            
+                              <a href="../../../../category/storage-systems/">Storage Systems</a>, 
+                              <a href="../../../../category/deep-dives/">Deep Dives</a></span>
+                        </div>
+                      </li>
+                    
+                    
+                      
+                      <li class="md-nav__item">
+                        <div class="md-nav__link">
+                          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 20a8 8 0 0 0 8-8 8 8 0 0 0-8-8 8 8 0 0 0-8 8 8 8 0 0 0 8 8m0-18a10 10 0 0 1 10 10 10 10 0 0 1-10 10C6.47 22 2 17.5 2 12A10 10 0 0 1 12 2m.5 5v5.25l4.5 2.67-.75 1.23L11 13V7z"/></svg>
+                          <span class="md-ellipsis">
+                            
+                              15 min read
+                            
+                          </span>
+                        </div>
+                      </li>
+                    
+                  </ul>
+                </nav>
+              </li>
+            </ul>
+            
+          </nav>
+          
+        </div>
+      </div>
+    </div>
+    <article class="md-content__inner md-typeset">
+      
+        
+  
+
+
+
+  
+  
+
+
+<h1 id="certus-the-end-of-one-size-fits-all-storage">Certus: The End of One-Size-Fits-All Storage<a class="headerlink" href="#certus-the-end-of-one-size-fits-all-storage" title="Permanent link">&para;</a></h1>
+<p>What if a storage system tailored to your exact workload could be <em>generated</em> in days rather than hand-built over years? <strong>Certus</strong> explores that question—using AI Native Systems techniques to synthesize hyper-specialized storage engines from specifications.</p>
+<!-- more -->
+
+<h2 id="the-cost-of-generality">The Cost of Generality<a class="headerlink" href="#the-cost-of-generality" title="Permanent link">&para;</a></h2>
+<p>Every time you read from or write to a storage system, you are paying a tax you never explicitly agreed to—the tax of generality. The storage systems that underpin modern infrastructure are marvels of engineering, but they are engineered to serve everyone. And in serving everyone equally, they serve no one optimally.</p>
+<p>This is not a new observation. Systems researchers have long known that purpose-built storage—a storage system designed for exactly one workload—can outperform general-purpose alternatives by orders of magnitude. The question has never been whether specialization <em>works</em>. The question has been whether specialization is <em>affordable</em>.  Building a storage system is expensive. Maintaining it across hardware generations is more expensive still. Specializing it for a single workload, and then re-specializing it as that workload evolves, has historically been a cost that only the largest organizations could absorb—and even then, only rarely.</p>
+<p>A recent <a href="https://ai-native-systems-research.github.io/ai-native-systems-research/blog/2026/04/21/ai-native-systems-autonomous-evolution-at-machine-speed/">post</a> on this blog argued that AI Native Systems, software that closes the loop from observation to reasoning to change to validation autonomously, represent a fundamental shift in how software evolves. Certus is that vision applied to storage: a system that synthesizes hyper-specialized storage engines from specifications rather than building them by hand, thus directly addressing the affordability challenge.</p>
+<blockquote>
+<p><strong>The central wager of Certus:</strong> if you can <em>generate</em> a specialized storage system rather than build one by hand, the economics of specialization change entirely.</p>
+</blockquote>
+<p>To ground the idea concretely, Certus targets one of the most demanding and rapidly evolving storage workloads in modern AI infrastructure: the <strong>KV-Cache for Large Language Model (LLM) inference</strong>.</p>
+<p>In this blog we share our initial experiences using an AI Native Systems approach to create Certus, given an overview of the tools and techniques we have used, share preliminary performance results, and discuss the broader implications for hyper-specializing complex systems such as storage systems.</p>
+<p><span id="sec-workload"></span></p>
+<h2 id="the-kv-cache-workload-a-case-study">The KV-Cache Workload: A Case Study<a class="headerlink" href="#the-kv-cache-workload-a-case-study" title="Permanent link">&para;</a></h2>
+<p>When a large language model processes a prompt, every layer of the transformer computes a set of KV tensors representing its attention state. For long contexts or multi-turn conversations, recomputing these tensors on every request is both redundant and expensive. A KV-Cache solves this by storing tensors after the first computation and retrieving them on subsequent requests that share the same prompt prefix—avoiding redundant work and reducing inference latency. These tensors are indexed and retrieved based upon a hash of the values which created the KV pair. Specializing the KV-cache based upon workload characteristics can significantly reward hyper-specialization, making it an ideal early proof-point for the AI Native Systems approach.</p>
+<p>The requirements of the KV-cache workload are not aligned with the characteristics of a general-purpose storage system:</p>
+<ul>
+<li><strong>Data is identified by a key</strong>—each piece of data mapped to a 64-bit fixed length key. There is no value in providing string-based naming and hierarchical directory structures that a conventional filesystem offers.</li>
+<li><strong>Write-once, then read-many</strong>—large tensor blobs (typically 4–5 MiB) are written in a single burst at the end of the pre-fill phase, then never modified. Subsequent accesses are read-only.</li>
+<li><strong>Relaxed durability</strong>—lost entries are not catastrophic (as long as the loss is detected); they can be recomputed at the cost of latency and compute. This makes strict persistence unnecessary and opens up design space unavailable to general-purpose stores.</li>
+<li><strong>Latency-sensitive reads</strong>—a cache miss stalls inference and forces re-computation, directly degrading user-facing response time and throughput.</li>
+<li><strong>Fixed, predictable object sizes</strong>—unlike general-purpose caches that must handle arbitrary payloads, KV entry size is determined entirely by model architecture and is known at system generation time.</li>
+<li><strong>Highly skewed access distribution</strong>—shared prompt prefixes cause a small fraction of entries to dominate reads. The access pattern is not uniform and not random; pre-fetching is viable.</li>
+</ul>
+<p>No general-purpose storage system is a natural fit for this profile. The combination of write-once semantics, relaxed durability, fixed object sizes, and skewed access patterns creates an opportunity for aggressive specialization—one that Certus exploits. </p>
+<h2 id="why-specialization-has-always-been-out-of-reach">Why Specialization Has Always Been Out of Reach<a class="headerlink" href="#why-specialization-has-always-been-out-of-reach" title="Permanent link">&para;</a></h2>
+<p>The case for a purpose-built KV-Cache store is not hypothetical—3FS<sup>[<a href="#ref-1">1</a>]</sup> and Mooncake<sup>[<a href="#ref-2">2</a>]</sup> prove the performance argument. But both required substantial engineering investment to produce, and neither is easily adapted to different hardware targets or workload variants. The unanswered question is not whether to specialize, but how to make specialization <em>repeatable at low cost</em>.</p>
+<p>Storage systems are among the most complex artifacts in systems software. A production-grade storage engine must correctly handle concurrent access, crash recovery, memory pressure, I/O scheduling, indexing, serialization format, and dozens of other concerns—all simultaneously, all without data loss. The effort required to build storage systems creates a strong forcing function toward generality. If you are going to spend that much effort, you want the system to be useful for as many workloads as possible. Specialization is a luxury that only makes sense when the performance gains justify maintaining a separate code-base for each target workload.</p>
+<p>For most organizations and most workloads, that bar is never cleared. The result is a storage landscape dominated by a small number of general-purpose systems that everyone uses, regardless of fit.  AI Native Systems change this calculus. </p>
+<h2 id="certusapplying-ai-native-systems-to-storage-solutions">Certus—Applying AI Native Systems to Storage Solutions<a class="headerlink" href="#certusapplying-ai-native-systems-to-storage-solutions" title="Permanent link">&para;</a></h2>
+<p>Certus combines four interlocking techniques to make specialization tractable: (1) <em>specifying</em> desired behavior and workload characteristics, (2) <em>synthesizing and composing</em> components into a holistic system, (3) <em>evaluating</em> correctness and performance on target hardware, and (4) <em>optimizing</em> via evolutionary search for the best-performing implementation. Together these techniques make hardware adaptability a consequence of the approach rather than a separate engineering effort. Throughout, Certus leverages LLM-based agentic coding—including Claude, Codex, Copilot, and IBM Bob—as the engine driving synthesis and optimization. The integration of these techniques is defined in the <em>adaptation cycle</em> shown in <a href="#fig-methodology_overview">Figure 1</a>.</p>
+<figure id="fig-methodology_overview">
+<p><img alt="The Certus adaptation cycle. Workload requirements and hardware characteristics drive specification, synthesis, composition, evaluation, and optimization. Different targets produce structurally different systems from the same adaptive process." src="../../../../../assets/certus_methodology_v2.svg" />
+  </p>
+<figcaption>Figure 1: The Certus adaptation cycle. Workload requirements and hardware characteristics drive specification, synthesis, composition, evaluation, and optimization. Different targets produce structurally different systems from the same adaptive process.</figcaption>
+</figure>
+<h3 id="spec-driven-development-describing-systems-behavior-rather-than-writing-code">Spec-Driven Development: Describing Systems Behavior Rather Than Writing Code<a class="headerlink" href="#spec-driven-development-describing-systems-behavior-rather-than-writing-code" title="Permanent link">&para;</a></h3>
+<p>The foundation of Certus is LLM-based program synthesis using Spec-Driven Development (SDD)—the idea that program code can be synthesized from a natural language-based requirements specification rather than being authored line by line.  In Certus, each deployment is a custom composition of artifacts selected according to the workload and deployment environment, performance constraints, durability requirements, and available hardware.  Given the appropriate specifications, a concrete implementation is synthesized, which comprises a tailored composition of pre-built and newly synthesized components as needed. The specification covers both individual components and the overall system composition—defining which components are selected and how their typed interfaces are wired together for a given deployment target.</p>
+<p>Certus uses Spec Kit<a href="https://github.com/github/spec-kit">^1</a>, an open-source toolkit that operationalizes SDD. Rather than treating specifications as scaffolding to be discarded once implementation begins, Spec Kit makes them the primary artifact from which working implementations are derived.  In addition to forward generation, specifications can be “back-filled” to align with code changes made outside the normal flow.  </p>
+<p>In practice, Spec Kit provides an agent-driven workflow: establish project principles, define what you want to build in natural language, iteratively clarify gaps, generate a technical plan, and execute synthesis. The result is a repeatable process that shifts developer effort from writing implementations to refining specifications—with the implementation following as a consequence.</p>
+<p>This is not templating. The synthesized systems differ structurally based on the specifications. The productivity gain is significant, but the more important effect is structural: program synthesis decouples the cost of building a system from the cost of specializing it. Once the generator exists, producing a new specialized variant costs approximately as much as modifying a specification—not as much as writing its implementation.</p>
+<h3 id="component-based-composition-a-vocabulary-for-storage-systems">Component-Based Composition: A Vocabulary for Storage Systems<a class="headerlink" href="#component-based-composition-a-vocabulary-for-storage-systems" title="Permanent link">&para;</a></h3>
+<p>Program synthesis needs a substrate to generate into. Given a requirements specification, the Certus synthesis layer generates the components needed to realize it—producing new building blocks when none exist, or selecting and adapting previously verified components from a growing library. Each component exposes a typed <em>interface</em> that defines the functions it provides, as well as one or more <em>receptacles</em>—required interfaces that must be satisfied by other components—that define what the component depends on. The synthesis layer reasons about compatibility, resource availability, and performance implications when generating or selecting components. </p>
+<p>Component-based composition solves a practical problem in system synthesis: generating correct, efficient low-level code from high-level descriptions is hard. By generating compositions of proven components rather than raw code, Certus inherits the correctness and performance properties of the component library.  This means that the coding agent's inferencing context can be limited to a system-wide view that abstracts over the details of internal component implementations. When evaluation reveals a correctness failure or performance mismatch, the synthesis layer is re-invoked with the failure report and original specification, generating a corrected component before re-entering the evaluation.</p>
+<p>Synthesized components are not useful in isolation—they must be assembled into a holistic system. The Certus composition layer selects component variants and wires their typed interfaces together according to the requirements specification and the hardware profile, producing a complete, deployment-ready system.</p>
+<figure id="fig-architecture">
+<p><img alt="Certus baseline architecture. Solid borders denote 
+synthesized components. The SPDK NVMe block-device driver delivers zero-copy DMA transfers directly from GPU VRAM to NVMe; alternative drivers are selected at system-generation time." src="../../../../../assets/certus_architecture_v2.svg" />
+  </p>
+<figcaption>Figure 2: Certus baseline architecture. Solid borders denote 
+synthesized components. The SPDK NVMe block-device driver delivers zero-copy DMA transfers directly from GPU VRAM to NVMe; alternative drivers are selected at system-generation time.</figcaption>
+</figure>
+<p><a href="#fig-architecture">Figure 2</a> shows the baseline Certus architecture produced from the KV-cache specification. From left to right: gRPC requests arrive at the Dispatcher, where keys are resolved against the Dispatch Map and routed to one of <em>N</em> storage shards or served directly from the Memory Tier on a cache hit. Each shard contains an Extent Manager that handles NVMe space allocation; the Dispatcher's background threads drain the Memory Tier to SSD asynchronously and evict entries when capacity thresholds are exceeded. At the hardware boundary, the Block-Device Driver delivers zero-copy DMA transfers directly from GPU VRAM to NVMe when backed by SPDK NVMe—an architectural source of Certus's performance advantage over conventional filesystem back-ends.</p>
+<p>The ultimate aim is to provide a “smorgasbord” of re-usable and tuneable components that offer different capabilities.  For example, Certus supports multiple block-device driver back-ends that have different dependencies on the deployment.  If NVMe SSDs are available and do not need to share data with other applications, an SPDK-based solution that provides optimal performance may be used.  Alternatively, in a virtual machine deployment scenario, a kernel block device might be the best option. <a href="#sec-results">Section 2</a> quantifies the impact of block-device component selection on end-to-end performance.</p>
+<h3 id="synthesized-formal-verification-proving-what-you-generate">Synthesized Formal Verification: Proving What You Generate<a class="headerlink" href="#synthesized-formal-verification-proving-what-you-generate" title="Permanent link">&para;</a></h3>
+<p>Synthesized code carries a risk that hand-written code shares: correctness is assumed until something breaks in production.  The most widely used strategy to eliminating program bugs, is to integrate extensive unit and integration run-time tests into the development pipeline.  These tests are generated by Certus using both the Spec Kit specifications and the synthesized code.  Given that it would be impossible to run and check all parameter combinations, these tests verify basic behavior for only a fixed set of parameters (usually random points and boundary conditions).</p>
+<p>Certus goes further by applying formal verification techniques that can identify errors that run-time testing cannot.  The Certus development pipeline <strong>generates verification artifacts alongside the implementation</strong>—the formal proof of correctness is produced at the same time as the code it certifies, by a dedicated verification agent operating on the same specification.</p>
+<p>Different classes of correctness properties require different verification techniques. In addition to the typical suite of correctness tests, Certus currently applies three complementary tools, each targeting a distinct layer of the correctness argument:</p>
+<ul>
+<li><strong>Kani</strong> <sup>[<a href="#ref-3">3</a>]</sup> — a bit-precise model checker for Rust developed at AWS. Kani translates Rust code into a form that SAT/SMT solvers can reason about exhaustively across all possible inputs.</li>
+<li><strong>Creusot</strong> <sup>[<a href="#ref-4">4</a>]</sup> — a deductive verifier for Rust developed at INRIA. Creusot verifies functional correctness: that implementations conform to their formal specifications.</li>
+<li><strong>Spin</strong> <sup>[<a href="#ref-5">5</a>]</sup> — a model checker for concurrent systems that checks all possible interleavings do not result in dead-lock or live-lock conditions.</li>
+</ul>
+<p><strong>Verification as a Pipeline</strong></p>
+<p>The three tools form a pipeline, not alternatives. Spin verifies concurrency of control flow and threading. Kani verifies the synthesized Rust against low-level safety properties. Creusot verifies the core algorithms against their functional specifications (from Spec Kit). Each tool operates at the level it is suited for; together they cover a broader correctness argument.</p>
+<p>Together, spec-driven development and generative formal verification invert the usual correctness argument for generated code. The common objection to synthesized systems is that they are opaque and hard to trust. In Certus, the generated code comes with a <strong>formal certificate of correctness</strong>—verified at the protocol level by Spin, at the implementation level by Kani, and at the algorithmic level by Creusot. A generated system with verified specs at all three levels is, in a meaningful sense, more trustworthy than a hand-written system without any of them.</p>
+<h3 id="evolutionary-frameworks-searching-for-the-best-system">Evolutionary Frameworks: Searching for the Best System<a class="headerlink" href="#evolutionary-frameworks-searching-for-the-best-system" title="Permanent link">&para;</a></h3>
+<p>Specification and composition define what Certus can generate, but not necessarily the best-performing variant for a given deployment. 
+Evolutionary optimization searches that design space for high-performing implementations. Once a component's interface contract is established, the performance-critical code within it—buffer management strategies, I/O scheduling policies, concurrency patterns, and memory hierarchy decisions—forms a large interacting parameter space. The optimal choice depends on hardware topology and workload characteristics, such as data access patterns, read/write ratios, object sizes, and concurrency levels, and often cannot be derived analytically. This is where evolutionary search excels.</p>
+<p>Certus draws on a rapidly maturing ecosystem of LLM-guided program evolution<sup>[<a href="#ref-6">6</a>, <a href="#ref-7">7</a>, <a href="#ref-8">8</a>, <a href="#ref-9">9</a>, <a href="#ref-10">10</a>, <a href="#ref-11">11</a>]</sup>, where populations of code variants are scored against target benchmarks. Complementary reflective approaches refine candidates by diagnosing failures<sup>[<a href="#ref-12">12</a>]</sup> or by building world models of hypotheses to guide the search<sup>[<a href="#ref-13">13</a>]</sup>. Beyond evolutionary frameworks, Certus also leverages agentic coding sessions and hypothesis-driven controlled experiments<sup>[<a href="#ref-14">14</a>]</sup> for tasks requiring cross-file reasoning or causal diagnosis.</p>
+<p>Applying these frameworks to multi-module systems code with hardware-specific APIs and interacting resource constraints requires additional guardrails. Without constraints, LLM-proposed candidates waste evaluation cycles in two ways: they fail to compile because they reference incorrect or nonexistent APIs—wrong function signatures, invalid module paths, or hallucinated symbols—or they compile but crash at runtime when independently tuned parameters exceed available memory, for example when large buffers are multiplied across many concurrent queues. Certus prunes such infeasible candidates early using two guardrails. First, API surface extraction scans target files for exact <code>use</code> import paths and <code>pub fn</code> signatures, ensuring generated code references real modules, types, and functions. Second, hardware profiling injects measured limits—including NVMe bandwidth, PCIe topology, and memory budgets—so the search can reject candidates whose parameters exceed physical hardware limits.</p>
+<p>These guardrails also make the optimization loop portable across deployments. When hardware changes—a different NVMe generation, a different PCIe topology, or a different memory hierarchy—the profile is refreshed and the search is re-run, potentially producing a different eviction policy, buffer strategy, or concurrency model. This turns hardware variation from a manual redesign problem into an input to the Certus optimization process.</p>
+<h3 id="hardware-adaptability-a-strategic-advantage">Hardware Adaptability: A Strategic Advantage<a class="headerlink" href="#hardware-adaptability-a-strategic-advantage" title="Permanent link">&para;</a></h3>
+<p>The LLM-driven approach has an implication beyond any single workload: it makes adaptation to new hardware dramatically faster. In conventional storage development, adapting to new hardware means:</p>
+<ol>
+<li>Identifying the performance-critical assumptions embedded in the existing codebase</li>
+<li>Understanding how new hardware invalidates those assumptions</li>
+<li>Redesigning the affected subsystems</li>
+<li>Re-implementing and re-testing</li>
+<li>Validating that changes do not regress existing workloads</li>
+</ol>
+<p>This process can take years for a mature storage system, ultimately thwarting the adoption of new hardware capabilities.  In Certus, an agent extracts hardware characteristics from deployment environments (e.g., max SSD read/write bandwidth, GPU H2D transfer rates, network topology).  Adapting to new hardware means updating the hardware description in the spec and re-running the generative framework. The evolutionary frameworks re-optimize for the new hardware characteristics—discovering, for example, that a different thread topology or queue depth is optimal when NVMe bandwidth or PCIe topology changes. A new specialized system emerges in days, not years.</p>
+<p><span id="sec-results"></span></p>
+<h2 id="early-results">Early Results<a class="headerlink" href="#early-results" title="Permanent link">&para;</a></h2>
+<h3 id="component-selection-block-device-back-ends">Component Selection: Block Device Back-Ends<a class="headerlink" href="#component-selection-block-device-back-ends" title="Permanent link">&para;</a></h3>
+<p>Certus supports multiple block-device driver back-ends with different deployment dependencies. <a href="#fig-block_device_comp">Figure 3</a> compares four configurations across the populate (adding a new cache value), hot-lookup (a lookup when the object is in the memory-tier), and cold-read phases (a lookup when the object is in the SSD-tier).</p>
+<figure id="fig-block_device_comp">
+<p><img alt="Comparison of different block-device components on Certus API performance." src="../../../../../assets/block_storage_comparison.svg" />
+  </p>
+<figcaption>Figure 3: Comparison of different block-device components on Certus API performance.</figcaption>
+</figure>
+<p>The comparison shows that SPDK-based back-ends dominate cold reads (10.9 GB/s vs. 5.6 GB/s for a single kernel device), while all paths perform comparably on writes and hot lookups—illustrating how component selection creates meaningful performance differentiation only where the workload stresses the storage path. This demonstrates the value of our component-based design whereby a system is composed from a collection of components according to the requirements of the deployment environment.</p>
+<h3 id="end-to-end-certus-vs-filesystem-baseline">End-to-End: Certus vs. Filesystem Baseline<a class="headerlink" href="#end-to-end-certus-vs-filesystem-baseline" title="Permanent link">&para;</a></h3>
+<p><a href="#fig-certus_vs_mockup">Figure 4</a> compares Certus against a generalized filesystem baseline: XFS mounted on a software RAID-0 array, using file naming to map keys to cached data. The Certus solution exploits SPDK-based NVMe with zero-copy DMA transfers. The data is for a single client with 4x SSD devices.</p>
+<figure id="fig-certus_vs_mockup">
+<p><img alt="Comparison of generalized filesystem vs. Certus custom storage system" src="../../../../../assets/certus_vs_mockapp_annotated.svg" />
+  </p>
+<figcaption>Figure 4: Comparison of generalized filesystem vs. Certus custom storage system</figcaption>
+</figure>
+<p>Certus offers the best performance for every phase. The gap is most significant on writes—18.3× the throughput (10.3 vs 0.56 GB/s) at 9× lower tail latency—because the filesystem path requires extensive per-object metadata (stored in inodes), additional memory copies (e.g. user memory to kernel DNA-ready memory), WAL journaling, and fine-grained allocation costs that Certus bypasses. On reads the advantage is still substantial: 1.9× throughput on hot lookups and 2.6× on cold, each with approximately half the p99 latency.</p>
+<h2 id="broader-implications">Broader Implications<a class="headerlink" href="#broader-implications" title="Permanent link">&para;</a></h2>
+<p>KV-Cache is a demanding target, but it is not the only workload that would benefit from hyper-specialization. Any storage workload with a stable, well-understood I/O profile is a candidate:</p>
+<ul>
+<li>Time-series stores for telemetry ingestion</li>
+<li>Low-latency stores for interactive workloads</li>
+<li>Write-optimized stores for logging pipelines</li>
+<li>Read-optimized stores for ML feature serving</li>
+<li>Append-only stores for event streaming</li>
+</ul>
+<p>The common thread is not the domain but the <strong>specificity</strong>: the clearer and more stable the workload, the more aggressively the generator can specialize.  The practical consequence is straightforward: even a 2× throughput improvement translates directly into fewer servers provisioned, lower energy consumed per request, and tighter tail latencies that users experience as faster responses. When specialization is cheap enough to be routine, organizations no longer choose between cost efficiency and workload fit—they get both.  The deeper shift is a change in what storage system and maybe broader systems development <em>means</em>. Conventionally, building a storage system means writing an implementation. In the Certus model, it means writing a specification—and the implementation follows as a consequence. When the path from “here is my workload and hardware” to “here is a verified, optimized storage system” can be traversed in days rather than years, <strong>specialization becomes the default</strong> rather than the exception.</p>
+<p>The deeper questions—how far the component vocabulary can scale, how generated systems should be versioned as workloads shift, and what workloads are too dynamic for a static spec—are ones Certus is actively confronting. The KV-Cache store demonstrates the approach on a workload that is both practically important and analytically tractable; the synthesis framework, the component library, and the verification pipeline are all early-stage artifacts with known limitations. We will return to these open questions as the system matures.</p>
+<p>Certus is an open-source project which can be found at:</p>
+<p><a href="https://github.com/AI-native-Systems-Research/ai-native-storage-certus">https://github.com/AI-native-Systems-Research/ai-native-storage-certus</a></p>
+<p><em>Certus is active research at IBM. Feedback and collaboration are welcome.</em></p>
+<p>Please contact us at <a href="&#109;&#97;&#105;&#108;&#116;&#111;&#58;&#97;&#105;&#45;&#110;&#97;&#116;&#105;&#118;&#101;&#45;&#115;&#116;&#111;&#114;&#97;&#103;&#101;&#64;&#105;&#98;&#109;&#46;&#99;&#111;&#109;">&#97;&#105;&#45;&#110;&#97;&#116;&#105;&#118;&#101;&#45;&#115;&#116;&#111;&#114;&#97;&#103;&#101;&#64;&#105;&#98;&#109;&#46;&#99;&#111;&#109;</a></p>
+<hr />
+<h2 id="references">References<a class="headerlink" href="#references" title="Permanent link">&para;</a></h2>
+<p><span id="ref-1">[1] DeepSeek. <em>3FS: A High-Performance Distributed File System for AI Training and Inference Workloads.</em> GitHub, 2025. <a href="https://github.com/deepseek-ai/3FS">https://github.com/deepseek-ai/3FS</a></span></p>
+<p><span id="ref-2">[2] R. Qin et al. <em>Mooncake: A KVCache-centric Disaggregated Architecture for LLM Serving.</em> Moonshot AI, 2024. Best Paper Award, FAST 2025. <a href="https://arxiv.org/abs/2407.00079">https://arxiv.org/abs/2407.00079</a></span></p>
+<p><span id="ref-3">[3] A. VanHattum et al. <em>Verifying Dynamic Trait Objects in Rust.</em> ICSE 2022. <a href="https://github.com/model-checking/kani">https://github.com/model-checking/kani</a></span></p>
+<p><span id="ref-4">[4] X. Denis, J.-H. Jourdan, C. Marché. <em>Creusot: A Foundry for the Deductive Verification of Rust Programs.</em> ICFEM 2022. <a href="https://github.com/creusot-rs/creusot">https://github.com/creusot-rs/creusot</a></span></p>
+<p><span id="ref-5">[5] G. J. Holzmann. <em>The SPIN Model Checker.</em> Addison-Wesley, 2003. <a href="https://spinroot.com/">https://spinroot.com/</a></span></p>
+<p><span id="ref-6">[6] B. Romera-Paredes et al. <em>Mathematical discoveries from program search with large language models.</em> Nature, 2024. <a href="https://doi.org/10.1038/s41586-023-06924-6">https://doi.org/10.1038/s41586-023-06924-6</a></span></p>
+<p><span id="ref-7">[7] A. Novikov et al. <em>AlphaEvolve: A coding agent for scientific and algorithmic discovery.</em> Google DeepMind, 2025. <a href="https://deepmind.google/discover/blog/alphaevolve-a-gemini-powered-coding-agent-for-designing-advanced-algorithms/">https://deepmind.google/discover/blog/alphaevolve-a-gemini-powered-coding-agent-for-designing-advanced-algorithms/</a></span></p>
+<p><span id="ref-8">[8] D. Sharma. <em>OpenEvolve: An open-source implementation of AlphaEvolve.</em> 2025. <a href="https://github.com/algorithmicsuperintelligence/openevolve">https://github.com/algorithmicsuperintelligence/openevolve</a></span></p>
+<p><span id="ref-9">[9] R. T. Lange, Y. Imajuku, E. Cetin. <em>ShinkaEvolve: Towards Open-Ended and Sample-Efficient Program Evolution.</em> arXiv:2509.19349, 2025. Sakana AI. <a href="https://arxiv.org/abs/2509.19349">https://arxiv.org/abs/2509.19349</a></span></p>
+<p><span id="ref-10">[10] S. Agarwal et al. <em>AdaEvolve: Adaptive LLM Driven Zeroth-Order Optimization.</em> arXiv:2602.20133, 2026. <a href="https://arxiv.org/abs/2602.20133">https://arxiv.org/abs/2602.20133</a></span></p>
+<p><span id="ref-11">[11] S. Agarwal et al. <em>SkyDiscover: A Flexible Framework for AI-Driven Scientific and Algorithmic Discovery.</em> UC Berkeley Sky Lab, 2026. <a href="https://github.com/skydiscover-ai/skydiscover">https://github.com/skydiscover-ai/skydiscover</a></span></p>
+<p><span id="ref-12">[12] A. Singhvi et al. <em>GEPA: Reflective prompt evolution can outperform reinforcement learning.</em> ICLR 2026 (Oral). arXiv:2507.19457.</span></p>
+<p><span id="ref-13">[13] S. Cao et al. <em>K-Search: LLM Kernel Generation via Co-Evolving Intrinsic World Model.</em> arXiv:2602.19128, 2026. <a href="https://arxiv.org/abs/2602.19128">https://arxiv.org/abs/2602.19128</a></span></p>
+<p><span id="ref-14">[14] <em>Nous: Hypothesis-Driven Experimentation for Software Systems.</em>
+IBM Research, 2026.
+<a href="https://github.com/AI-native-Systems-Research/agentic-strategy-evolution">https://github.com/AI-native-Systems-Research/agentic-strategy-evolution</a></span></p>
+
+
+
+
+
+
+
+  
+  
+
+
+
+  
+
+
+  
+
+
+
+      
+    </article>
+  </div>
+
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+          <button type="button" class="md-top md-icon" data-md-component="top" hidden>
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8z"/></svg>
+  Back to top
+</button>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+    
+      
+        
+      
+      <nav class="md-footer__inner md-grid" aria-label="Footer" >
+        
+          
+          <a href="../can-an-agentic-harness-rediscover-the-insights-in-a-research-paper/" class="md-footer__link md-footer__link--prev" aria-label="Previous: Can an Agentic Harness Rediscover the Insights in a Research Paper?">
+            <div class="md-footer__button md-icon">
+              
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+            </div>
+            <div class="md-footer__title">
+              <span class="md-footer__direction">
+                Previous
+              </span>
+              <div class="md-ellipsis">
+                Can an Agentic Harness Rediscover the Insights in a Research Paper?
+              </div>
+            </div>
+          </a>
+        
+        
+      </nav>
+    
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      
+      <script id="__config" type="application/json">{"annotate": null, "base": "../../../../..", "features": ["navigation.tabs", "navigation.indexes", "navigation.sections", "navigation.expand", "navigation.footer", "navigation.top", "search.highlight", "search.suggest", "content.code.copy", "toc.follow"], "search": "../../../../../assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": {"default": "latest", "provider": "mike"}}</script>
+    
+    
+  
+      <script src="../../../../../assets/javascripts/bundle.79ae519e.min.js"></script>
+      
+    
+  <div class="ga-notice" id="ga-notice" role="region" aria-label="Analytics notice">
+    <div class="ga-notice__inner">
+      <span class="ga-notice__text">
+        We use cookieless Google Analytics to count how many readers each post gets &mdash;
+        no cookies, no tracking across sites. Your page URL (without query parameters), browser,
+        and approximate location may be processed.
+        <a href="../../../../../privacy/">Read what's collected &rarr;</a>
+      </span>
+      <button class="ga-notice__btn" id="ga-notice-dismiss" type="button">Got it</button>
+    </div>
+  </div>
+  <script>
+    (function() {
+      var notice = document.getElementById('ga-notice');
+      var btn = document.getElementById('ga-notice-dismiss');
+      if (!notice || !btn) return;
+      try {
+        if (!localStorage.getItem('analytics-notice-dismissed')) {
+          notice.style.display = 'block';
+        }
+      } catch (e) { /* localStorage unavailable; just don't show */ }
+      btn.addEventListener('click', function() {
+        try { localStorage.setItem('analytics-notice-dismissed', '1'); } catch (e) {}
+        notice.style.display = 'none';
+      });
+    })();
+  </script>
+
+  </body>
+</html>
