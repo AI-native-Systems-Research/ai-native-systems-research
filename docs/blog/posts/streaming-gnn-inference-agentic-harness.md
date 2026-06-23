@@ -6,6 +6,7 @@ authors:
   - naima
   - toslali-ibm
   - sriumcp
+  - vkalavri
   - oliveira
 description: >
   We pointed Nous, an agentic research harness, at a streaming GNN inference
