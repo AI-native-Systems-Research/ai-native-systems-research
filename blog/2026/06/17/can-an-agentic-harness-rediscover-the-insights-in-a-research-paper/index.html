@@ -6,35 +6,34 @@
       <meta charset="utf-8">
       <meta name="viewport" content="width=device-width,initial-scale=1">
       
-        <meta name="description" content="Closing the loop — AI as the primary agent of continuous system evolution. Research and practice across inference platforms, GPU kernels, and storage systems.">
+        <meta name="description" content="We pointed Nous, an agentic research harness, at a streaming GNN inference pipeline on Apache Flink and let it run autonomously. It independently recovered all seven of our paper's major findings — then refined, extended, and explained several of them in directions we had not followed.
+">
       
       
       
-        <link rel="canonical" href="https://ai-native-systems-research.github.io/ai-native-systems-research/blog/">
+        <link rel="canonical" href="https://ai-native-systems-research.github.io/ai-native-systems-research/blog/2026/06/17/can-an-agentic-harness-rediscover-the-insights-in-a-research-paper/">
       
       
-        <link rel="prev" href="../technical-domains/storage-systems/">
+        <link rel="prev" href="../../../05/13/from-simulation-to-production-how-an-ai-native-pipeline-discovered-a-better-admission-controller-for-llm-d/">
       
-      
-        <link rel="next" href="category/blis/">
       
       
         
       
       
-      <link rel="icon" href="../assets/images/favicon.png">
+      <link rel="icon" href="../../../../../assets/images/favicon.png">
       <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.6">
     
     
       
-        <title>Blog - AI-native Systems Research</title>
+        <title>Can an Agentic Harness Rediscover the Insights in a Research Paper? - AI-native Systems Research</title>
       
     
     
-      <link rel="stylesheet" href="../assets/stylesheets/main.484c7ddc.min.css">
+      <link rel="stylesheet" href="../../../../../assets/stylesheets/main.484c7ddc.min.css">
       
         
-        <link rel="stylesheet" href="../assets/stylesheets/palette.ab4e12ef.min.css">
+        <link rel="stylesheet" href="../../../../../assets/stylesheets/palette.ab4e12ef.min.css">
       
       
 
@@ -53,9 +52,9 @@
       
     
     
-      <link rel="stylesheet" href="../stylesheets/extra.css">
+      <link rel="stylesheet" href="../../../../../stylesheets/extra.css">
     
-    <script>__md_scope=new URL("..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    <script>__md_scope=new URL("../../../../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
     
       
   
@@ -159,7 +158,7 @@
     <div data-md-component="skip">
       
         
-        <a href="#blog" class="md-skip">
+        <a href="#can-an-agentic-harness-rediscover-the-insights-in-a-research-paper" class="md-skip">
           Skip to content
         </a>
       
@@ -177,7 +176,7 @@
 
 <header class="md-header" data-md-component="header">
   <nav class="md-header__inner md-grid" aria-label="Header">
-    <a href=".." title="AI-native Systems Research" class="md-header__button md-logo" aria-label="AI-native Systems Research" data-md-component="logo">
+    <a href="../../../../.." title="AI-native Systems Research" class="md-header__button md-logo" aria-label="AI-native Systems Research" data-md-component="logo">
       
   
   <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M21.33 12.91c.09 1.55-.62 3.04-1.89 3.95l.77 1.49c.23.45.26.98.06 1.45-.19.47-.58.84-1.06 1l-.79.25a1.687 1.687 0 0 1-1.86-.55L14.44 18c-.89-.15-1.73-.53-2.44-1.1-.5.15-1 .23-1.5.23-.88 0-1.76-.27-2.5-.79-.53.16-1.07.23-1.62.22-.79.01-1.57-.15-2.3-.45a4.1 4.1 0 0 1-2.43-3.61c-.08-.72.04-1.45.35-2.11-.29-.75-.32-1.57-.07-2.33C2.3 7.11 3 6.32 3.87 5.82c.58-1.69 2.21-2.82 4-2.7 1.6-1.5 4.05-1.66 5.83-.37.42-.11.86-.17 1.3-.17 1.36-.03 2.65.57 3.5 1.64 2.04.53 3.5 2.35 3.58 4.47.05 1.11-.25 2.2-.86 3.13.07.36.11.72.11 1.09m-5-1.41c.57.07 1.02.5 1.02 1.07a1 1 0 0 1-1 1h-.63c-.32.9-.88 1.69-1.62 2.29.25.09.51.14.77.21 5.13-.07 4.53-3.2 4.53-3.25a2.59 2.59 0 0 0-2.69-2.49 1 1 0 0 1-1-1 1 1 0 0 1 1-1c1.23.03 2.41.49 3.33 1.3.05-.29.08-.59.08-.89-.06-1.24-.62-2.32-2.87-2.53-1.25-2.96-4.4-1.32-4.4-.4-.03.23.21.72.25.75a1 1 0 0 1 1 1c0 .55-.45 1-1 1-.53-.02-1.03-.22-1.43-.56-.48.31-1.03.5-1.6.56-.57.05-1.04-.35-1.07-.9a.97.97 0 0 1 .88-1.1c.16-.02.94-.14.94-.77 0-.66.25-1.29.68-1.79-.92-.25-1.91.08-2.91 1.29C6.75 5 6 5.25 5.45 7.2 4.5 7.67 4 8 3.78 9c1.08-.22 2.19-.13 3.22.25.5.19.78.75.59 1.29-.19.52-.77.78-1.29.59-.73-.32-1.55-.34-2.3-.06-.32.27-.32.83-.32 1.27 0 .74.37 1.43 1 1.83.53.27 1.12.41 1.71.4q-.225-.39-.39-.81a1.038 1.038 0 0 1 1.96-.68c.4 1.14 1.42 1.92 2.62 2.05 1.37-.07 2.59-.88 3.19-2.13.23-1.38 1.34-1.5 2.56-1.5m2 7.47-.62-1.3-.71.16 1 1.25zm-4.65-8.61a1 1 0 0 0-.91-1.03c-.71-.04-1.4.2-1.93.67-.57.58-.87 1.38-.84 2.19a1 1 0 0 0 1 1c.57 0 1-.45 1-1 0-.27.07-.54.23-.76.12-.1.27-.15.43-.15.55.03 1.02-.38 1.02-.92"/></svg>
@@ -197,7 +196,7 @@
         <div class="md-header__topic" data-md-component="header-topic">
           <span class="md-ellipsis">
             
-              Blog
+              Can an Agentic Harness Rediscover the Insights in a Research Paper?
             
           </span>
         </div>
@@ -310,7 +309,7 @@
   
   
     <li class="md-tabs__item">
-      <a href=".." class="md-tabs__link">
+      <a href="../../../../.." class="md-tabs__link">
         
   
   
@@ -331,7 +330,7 @@
     
     
       <li class="md-tabs__item">
-        <a href="../technical-domains/" class="md-tabs__link">
+        <a href="../../../../../technical-domains/" class="md-tabs__link">
           
   
   
@@ -355,7 +354,7 @@
     
     
       <li class="md-tabs__item md-tabs__item--active">
-        <a href="./" class="md-tabs__link">
+        <a href="../../../../" class="md-tabs__link">
           
   
   
@@ -380,7 +379,9 @@
           
             
               
-              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" hidden>
                 <div class="md-sidebar__scrollwrap">
                   <div class="md-sidebar__inner">
                     
@@ -391,7 +392,7 @@
 
 <nav class="md-nav md-nav--primary md-nav--lifted" aria-label="Navigation" data-md-level="0">
   <label class="md-nav__title" for="__drawer">
-    <a href=".." title="AI-native Systems Research" class="md-nav__button md-logo" aria-label="AI-native Systems Research" data-md-component="logo">
+    <a href="../../../../.." title="AI-native Systems Research" class="md-nav__button md-logo" aria-label="AI-native Systems Research" data-md-component="logo">
       
   
   <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M21.33 12.91c.09 1.55-.62 3.04-1.89 3.95l.77 1.49c.23.45.26.98.06 1.45-.19.47-.58.84-1.06 1l-.79.25a1.687 1.687 0 0 1-1.86-.55L14.44 18c-.89-.15-1.73-.53-2.44-1.1-.5.15-1 .23-1.5.23-.88 0-1.76-.27-2.5-.79-.53.16-1.07.23-1.62.22-.79.01-1.57-.15-2.3-.45a4.1 4.1 0 0 1-2.43-3.61c-.08-.72.04-1.45.35-2.11-.29-.75-.32-1.57-.07-2.33C2.3 7.11 3 6.32 3.87 5.82c.58-1.69 2.21-2.82 4-2.7 1.6-1.5 4.05-1.66 5.83-.37.42-.11.86-.17 1.3-.17 1.36-.03 2.65.57 3.5 1.64 2.04.53 3.5 2.35 3.58 4.47.05 1.11-.25 2.2-.86 3.13.07.36.11.72.11 1.09m-5-1.41c.57.07 1.02.5 1.02 1.07a1 1 0 0 1-1 1h-.63c-.32.9-.88 1.69-1.62 2.29.25.09.51.14.77.21 5.13-.07 4.53-3.2 4.53-3.25a2.59 2.59 0 0 0-2.69-2.49 1 1 0 0 1-1-1 1 1 0 0 1 1-1c1.23.03 2.41.49 3.33 1.3.05-.29.08-.59.08-.89-.06-1.24-.62-2.32-2.87-2.53-1.25-2.96-4.4-1.32-4.4-.4-.03.23.21.72.25.75a1 1 0 0 1 1 1c0 .55-.45 1-1 1-.53-.02-1.03-.22-1.43-.56-.48.31-1.03.5-1.6.56-.57.05-1.04-.35-1.07-.9a.97.97 0 0 1 .88-1.1c.16-.02.94-.14.94-.77 0-.66.25-1.29.68-1.79-.92-.25-1.91.08-2.91 1.29C6.75 5 6 5.25 5.45 7.2 4.5 7.67 4 8 3.78 9c1.08-.22 2.19-.13 3.22.25.5.19.78.75.59 1.29-.19.52-.77.78-1.29.59-.73-.32-1.55-.34-2.3-.06-.32.27-.32.83-.32 1.27 0 .74.37 1.43 1 1.83.53.27 1.12.41 1.71.4q-.225-.39-.39-.81a1.038 1.038 0 0 1 1.96-.68c.4 1.14 1.42 1.92 2.62 2.05 1.37-.07 2.59-.88 3.19-2.13.23-1.38 1.34-1.5 2.56-1.5m2 7.47-.62-1.3-.71.16 1 1.25zm-4.65-8.61a1 1 0 0 0-.91-1.03c-.71-.04-1.4.2-1.93.67-.57.58-.87 1.38-.84 2.19a1 1 0 0 0 1 1c.57 0 1-.45 1-1 0-.27.07-.54.23-.76.12-.1.27-.15.43-.15.55.03 1.02-.38 1.02-.92"/></svg>
@@ -421,7 +422,7 @@
   
   
     <li class="md-nav__item">
-      <a href=".." class="md-nav__link">
+      <a href="../../../../.." class="md-nav__link">
         
   
   
@@ -479,7 +480,7 @@
         
           
           <div class="md-nav__link md-nav__container">
-            <a href="../technical-domains/" class="md-nav__link ">
+            <a href="../../../../../technical-domains/" class="md-nav__link ">
               
   
   
@@ -523,7 +524,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../technical-domains/llm-d/" class="md-nav__link">
+      <a href="../../../../../technical-domains/llm-d/" class="md-nav__link">
         
   
   
@@ -551,7 +552,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../technical-domains/ai-kernels/" class="md-nav__link">
+      <a href="../../../../../technical-domains/ai-kernels/" class="md-nav__link">
         
   
   
@@ -579,7 +580,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../technical-domains/storage-systems/" class="md-nav__link">
+      <a href="../../../../../technical-domains/storage-systems/" class="md-nav__link">
         
   
   
@@ -646,7 +647,7 @@
         
           
           <div class="md-nav__link md-nav__container">
-            <a href="./" class="md-nav__link md-nav__link--active">
+            <a href="../../../../" class="md-nav__link ">
               
   
   
@@ -664,7 +665,7 @@
             </a>
             
               
-              <label class="md-nav__link md-nav__link--active" for="__nav_3" id="__nav_3_label" tabindex="">
+              <label class="md-nav__link " for="__nav_3" id="__nav_3_label" tabindex="">
                 <span class="md-nav__icon md-icon"></span>
               </label>
             
@@ -753,7 +754,7 @@
   
   
     <li class="md-nav__item">
-      <a href="archive/2026/" class="md-nav__link">
+      <a href="../../../../archive/2026/" class="md-nav__link">
         
   
   
@@ -858,7 +859,7 @@
   
   
     <li class="md-nav__item">
-      <a href="category/blis/" class="md-nav__link">
+      <a href="../../../../category/blis/" class="md-nav__link">
         
   
   
@@ -888,7 +889,7 @@
   
   
     <li class="md-nav__item">
-      <a href="category/deep-dives/" class="md-nav__link">
+      <a href="../../../../category/deep-dives/" class="md-nav__link">
         
   
   
@@ -918,7 +919,7 @@
   
   
     <li class="md-nav__item">
-      <a href="category/vision/" class="md-nav__link">
+      <a href="../../../../category/vision/" class="md-nav__link">
         
   
   
@@ -948,7 +949,7 @@
   
   
     <li class="md-nav__item">
-      <a href="category/llm-d/" class="md-nav__link">
+      <a href="../../../../category/llm-d/" class="md-nav__link">
         
   
   
@@ -992,6 +993,8 @@
             
             
               
+                
+              
               <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
                 <div class="md-sidebar__scrollwrap">
                   <div class="md-sidebar__inner">
@@ -1004,6 +1007,69 @@
     
   
   
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#the-target-system-streaming-gnn-inference-on-flink" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        The Target System: Streaming GNN Inference on Flink
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#how-does-nous-investigate-a-system-on-its-own" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        How does Nous investigate a system on its own?
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#what-did-the-harness-validate-and-uncover" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        What did the harness validate and uncover?
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#what-does-this-tell-us-about-agentic-research-harnesses" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        What does this tell us about agentic research harnesses?
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#references" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        References
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
 </nav>
                   </div>
                 </div>
@@ -1011,279 +1077,225 @@
             
           
           
-  <div class="md-content" data-md-component="content">
-    <div class="md-content__inner">
-      <header class="md-typeset">
-        <h1 id="blog">Blog<a class="headerlink" href="#blog" title="Permanent link">&para;</a></h1>
-      </header>
-      
-        <article class="md-post md-post--excerpt">
-  <header class="md-post__header">
-    
-      <nav class="md-post__authors md-typeset">
-        
-          <span class="md-author">
-            <img src="https://github.com/Naima2002.png" alt="Naima Abrar Shami">
-          </span>
-        
-      </nav>
-    
-    <div class="md-post__meta md-meta">
-      <ul class="md-meta__list">
-        <li class="md-meta__item">
-          <time datetime="2026-06-17 00:00:00+00:00">June 17, 2026</time></li>
-        
-          <li class="md-meta__item">
-            in
+  <div class="md-content md-content--post" data-md-component="content">
+    <div class="md-sidebar md-sidebar--post" data-md-component="sidebar" data-md-type="navigation">
+      <div class="md-sidebar__scrollwrap">
+        <div class="md-sidebar__inner md-post">
+          <nav class="md-nav md-nav--primary">
+            <div class="md-post__back">
+              <div class="md-nav__title md-nav__container">
+                <a href="../../../../" class="md-nav__link">
+                  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+                  <span class="md-ellipsis">
+                    Back to index
+                  </span>
+                </a>
+              </div>
+            </div>
             
-              <a href="category/deep-dives/" class="md-meta__link">Deep Dives</a></li>
-        
-        
+              <div class="md-post__authors md-typeset">
+                
+                  <div class="md-profile md-post__profile">
+                    <span class="md-author md-author--long">
+                      <img src="https://github.com/Naima2002.png" alt="Naima Abrar Shami">
+                    </span>
+                    <span class="md-profile__description">
+                      <strong>
+                        
+                          Naima Abrar Shami
+                        
+                      </strong>
+                      <br>
+                      
+                    </span>
+                  </div>
+                
+                  <div class="md-profile md-post__profile">
+                    <span class="md-author md-author--long">
+                      <img src="https://github.com/toslali-ibm.png" alt="Mert Toslali">
+                    </span>
+                    <span class="md-profile__description">
+                      <strong>
+                        
+                          Mert Toslali
+                        
+                      </strong>
+                      <br>
+                      AI-native Systems Researcher
+                    </span>
+                  </div>
+                
+                  <div class="md-profile md-post__profile">
+                    <span class="md-author md-author--long">
+                      <img src="https://github.com/sriumcp.png" alt="Srinivasan Parthasarathy">
+                    </span>
+                    <span class="md-profile__description">
+                      <strong>
+                        
+                          Srinivasan Parthasarathy
+                        
+                      </strong>
+                      <br>
+                      AI-native Systems Researcher
+                    </span>
+                  </div>
+                
+                  <div class="md-profile md-post__profile">
+                    <span class="md-author md-author--long">
+                      <img src="https://github.com/vasia.png" alt="Vasiliki Kalavri">
+                    </span>
+                    <span class="md-profile__description">
+                      <strong>
+                        
+                          Vasiliki Kalavri
+                        
+                      </strong>
+                      <br>
+                      Assistant Professor, Boston University
+                    </span>
+                  </div>
+                
+                  <div class="md-profile md-post__profile">
+                    <span class="md-author md-author--long">
+                      <img src="https://github.com/fabolive.png" alt="Fabio A. Oliveira">
+                    </span>
+                    <span class="md-profile__description">
+                      <strong>
+                        
+                          Fabio A. Oliveira
+                        
+                      </strong>
+                      <br>
+                      AI-native Systems Researcher
+                    </span>
+                  </div>
+                
+              </div>
+            
+            <ul class="md-post__meta md-nav__list">
+              <li class="md-nav__item md-nav__item--section">
+                <div class="md-post__title">
+                  <span class="md-ellipsis">
+                    Metadata
+                  </span>
+                </div>
+                <nav class="md-nav">
+                  <ul class="md-nav__list">
+                    <li class="md-nav__item">
+                      <div class="md-nav__link">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 19H5V8h14m-3-7v2H8V1H6v2H5c-1.11 0-2 .89-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V5a2 2 0 0 0-2-2h-1V1m-1 11h-5v5h5z"/></svg>
+                        <time datetime="2026-06-17 00:00:00+00:00" class="md-ellipsis">June 17, 2026</time>
+                      </div>
+                    </li>
+                    
+                    
+                      <li class="md-nav__item">
+                        <div class="md-nav__link">
+                          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9 3v15h3V3zm3 2 4 13 3-1-4-13zM5 5v13h3V5zM3 19v2h18v-2z"/></svg>
+                          <span class="md-ellipsis">
+                            in
+                            
+                              <a href="../../../../category/deep-dives/">Deep Dives</a></span>
+                        </div>
+                      </li>
+                    
+                    
+                      
+                      <li class="md-nav__item">
+                        <div class="md-nav__link">
+                          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 20a8 8 0 0 0 8-8 8 8 0 0 0-8-8 8 8 0 0 0-8 8 8 8 0 0 0 8 8m0-18a10 10 0 0 1 10 10 10 10 0 0 1-10 10C6.47 22 2 17.5 2 12A10 10 0 0 1 12 2m.5 5v5.25l4.5 2.67-.75 1.23L11 13V7z"/></svg>
+                          <span class="md-ellipsis">
+                            
+                              7 min read
+                            
+                          </span>
+                        </div>
+                      </li>
+                    
+                  </ul>
+                </nav>
+              </li>
+            </ul>
+            
+          </nav>
           
-          <li class="md-meta__item">
-            
-              7 min read
-            
-          </li>
-        
-        
-      </ul>
-      
+        </div>
+      </div>
     </div>
-  </header>
-  <div class="md-post__content md-typeset">
-    <h2 id="can-an-agentic-harness-rediscover-the-insights-in-a-research-paper"><a class="toclink" href="2026/06/17/can-an-agentic-harness-rediscover-the-insights-in-a-research-paper/">Can an Agentic Harness Rediscover the Insights in a Research Paper?</a></h2>
+    <article class="md-content__inner md-typeset">
+      
+        
+  
+
+
+
+  
+  
+
+
+<h1 id="can-an-agentic-harness-rediscover-the-insights-in-a-research-paper">Can an Agentic Harness Rediscover the Insights in a Research Paper?<a class="headerlink" href="#can-an-agentic-harness-rediscover-the-insights-in-a-research-paper" title="Permanent link">&para;</a></h1>
 <p><em>A case study characterizing a streaming GNN inference engine with Nous.</em></p>
 <p><strong>Try Nous yourself: <a href="https://github.com/AI-native-Systems-Research/agentic-strategy-evolution">github.com/AI-native-Systems-Research/agentic-strategy-evolution</a></strong></p>
 <p><strong>Can an agentic research harness independently arrive at the same conclusions as a human researcher on a real systems problem?</strong> To test this, we pointed <a href="https://github.com/AI-native-Systems-Research/agentic-strategy-evolution">Nous</a>, an agentic research harness, at the streaming GNN inference pipeline we had built and characterized in a recent paper. We gave it a research question and access to the target system, then let it run. The goal was twofold: to test whether the harness could reproduce the findings we had published, and to see whether it would surface anything we had missed.</p>
+<!-- more -->
 
-    
-      <nav class="md-post__action">
-        <a href="2026/06/17/can-an-agentic-harness-rediscover-the-insights-in-a-research-paper/">
-          Continue reading
-        </a>
-      </nav>
-    
-    
-  </div>
-</article>
-      
-        <article class="md-post md-post--excerpt">
-  <header class="md-post__header">
-    
-      <nav class="md-post__authors md-typeset">
-        
-          <span class="md-author">
-            <img src="https://github.com/jgchn.png" alt="Jing Chen">
-          </span>
-        
-      </nav>
-    
-    <div class="md-post__meta md-meta">
-      <ul class="md-meta__list">
-        <li class="md-meta__item">
-          <time datetime="2026-05-13 00:00:00+00:00">May 13, 2026</time></li>
-        
-          <li class="md-meta__item">
-            in
-            
-              <a href="category/llm-d/" class="md-meta__link">llm-d</a>, 
-              <a href="category/deep-dives/" class="md-meta__link">Deep Dives</a></li>
-        
-        
-          
-          <li class="md-meta__item">
-            
-              10 min read
-            
-          </li>
-        
-        
-      </ul>
-      
-    </div>
-  </header>
-  <div class="md-post__content md-typeset">
-    <h2 id="from-simulation-to-production-how-an-ai-native-pipeline-discovered-a-better-admission-controller-for-llm-d"><a class="toclink" href="2026/05/13/from-simulation-to-production-how-an-ai-native-pipeline-discovered-a-better-admission-controller-for-llm-d/">From Simulation to Production: How an AI-Native Pipeline Discovered a Better Admission Controller for llm-d</a></h2>
-<p><em>A case study in closing the AI-native loop: observe, reason, change, validate, deploy.</em></p>
-<h3 id="introduction"><a class="toclink" href="2026/05/13/from-simulation-to-production-how-an-ai-native-pipeline-discovered-a-better-admission-controller-for-llm-d/#introduction">Introduction</a></h3>
-<p>An <a href="2026/04/21/ai-native-systems-autonomous-evolution-at-machine-speed/">AI-native system</a> is one that continuously and autonomously closes the loop from observation to action to deployment, with AI as the primary agent driving this process. Rather than humans manually directing each improvement, humans establish objectives and boundaries while the system autonomously executes the cycle, at machine speed.</p>
-
-    
-      <nav class="md-post__action">
-        <a href="2026/05/13/from-simulation-to-production-how-an-ai-native-pipeline-discovered-a-better-admission-controller-for-llm-d/">
-          Continue reading
-        </a>
-      </nav>
-    
-    
-  </div>
-</article>
-      
-        <article class="md-post md-post--excerpt">
-  <header class="md-post__header">
-    
-      <nav class="md-post__authors md-typeset">
-        
-          <span class="md-author">
-            <img src="https://github.com/eilamt.png" alt="Tamar Eilam">
-          </span>
-        
-      </nav>
-    
-    <div class="md-post__meta md-meta">
-      <ul class="md-meta__list">
-        <li class="md-meta__item">
-          <time datetime="2026-04-21 00:00:00+00:00">April 21, 2026</time></li>
-        
-          <li class="md-meta__item">
-            in
-            
-              <a href="category/vision/" class="md-meta__link">Vision</a></li>
-        
-        
-          
-          <li class="md-meta__item">
-            
-              13 min read
-            
-          </li>
-        
-        
-      </ul>
-      
-    </div>
-  </header>
-  <div class="md-post__content md-typeset">
-    <h2 id="ai-native-systems-autonomous-evolution-at-machine-speed"><a class="toclink" href="2026/04/21/ai-native-systems-autonomous-evolution-at-machine-speed/">AI Native Systems: Autonomous Evolution at Machine Speed</a></h2>
-<p><em>Tamar Eilam, Fabio Oliveira, Michael Factor</em></p>
-<h3 id="1-introduction-the-bottleneck-in-system-evolution-and-ai-native-systems"><a class="toclink" href="2026/04/21/ai-native-systems-autonomous-evolution-at-machine-speed/#1-introduction-the-bottleneck-in-system-evolution-and-ai-native-systems">1. Introduction: The Bottleneck in System Evolution and AI Native Systems</a></h3>
-<p>Modern software systems, especially those that serve AI workloads, are extraordinarily complex and must evolve continuously under pressure from new models, new hardware, changing usage patterns, and shifting business objectives. These pressures drive constant change, both in configuration and in code. Yet, even with increasingly powerful AI tools, improvement of such systems remains fundamentally human-driven. Engineers inspect logs and metrics, diagnose problems, open tickets, draft and review pull requests, extend tests, and orchestrate deployments through fragmented workflows. AI assists at each step, but progress is mediated by people, one decision at a time.</p>
-
-    
-      <nav class="md-post__action">
-        <a href="2026/04/21/ai-native-systems-autonomous-evolution-at-machine-speed/">
-          Continue reading
-        </a>
-      </nav>
-    
-    
-  </div>
-</article>
-      
-        <article class="md-post md-post--excerpt">
-  <header class="md-post__header">
-    
-      <nav class="md-post__authors md-typeset">
-        
-          <span class="md-author">
-            <img src="https://github.com/susiejojo.png" alt="Dipanwita Guhathakurta">
-          </span>
-        
-      </nav>
-    
-    <div class="md-post__meta md-meta">
-      <ul class="md-meta__list">
-        <li class="md-meta__item">
-          <time datetime="2026-04-09 00:00:00+00:00">April 9, 2026</time></li>
-        
-          <li class="md-meta__item">
-            in
-            
-              <a href="category/blis/" class="md-meta__link">BLIS</a>, 
-              <a href="category/llm-d/" class="md-meta__link">llm-d</a></li>
-        
-        
-          
-          <li class="md-meta__item">
-            
-              1 min read
-            
-          </li>
-        
-        
-      </ul>
-      
-    </div>
-  </header>
-  <div class="md-post__content md-typeset">
-    <h2 id="the-physics-of-high-fidelity-distributed-inference-platform-simulation"><a class="toclink" href="2026/04/09/the-physics-of-high-fidelity-distributed-inference-platform-simulation/">The Physics of High-Fidelity Distributed Inference Platform Simulation</a></h2>
-<p>Production LLM inference platforms are distributed systems where routing policies, admission control, autoscaling, and engine-level scheduling all interact to determine latencies and throughput. How do you explore how different policies and configurations affect these KPIs before deploying to production? Testing a new routing policy or autoscaling threshold on live traffic risks cascading bugs across the fleet, while building separate test environments burns GPU-hours and still cannot predict interactions between cluster-level policies and engine-level batch dynamics.</p>
-
-    
-      <nav class="md-post__action">
-        <a href="2026/04/09/the-physics-of-high-fidelity-distributed-inference-platform-simulation/">
-          Continue reading
-        </a>
-      </nav>
-    
-    
-  </div>
-</article>
-      
-        <article class="md-post md-post--excerpt">
-  <header class="md-post__header">
-    
-      <nav class="md-post__authors md-typeset">
-        
-          <span class="md-author">
-            <img src="https://github.com/susiejojo.png" alt="Dipanwita Guhathakurta">
-          </span>
-        
-      </nav>
-    
-    <div class="md-post__meta md-meta">
-      <ul class="md-meta__list">
-        <li class="md-meta__item">
-          <time datetime="2026-03-05 00:00:00+00:00">March 5, 2026</time></li>
-        
-          <li class="md-meta__item">
-            in
-            
-              <a href="category/blis/" class="md-meta__link">BLIS</a>, 
-              <a href="category/llm-d/" class="md-meta__link">llm-d</a></li>
-        
-        
-          
-          <li class="md-meta__item">
-            
-              1 min read
-            
-          </li>
-        
-        
-      </ul>
-      
-    </div>
-  </header>
-  <div class="md-post__content md-typeset">
-    <h2 id="why-simulate-before-you-scale"><a class="toclink" href="2026/03/05/why-simulate-before-you-scale/">Why Simulate Before You Scale</a></h2>
-<p>Deploying large language models in production is one of the most expensive infrastructure decisions an organization can make. A single high-end GPU costs upwards of $30,000, and a production cluster can run into millions per year. Yet most teams make their first scaling decisions based on rough estimates, vendor benchmarks, or — worst of all — trial and error on live hardware.</p>
-<p>What if you could test your deployment plan <em>before</em> spending a dollar on GPUs?</p>
-
-    
-      <nav class="md-post__action">
-        <a href="2026/03/05/why-simulate-before-you-scale/">
-          Continue reading
-        </a>
-      </nav>
-    
-    
-  </div>
-</article>
-      
-      
-        
-          
+<h2 id="the-target-system-streaming-gnn-inference-on-flink">The Target System: Streaming GNN Inference on Flink<a class="headerlink" href="#the-target-system-streaming-gnn-inference-on-flink" title="Permanent link">&para;</a></h2>
+<p>GNN inference computes a prediction for an entity by reading its <em>neighborhood</em> in a graph — its 1-hop neighbors, their neighbors, and so on. It powers fraud detection (the suspicious transaction's network of accounts), recommender systems (similar users and related items), and traffic forecasting. For real-time use, those neighborhoods need to be assembled and scored in milliseconds, against a graph that may be too large to fit on one machine.</p>
+<p>Our <a href="https://dl.acm.org/doi/10.1145/3735546.3735856">pipeline</a> runs on <strong>Apache Flink</strong>, a distributed stream processor designed for large-scale real-time event streams. Flink stores the graph as keyed state inside its workers — each node's neighbor list and feature vector is partitioned and sharded across machines. As inference requests arrive (each request is a node ID for which we want a prediction), the pipeline retrieves that node's 2-hop neighborhood from Flink state, assembles the local subgraph as JSON, sends it to a GraphSAGE model hosted in <strong>TorchServe</strong>, and emits the embedding.</p>
+<p><img alt="End-to-end pipeline for streaming GNN inference" src="../../../../../assets/streaming-gnn-pipeline.png" /></p>
+<p><em>End-to-end pipeline for streaming GNN inference. A DataLoader job initializes graph state in Flink; the Inference job processes streamed node IDs through FirstHop / SecondHop sampling, feature retrieval, and subgraph construction, then issues an inference request to TorchServe.</em></p>
+<p>The paper evaluated this architecture on the Reddit dataset (233K nodes, 115M edges, 602-dim features) and reported how throughput and latency vary across worker counts, neighborhood sizes, and synchronous vs. asynchronous inference paths.</p>
+<h2 id="how-does-nous-investigate-a-system-on-its-own">How does Nous investigate a system on its own?<a class="headerlink" href="#how-does-nous-investigate-a-system-on-its-own" title="Permanent link">&para;</a></h2>
+<p>Nous is an agentic research harness built on top of state-of-the-art AI agents (e.g., Claude Code) and a structured scientific methodology for automated system experimentation. AI agents drive the research process; the harness provides the structure that guides hypothesis generation, experiment execution, evidence tracking, and iterative refinement. Internally, it runs an iterative loop: a planning agent proposes hypotheses with falsifiable predictions and candidate mechanisms, an execution agent runs experiments and records findings, and a principle store accumulates durable claims with evidence and confidence scores. Each iteration builds on what has been confirmed or refuted; predictions made in one iteration become tests for the next. This lets the harness systematically sweep configuration spaces, evaluate competing explanations in parallel, and characterize system behavior at a finer granularity than a time-constrained human researcher could realistically explore.</p>
+<p>We ran three Nous campaigns on the streaming GNN pipeline, each targeting a different question: (a) could the harness reproduce the paper's main directional findings on its own, (b) could it surface configurations and edge cases we had not thought to test, and (c) could it instrument and characterize the TorchServe inference path at finer granularity than the paper reported. Each campaign ran five iterations, fully autonomous after launch — no hints, no intermediate corrections, no experiment designs from us. Total cost across the three: \~$110 in LLM calls, \~32 hours of wallclock. Campaign artifacts (configurations, ledgers, principles, and reports) are available at <a href="https://github.com/Naima2002/flink-gnn-nous-artifacts">Naima2002/flink-gnn-nous-artifacts</a>.</p>
+<h2 id="what-did-the-harness-validate-and-uncover">What did the harness validate and uncover?<a class="headerlink" href="#what-did-the-harness-validate-and-uncover" title="Permanent link">&para;</a></h2>
+<p><strong>The most important result is that the harness independently recovered all 7 of the paper's major directional conclusions.</strong> Specifically:</p>
+<ul>
+<li>the number of TorchServe workers improves throughput up to a saturation point, after which adding more workers stops helping;  </li>
+<li>end-to-end median latency drops sharply as TorchServe workers are added, up to the same saturation point;  </li>
+<li>smaller 2-hop fanouts produce higher throughput than larger ones;  </li>
+<li>larger fanouts produce wider latency distributions, with more tail variance;  </li>
+<li>under sustained load, end-to-end latency stays bounded;  </li>
+<li>asynchronous inference outperforms synchronous inference;  </li>
+<li>as TorchServe worker count grows past the saturation point, the bottleneck shifts from TorchServe inference itself to Flink-side subgraph construction.</li>
+</ul>
+<p>Numbers themselves shifted by 5–10× because the laptop has no GPU, but every shape, ordering, and threshold reproduced.</p>
+<p><strong>Nous mapped where the result holds.</strong></p>
+<p>The harness didn't just reproduce the paper's claim that async inference outperforms sync by \~35%; it asked when that advantage held. Sweeping across parallelism settings, it found that the gap is not constant. At parallelism 1, async outperformed sync by 25.7%, but at parallelism 2 or higher the advantage largely disappeared. The mechanism is intuitive in hindsight: multiple parallel synchronous operators collectively saturate TorchServe in much the same way as a single asynchronous operator. Rather than treating the async advantage as a single aggregate result, the harness mapped the regime in which that advantage exists.</p>
+<p><strong>Nous found a failure mode we had never tested.</strong></p>
+<p>The same sweep also surfaced a regime where async, the supposedly-faster path, collapses below sync. With both ASYNC_CAPACITY (in-flight requests per operator) and operator parallelism pinned to 1, async throughput dropped to \~90 records/s while sync mode at the same parallelism sustained \~510. The async path does not degrade gracefully as its in-flight budget shrinks; below a threshold it stalls. We had not probed this corner ourselves; it is the kind of finding that comes from sweeping the configuration space rather than reasoning from priors.</p>
+<p><strong>Nous went from a black-box metric to a mechanistic explanation.</strong></p>
+<p>The campaigns then went a layer deeper into the inference path. Each request to TorchServe goes through three stages inside the model handler: preprocess (JSON → PyTorch tensors), inference (the GNN forward pass), and postprocess. The paper had reported per-request inference time as a single number; the harness instrumented the handler to log per-stage timing and correlated it against subgraph node count. Preprocessing dominated; scaling at \~0.011 ms/node versus 0.0076 ms/node for inference, and approaching <strong>61%</strong> of total handler time as subgraphs grow. JSON-to-tensor parsing, not the GNN forward pass, is the larger contributor and one that could be cut by replacing JSON with a binary encoding upstream.</p>
+<p><strong>Nous connected the observation to its cause.</strong></p>
+<p>It also re-ran a null result from the paper; that increasing TorchServe's request batch size does not improve throughput and confirmed it. More usefully, it went a step further and explained why: preprocessing dominates handler time and runs per-request, so batching cannot amortize it, and on CPU the inference step itself scales close to linearly with batch size, leaving little for batching to recover. The paper had stated the result; the harness restated it with a mechanism.</p>
+<p><strong>Nous independently rediscovered a costly bottleneck.</strong></p>
+<p>The same per-stage instrumentation also led the harness back to something we had hit during the original build. A single PyTorch threading parameter (TORCH_INTRA_THREADS) had cost us roughly two weeks of debugging. PyTorch's default of 64 caused thread thrashing on every per-request inference call: the per-call thread-pool barrier overhead far exceeded the small amount of actual compute. The cause was not visible from system-level metrics, and we had never explicitly set the value. Setting it to 1 was the fix. The harness rediscovered the same anti-pattern — bumping the value from 1 to 4 dropped end-to-end throughput by <strong>13–37%</strong> with no improvement in per-request inference time and named the mechanism correctly: intra-op threads contending for cores on a 16-core machine, with thread-pool barrier overhead dominating the \~0.2 ms of actual compute.</p>
+<h2 id="what-does-this-tell-us-about-agentic-research-harnesses">What does this tell us about agentic research harnesses?<a class="headerlink" href="#what-does-this-tell-us-about-agentic-research-harnesses" title="Permanent link">&para;</a></h2>
+<p>The most interesting outcome was not that the harness found something entirely different from the paper. It was that, starting from only a campaign description, it independently recovered all of the paper's major conclusions and then explored parts of the configuration space we had not characterized in detail. The harness reproduced the directional shape of every quantitative claim, refined one of those claims (the async-vs-sync result) with a sharper threshold, and identified a configuration combination that we had not thought to test ourselves.</p>
+<p>That suggests a possible role for agentic research harnesses: not as a replacement for the researchers who design and build the system in the first place, but as a way to extend what any single researcher with limited time can practically characterize — sweeping combinations a human would skip, refining results that were reported at coarser granularity in the original work, and pointing back at specific lines of the implementation where the next fix or follow-up belongs.</p>
+<h2 id="references">References<a class="headerlink" href="#references" title="Permanent link">&para;</a></h2>
+<p>Naima Abrar Shami and Vasiliki Kalavri. 2025. Bridging GNN Inference and Dataflow Stream Processing: Challenges and Opportunities. In Proceedings of the 8th Joint Workshop on Graph Data Management Experiences &amp; Systems (GRADES) and Network Data Analytics (NDA) (GRADES-NDA '25). Association for Computing Machinery, New York, NY, USA, Article 7, 1–10. https://doi.org/10.1145/3735546.3735856</p>
 
 
 
-<nav class="md-pagination">
+
+
+
+
   
-</nav>
-        
+  
+
+
+
+  
+
+
+  
+
+
+
       
-    </div>
+    </article>
   </div>
 
           
@@ -1302,10 +1314,12 @@
   
     
       
+        
+      
       <nav class="md-footer__inner md-grid" aria-label="Footer" >
         
           
-          <a href="../technical-domains/storage-systems/" class="md-footer__link md-footer__link--prev" aria-label="Previous: Storage Systems">
+          <a href="../../../05/13/from-simulation-to-production-how-an-ai-native-pipeline-discovered-a-better-admission-controller-for-llm-d/" class="md-footer__link md-footer__link--prev" aria-label="Previous: From Simulation to Production: How an AI-Native Pipeline Discovered a Better Admission Controller for llm-d">
             <div class="md-footer__button md-icon">
               
               <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
@@ -1315,27 +1329,11 @@
                 Previous
               </span>
               <div class="md-ellipsis">
-                Storage Systems
+                From Simulation to Production: How an AI-Native Pipeline Discovered a Better Admission Controller for llm-d
               </div>
             </div>
           </a>
         
-        
-          
-          <a href="category/blis/" class="md-footer__link md-footer__link--next" aria-label="Next: BLIS">
-            <div class="md-footer__title">
-              <span class="md-footer__direction">
-                Next
-              </span>
-              <div class="md-ellipsis">
-                BLIS
-              </div>
-            </div>
-            <div class="md-footer__button md-icon">
-              
-              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M4 11v2h12l-5.5 5.5 1.42 1.42L19.84 12l-7.92-7.92L10.5 5.5 16 11z"/></svg>
-            </div>
-          </a>
         
       </nav>
     
@@ -1360,11 +1358,11 @@
     
       
       
-      <script id="__config" type="application/json">{"annotate": null, "base": "..", "features": ["navigation.tabs", "navigation.indexes", "navigation.sections", "navigation.expand", "navigation.footer", "navigation.top", "search.highlight", "search.suggest", "content.code.copy", "toc.follow"], "search": "../assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": {"default": "latest", "provider": "mike"}}</script>
+      <script id="__config" type="application/json">{"annotate": null, "base": "../../../../..", "features": ["navigation.tabs", "navigation.indexes", "navigation.sections", "navigation.expand", "navigation.footer", "navigation.top", "search.highlight", "search.suggest", "content.code.copy", "toc.follow"], "search": "../../../../../assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": {"default": "latest", "provider": "mike"}}</script>
     
     
   
-      <script src="../assets/javascripts/bundle.79ae519e.min.js"></script>
+      <script src="../../../../../assets/javascripts/bundle.79ae519e.min.js"></script>
       
     
   <div class="ga-notice" id="ga-notice" role="region" aria-label="Analytics notice">
@@ -1373,7 +1371,7 @@
         We use cookieless Google Analytics to count how many readers each post gets &mdash;
         no cookies, no tracking across sites. Your page URL (without query parameters), browser,
         and approximate location may be processed.
-        <a href="../privacy/">Read what's collected &rarr;</a>
+        <a href="../../../../../privacy/">Read what's collected &rarr;</a>
       </span>
       <button class="ga-notice__btn" id="ga-notice-dismiss" type="button">Got it</button>
     </div>
