@@ -10,7 +10,7 @@ authors:
   factor:
     name: Michael Factor
     description: IBM Fellow
-    avatar: https://github.com/factorm.png
+    avatar: https://github.com/mef63.png
   jgchn:
     name: Jing Chen
     description: AI-native Systems Researcher
@@ -43,6 +43,14 @@ authors:
     name: Vishakha Ramani
     description: AI-native Systems Researcher
     avatar: https://github.com/vishakha-r.png
+  dwaddington:
+    name: Daniel Waddington
+    description: AI-native Systems Principal Researcher
+    avatar: https://github.com/dwaddington.png
+  nara:
+    name: Nara Batsoyol
+    description: AI-native Systems Researcher
+    avatar: https://github.com/Narangerelt.png
   naima:
     name: Naima Abrar Shami
     description: ""
