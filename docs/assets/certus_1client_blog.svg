@@ -1,0 +1,118 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 920 1185" font-family="Helvetica, Arial, sans-serif" role="img" aria-label="Certus single-client benchmark: throughput by phase across five storage backends">
+<rect width="920" height="1185" fill="#EFEAE0"/>
+<text x="64" y="54" font-family="'Courier New', Courier, monospace" font-size="12" font-weight="bold" letter-spacing="3" fill="#E8501F">CERTUS · BENCH NOTES · Nº 03</text>
+<text x="856" y="54" text-anchor="end" font-family="'Courier New', Courier, monospace" font-size="12" letter-spacing="2" fill="#6E7287">SINGLE CLIENT / 4× NVME</text>
+<text x="64" y="112" font-family="Georgia, 'Times New Roman', serif" font-size="44" fill="#1F2A52">Three fates of a <tspan font-style="italic" fill="#E8501F">4 MiB</tspan> cache object</text>
+<text x="64" y="142" font-size="14.5" fill="#6E7287">Written once, read hot from memory, read cold from flash — one client, five storage backends, throughput in GB/s.</text>
+<line x1="64" y1="168" x2="856" y2="168" stroke="#1F2A52" stroke-width="2.5"/>
+<text x="264" y="192" text-anchor="end" font-family="'Courier New', Courier, monospace" font-size="11" fill="#6E7287">GB/s</text>
+<text x="280.0" y="192" text-anchor="middle" font-family="'Courier New', Courier, monospace" font-size="11" fill="#6E7287">0</text>
+<text x="363.2" y="192" text-anchor="middle" font-family="'Courier New', Courier, monospace" font-size="11" fill="#6E7287">2</text>
+<text x="446.4" y="192" text-anchor="middle" font-family="'Courier New', Courier, monospace" font-size="11" fill="#6E7287">4</text>
+<text x="529.6" y="192" text-anchor="middle" font-family="'Courier New', Courier, monospace" font-size="11" fill="#6E7287">6</text>
+<text x="612.8" y="192" text-anchor="middle" font-family="'Courier New', Courier, monospace" font-size="11" fill="#6E7287">8</text>
+<text x="696.0" y="192" text-anchor="middle" font-family="'Courier New', Courier, monospace" font-size="11" fill="#6E7287">10</text>
+<text x="779.2" y="192" text-anchor="middle" font-family="'Courier New', Courier, monospace" font-size="11" fill="#6E7287">12</text>
+<text x="58" y="272" font-family="Georgia, 'Times New Roman', serif" font-size="92" fill="#E8501F" opacity="0.16" font-style="italic">01</text>
+<text x="138" y="248" font-family="Georgia, 'Times New Roman', serif" font-size="26" fill="#1F2A52">Populate</text>
+<text x="138" y="268" font-family="Georgia, 'Times New Roman', serif" font-size="15" font-style="italic" fill="#6E7287">— the write path</text>
+<text x="856" y="238" text-anchor="end" font-size="12.5" font-style="italic" fill="#6E7287">Every backend lands at 11 ± 1 GB/s. A single client</text>
+<text x="856" y="254" text-anchor="end" font-size="12.5" font-style="italic" fill="#6E7287">simply cannot saturate four NVMe devices with writes.</text>
+<line x1="280.0" y1="278" x2="280.0" y2="454" stroke="#DDD6C6" stroke-width="1"/>
+<line x1="363.2" y1="278" x2="363.2" y2="454" stroke="#DDD6C6" stroke-width="1"/>
+<line x1="446.4" y1="278" x2="446.4" y2="454" stroke="#DDD6C6" stroke-width="1"/>
+<line x1="529.6" y1="278" x2="529.6" y2="454" stroke="#DDD6C6" stroke-width="1"/>
+<line x1="612.8" y1="278" x2="612.8" y2="454" stroke="#DDD6C6" stroke-width="1"/>
+<line x1="696.0" y1="278" x2="696.0" y2="454" stroke="#DDD6C6" stroke-width="1"/>
+<line x1="779.2" y1="278" x2="779.2" y2="454" stroke="#DDD6C6" stroke-width="1"/>
+<text x="264" y="293" text-anchor="end" font-size="12.5" fill="#1F2A52">SPDK NVMe</text>
+<text x="264" y="306" text-anchor="end" font-size="10" letter-spacing="0.5" fill="#6E7287">non-RAID</text>
+<rect x="280" y="286" width="480.1" height="16" fill="#1F2A52"/>
+<text x="770.1" y="299" font-family="'Courier New', Courier, monospace" font-size="14" font-weight="bold" fill="#1F2A52">11.5</text>
+<text x="264" y="329" text-anchor="end" font-size="12.5" fill="#1F2A52">Kernel block</text>
+<text x="264" y="342" text-anchor="end" font-size="10" letter-spacing="0.5" fill="#6E7287">RAID0</text>
+<rect x="280" y="322" width="454.7" height="16" fill="#1F2A52"/>
+<text x="744.7" y="335" font-family="'Courier New', Courier, monospace" font-size="14" font-weight="bold" fill="#1F2A52">10.9</text>
+<text x="264" y="365" text-anchor="end" font-size="12.5" fill="#1F2A52">Kernel block</text>
+<text x="264" y="378" text-anchor="end" font-size="10" letter-spacing="0.5" fill="#6E7287">non-RAID</text>
+<rect x="280" y="358" width="446.4" height="16" fill="#1F2A52"/>
+<text x="736.4" y="371" font-family="'Courier New', Courier, monospace" font-size="14" font-weight="bold" fill="#1F2A52">10.7</text>
+<text x="264" y="401" text-anchor="end" font-size="12.5" fill="#1F2A52">XFS</text>
+<text x="264" y="414" text-anchor="end" font-size="10" letter-spacing="0.5" fill="#6E7287">RAID0</text>
+<rect x="280" y="394" width="438.5" height="16" fill="#1F2A52"/>
+<text x="728.5" y="407" font-family="'Courier New', Courier, monospace" font-size="14" font-weight="bold" fill="#1F2A52">10.5</text>
+<text x="264" y="437" text-anchor="end" font-size="12.5" fill="#1F2A52">XFS</text>
+<text x="264" y="450" text-anchor="end" font-size="10" letter-spacing="0.5" fill="#6E7287">non-RAID</text>
+<rect x="280" y="430" width="492.1" height="16" fill="#1F2A52"/>
+<text x="782.1" y="443" font-family="'Courier New', Courier, monospace" font-size="14" font-weight="bold" fill="#1F2A52">11.8</text>
+<line x1="64" y1="478" x2="856" y2="478" stroke="#C9C2B2" stroke-width="1"/>
+<text x="58" y="560" font-family="Georgia, 'Times New Roman', serif" font-size="92" fill="#E8501F" opacity="0.16" font-style="italic">02</text>
+<text x="138" y="536" font-family="Georgia, 'Times New Roman', serif" font-size="26" fill="#1F2A52">Lookup · hot</text>
+<text x="138" y="556" font-family="Georgia, 'Times New Roman', serif" font-size="15" font-style="italic" fill="#6E7287">— served from memory</text>
+<text x="856" y="526" text-anchor="end" font-size="12.5" font-style="italic" fill="#6E7287">A hit in the 4 GiB pool never touches storage —</text>
+<text x="856" y="542" text-anchor="end" font-size="12.5" font-style="italic" fill="#6E7287">outlined bars mean the device never wakes.</text>
+<line x1="280.0" y1="566" x2="280.0" y2="742" stroke="#DDD6C6" stroke-width="1"/>
+<line x1="363.2" y1="566" x2="363.2" y2="742" stroke="#DDD6C6" stroke-width="1"/>
+<line x1="446.4" y1="566" x2="446.4" y2="742" stroke="#DDD6C6" stroke-width="1"/>
+<line x1="529.6" y1="566" x2="529.6" y2="742" stroke="#DDD6C6" stroke-width="1"/>
+<line x1="612.8" y1="566" x2="612.8" y2="742" stroke="#DDD6C6" stroke-width="1"/>
+<line x1="696.0" y1="566" x2="696.0" y2="742" stroke="#DDD6C6" stroke-width="1"/>
+<line x1="779.2" y1="566" x2="779.2" y2="742" stroke="#DDD6C6" stroke-width="1"/>
+<text x="264" y="581" text-anchor="end" font-size="12.5" fill="#1F2A52">SPDK NVMe</text>
+<text x="264" y="594" text-anchor="end" font-size="10" letter-spacing="0.5" fill="#6E7287">non-RAID</text>
+<rect x="280.75" y="574.75" width="365.8" height="14.5" fill="#EFEAE0" stroke="#1F2A52" stroke-width="1.5"/>
+<text x="657.3" y="587" font-family="'Courier New', Courier, monospace" font-size="14" font-weight="bold" fill="#1F2A52">8.8</text>
+<text x="264" y="617" text-anchor="end" font-size="12.5" fill="#1F2A52">Kernel block</text>
+<text x="264" y="630" text-anchor="end" font-size="10" letter-spacing="0.5" fill="#6E7287">RAID0</text>
+<rect x="280.75" y="610.75" width="369.2" height="14.5" fill="#EFEAE0" stroke="#1F2A52" stroke-width="1.5"/>
+<text x="660.7" y="623" font-family="'Courier New', Courier, monospace" font-size="14" font-weight="bold" fill="#1F2A52">8.9</text>
+<text x="264" y="653" text-anchor="end" font-size="12.5" fill="#1F2A52">Kernel block</text>
+<text x="264" y="666" text-anchor="end" font-size="10" letter-spacing="0.5" fill="#6E7287">non-RAID</text>
+<rect x="280.75" y="646.75" width="382.5" height="14.5" fill="#EFEAE0" stroke="#1F2A52" stroke-width="1.5"/>
+<text x="674.0" y="659" font-family="'Courier New', Courier, monospace" font-size="14" font-weight="bold" fill="#1F2A52">9.2</text>
+<text x="264" y="689" text-anchor="end" font-size="12.5" fill="#1F2A52">XFS</text>
+<text x="264" y="702" text-anchor="end" font-size="10" letter-spacing="0.5" fill="#6E7287">RAID0</text>
+<rect x="280.75" y="682.75" width="364.2" height="14.5" fill="#EFEAE0" stroke="#1F2A52" stroke-width="1.5"/>
+<text x="655.7" y="695" font-family="'Courier New', Courier, monospace" font-size="14" font-weight="bold" fill="#1F2A52">8.8</text>
+<text x="264" y="725" text-anchor="end" font-size="12.5" fill="#1F2A52">XFS</text>
+<text x="264" y="738" text-anchor="end" font-size="10" letter-spacing="0.5" fill="#6E7287">non-RAID</text>
+<rect x="280.75" y="718.75" width="372.9" height="14.5" fill="#EFEAE0" stroke="#1F2A52" stroke-width="1.5"/>
+<text x="664.4" y="731" font-family="'Courier New', Courier, monospace" font-size="14" font-weight="bold" fill="#1F2A52">9.0</text>
+<line x1="64" y1="766" x2="856" y2="766" stroke="#C9C2B2" stroke-width="1"/>
+<text x="58" y="848" font-family="Georgia, 'Times New Roman', serif" font-size="92" fill="#E8501F" opacity="0.16" font-style="italic">03</text>
+<text x="138" y="824" font-family="Georgia, 'Times New Roman', serif" font-size="26" fill="#1F2A52">Lookup · cold</text>
+<text x="138" y="844" font-family="Georgia, 'Times New Roman', serif" font-size="15" font-style="italic" fill="#6E7287">— back to the device</text>
+<text x="856" y="814" text-anchor="end" font-size="12.5" font-style="italic" fill="#6E7287">The only phase that separates the field: a lone device</text>
+<text x="856" y="830" text-anchor="end" font-size="12.5" font-style="italic" fill="#6E7287">tops out near 5 GB/s. Striping restores parallelism.</text>
+<line x1="280.0" y1="854" x2="280.0" y2="1030" stroke="#DDD6C6" stroke-width="1"/>
+<line x1="363.2" y1="854" x2="363.2" y2="1030" stroke="#DDD6C6" stroke-width="1"/>
+<line x1="446.4" y1="854" x2="446.4" y2="1030" stroke="#DDD6C6" stroke-width="1"/>
+<line x1="529.6" y1="854" x2="529.6" y2="1030" stroke="#DDD6C6" stroke-width="1"/>
+<line x1="612.8" y1="854" x2="612.8" y2="1030" stroke="#DDD6C6" stroke-width="1"/>
+<line x1="696.0" y1="854" x2="696.0" y2="1030" stroke="#DDD6C6" stroke-width="1"/>
+<line x1="779.2" y1="854" x2="779.2" y2="1030" stroke="#DDD6C6" stroke-width="1"/>
+<text x="264" y="869" text-anchor="end" font-size="12.5" fill="#1F2A52">SPDK NVMe</text>
+<text x="264" y="882" text-anchor="end" font-size="10" letter-spacing="0.5" fill="#6E7287">non-RAID</text>
+<rect x="280" y="862" width="486.7" height="16" fill="#1F2A52"/>
+<text x="776.7" y="875" font-family="'Courier New', Courier, monospace" font-size="14" font-weight="bold" fill="#1F2A52">11.7</text>
+<text x="264" y="905" text-anchor="end" font-size="12.5" fill="#1F2A52">Kernel block</text>
+<text x="264" y="918" text-anchor="end" font-size="10" letter-spacing="0.5" fill="#6E7287">RAID0</text>
+<rect x="280" y="898" width="473.0" height="16" fill="#1F2A52"/>
+<text x="763.0" y="911" font-family="'Courier New', Courier, monospace" font-size="14" font-weight="bold" fill="#1F2A52">11.4</text>
+<text x="264" y="941" text-anchor="end" font-size="12.5" fill="#1F2A52">Kernel block</text>
+<text x="264" y="954" text-anchor="end" font-size="10" letter-spacing="0.5" fill="#6E7287">non-RAID</text>
+<rect x="280" y="934" width="213.4" height="16" fill="#E8501F"/>
+<text x="503.4" y="947" font-family="'Courier New', Courier, monospace" font-size="14" font-weight="bold" fill="#E8501F">5.1</text>
+<text x="264" y="977" text-anchor="end" font-size="12.5" fill="#1F2A52">XFS</text>
+<text x="264" y="990" text-anchor="end" font-size="10" letter-spacing="0.5" fill="#6E7287">RAID0</text>
+<rect x="280" y="970" width="442.2" height="16" fill="#1F2A52"/>
+<text x="732.2" y="983" font-family="'Courier New', Courier, monospace" font-size="14" font-weight="bold" fill="#1F2A52">10.6</text>
+<text x="264" y="1013" text-anchor="end" font-size="12.5" fill="#1F2A52">XFS</text>
+<text x="264" y="1026" text-anchor="end" font-size="10" letter-spacing="0.5" fill="#6E7287">non-RAID</text>
+<rect x="280" y="1006" width="214.7" height="16" fill="#E8501F"/>
+<text x="504.7" y="1019" font-family="'Courier New', Courier, monospace" font-size="14" font-weight="bold" fill="#E8501F">5.2</text>
+<text x="64" y="1076" font-family="Georgia, 'Times New Roman', serif" font-size="19" font-style="italic" fill="#1F2A52">With one client the backend barely matters — until the cache goes <tspan fill="#E8501F">cold</tspan>.</text>
+<line x1="64" y1="1129" x2="856" y2="1129" stroke="#1F2A52" stroke-width="2.5"/>
+<text x="64" y="1151" font-family="'Courier New', Courier, monospace" font-size="10.5" fill="#6E7287">4 MiB blocks · 16 obj/batch · 10 iterations · 672 objects (160 cold) · 4 GiB pool</text>
+<text x="856" y="1151" text-anchor="end" font-family="'Courier New', Courier, monospace" font-size="10.5" fill="#6E7287">fig. 1</text>
+</svg>
