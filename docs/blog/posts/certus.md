@@ -2,12 +2,12 @@
 title: "Certus: The End of One-Size-Fits-All Storage"
 date: 2026-06-17
 authors:
-  - dwaddington
-  - factor
-  - nara
+  - daniel-waddington
+  - michael-factor
+  - nara-batsoyol
 categories:
-  - Storage Systems
-  - Deep Dives
+  - AI Native Systems
+  - Storage
 tags:
   - certus
   - kv-cache
@@ -17,9 +17,19 @@ tags:
 
 # Certus: The End of One-Size-Fits-All Storage
 
-What if a storage system tailored to your exact workload could be *generated* in days rather than hand-built over years? **Certus** explores that question—using AI Native Systems techniques to synthesize hyper-specialized storage engines from specifications.
+> What if a storage system tailored to optimize performance based on your exact workload and hardware characteristics could be *generated* in days rather than hand-built over years? **Certus** explores that question—using AI Native Systems techniques to synthesize hyper-specialized storage engines from requirements specifications.
 
-<!-- more -->
+
+## Executive Summary
+
+
+- With the end of Dennard scaling and the slowdown of Moore's Law, domain-specific architectures (and the software stacks that target them) are the primary remaining lever for continued performance gains <sup>[<a href="#ref-1">1</a>, <a href="#ref-2">2</a>]</sup>.
+- Domain-specific software optimizations, that exploit workload characteristics, application requirements and the hardware available for deployment, have been shown to improve performance by up to 1000× as compared to general-purpose solutions (e.g. Linear Programs  <sup>[<a href="#ref-3">3</a>]</sup>).
+- Such optimizations have historically required rare combinations of domain expertise, systems knowledge, and hardware understanding — making them prohibitively expensive, fragile and time consuming.
+- Naive application of GenAI-based techniques to the development of large complex system software can easily spiral out of control amassing unrecoverable technical debt and loss of human-understanding.
+- In this blog, we offer an AI Native Systems methodology that combines component-based design, spec driven development and testing, and formal verification to control the engineering process, maintain human understanding, and establish guardrails, while safely unleashing the full power of GenAI to accelerate the production process of complex systems.
+- We show early results from applying the methodology in the context of a specialized high-performance KV-cache storage system use-case.
+
 
 ## The Cost of Generality
 
@@ -58,7 +68,7 @@ No general-purpose storage system is a natural fit for this profile. The combina
 
 ## Why Specialization Has Always Been Out of Reach
 
-The case for a purpose-built KV-Cache store is not hypothetical—3FS<sup>[<a href="#ref-1">1</a>]</sup> and Mooncake<sup>[<a href="#ref-2">2</a>]</sup> prove the performance argument. But both required substantial engineering investment to produce, and neither is easily adapted to different hardware targets or workload variants. The unanswered question is not whether to specialize, but how to make specialization *repeatable at low cost*.
+The case for a purpose-built KV-Cache store is not hypothetical—3FS<sup>[<a href="#ref-4">4</a>]</sup> and Mooncake<sup>[<a href="#ref-5">5</a>]</sup> prove the performance argument. But both required substantial engineering investment to produce, and neither is easily adapted to different hardware targets or workload variants. The unanswered question is not whether to specialize, but how to make specialization *repeatable at low cost*.
 
 Storage systems are among the most complex artifacts in systems software. A production-grade storage engine must correctly handle concurrent access, crash recovery, memory pressure, I/O scheduling, indexing, serialization format, and dozens of other concerns—all simultaneously, all without data loss. The effort required to build storage systems creates a strong forcing function toward generality. If you are going to spend that much effort, you want the system to be useful for as many workloads as possible. Specialization is a luxury that only makes sense when the performance gains justify maintaining a separate code-base for each target workload.
 
@@ -118,9 +128,9 @@ Certus goes further by applying formal verification techniques that can identify
 Different classes of correctness properties require different verification techniques. In addition to the typical suite of correctness tests, Certus currently applies three complementary tools, each targeting a distinct layer of the correctness argument:
 
 
-- **Kani** <sup>[<a href="#ref-3">3</a>]</sup> — a bit-precise model checker for Rust developed at AWS. Kani translates Rust code into a form that SAT/SMT solvers can reason about exhaustively across all possible inputs.
-- **Creusot** <sup>[<a href="#ref-4">4</a>]</sup> — a deductive verifier for Rust developed at INRIA. Creusot verifies functional correctness: that implementations conform to their formal specifications.
-- **Spin** <sup>[<a href="#ref-5">5</a>]</sup> — a model checker for concurrent systems that checks all possible interleavings do not result in dead-lock or live-lock conditions.
+- **Kani** <sup>[<a href="#ref-6">6</a>]</sup> — a bit-precise model checker for Rust developed at AWS. Kani translates Rust code into a form that SAT/SMT solvers can reason about exhaustively across all possible inputs.
+- **Creusot** <sup>[<a href="#ref-7">7</a>]</sup> — a deductive verifier for Rust developed at INRIA. Creusot verifies functional correctness: that implementations conform to their formal specifications.
+- **Spin** <sup>[<a href="#ref-8">8</a>]</sup> — a model checker for concurrent systems that checks all possible interleavings do not result in dead-lock or live-lock conditions.
 
 
 **Verification as a Pipeline**
@@ -135,7 +145,7 @@ Together, spec-driven development and generative formal verification invert the 
 Specification and composition define what Certus can generate, but not necessarily the best-performing variant for a given deployment. 
 Evolutionary optimization searches that design space for high-performing implementations. Once a component's interface contract is established, the performance-critical code within it—buffer management strategies, I/O scheduling policies, concurrency patterns, and memory hierarchy decisions—forms a large interacting parameter space. The optimal choice depends on hardware topology and workload characteristics, such as data access patterns, read/write ratios, object sizes, and concurrency levels, and often cannot be derived analytically. This is where evolutionary search excels.
 
-Certus draws on a rapidly maturing ecosystem of LLM-guided program evolution<sup>[<a href="#ref-6">6</a>, <a href="#ref-7">7</a>, <a href="#ref-8">8</a>, <a href="#ref-9">9</a>, <a href="#ref-10">10</a>, <a href="#ref-11">11</a>]</sup>, where populations of code variants are scored against target benchmarks. Complementary reflective approaches refine candidates by diagnosing failures<sup>[<a href="#ref-12">12</a>]</sup> or by building world models of hypotheses to guide the search<sup>[<a href="#ref-13">13</a>]</sup>. Beyond evolutionary frameworks, Certus also leverages agentic coding sessions and hypothesis-driven controlled experiments<sup>[<a href="#ref-14">14</a>]</sup> for tasks requiring cross-file reasoning or causal diagnosis.
+Certus draws on a rapidly maturing ecosystem of LLM-guided program evolution<sup>[<a href="#ref-9">9</a>, <a href="#ref-10">10</a>, <a href="#ref-11">11</a>, <a href="#ref-12">12</a>, <a href="#ref-13">13</a>, <a href="#ref-14">14</a>]</sup>, where populations of code variants are scored against target benchmarks. Complementary reflective approaches refine candidates by diagnosing failures<sup>[<a href="#ref-15">15</a>]</sup> or by building world models of hypotheses to guide the search<sup>[<a href="#ref-16">16</a>]</sup>. Beyond evolutionary frameworks, Certus also leverages agentic coding sessions and hypothesis-driven controlled experiments<sup>[<a href="#ref-17">17</a>]</sup> for tasks requiring cross-file reasoning or causal diagnosis.
 
 Applying these frameworks to multi-module systems code with hardware-specific APIs and interacting resource constraints requires additional guardrails. Without constraints, LLM-proposed candidates waste evaluation cycles in two ways: they fail to compile because they reference incorrect or nonexistent APIs—wrong function signatures, invalid module paths, or hallucinated symbols—or they compile but crash at runtime when independently tuned parameters exceed available memory, for example when large buffers are multiplied across many concurrent queues. Certus prunes such infeasible candidates early using two guardrails. First, API surface extraction scans target files for exact `use` import paths and `pub fn` signatures, ensuring generated code references real modules, types, and functions. Second, hardware profiling injects measured limits—including NVMe bandwidth, PCIe topology, and memory budgets—so the search can reject candidates whose parameters exceed physical hardware limits.
 
@@ -202,11 +212,13 @@ The common thread is not the domain but the **specificity**: the clearer and mor
 
 The deeper questions—how far the component vocabulary can scale, how generated systems should be versioned as workloads shift, and what workloads are too dynamic for a static spec—are ones Certus is actively confronting. The KV-Cache store demonstrates the approach on a workload that is both practically important and analytically tractable; the synthesis framework, the component library, and the verification pipeline are all early-stage artifacts with known limitations. We will return to these open questions as the system matures.
 
+
 Certus is an open-source project which can be found at:
 
 <https://github.com/AI-native-Systems-Research/ai-native-storage-certus>
 
-*Certus is active research at IBM. Feedback and collaboration are welcome.*
+
+*Feedback and collaboration are welcome.*
 
 Please contact us at <ai-native-storage@ibm.com>
 
@@ -216,32 +228,50 @@ Please contact us at <ai-native-storage@ibm.com>
 
 ## References
 
-<span id="ref-1">[1] DeepSeek. *3FS: A High-Performance Distributed File System for AI Training and Inference Workloads.* GitHub, 2025. <https://github.com/deepseek-ai/3FS></span>
+<span id="ref-1">[1] J. L. Hennessy and D. A. Patterson,
+“A New Golden Age for Computer Architecture,”
+*Communications of the ACM*, vol. 62, no. 2, pp. 48–60, Feb. 2019.
+DOI: 10.1145/3282307.</span>
 
-<span id="ref-2">[2] R. Qin et al. *Mooncake: A KVCache-centric Disaggregated Architecture for LLM Serving.* Moonshot AI, 2024. Best Paper Award, FAST 2025. <https://arxiv.org/abs/2407.00079></span>
+<span id="ref-2">[2] C. E. Leiserson, N. C. Thompson, J. S. Emer, B. C. Kuszmaul, B. W. Lampson, D. Sanchez, and T. B. Schardl,
+“There's Plenty of Room at the Top: What Will Drive Computer Performance After Moore's Law?”
+*Science*, vol. 368, no. 6495, p. eaam9744, Jun. 2020.
+DOI: 10.1126/science.aam9744.</span>
 
-<span id="ref-3">[3] A. VanHattum et al. *Verifying Dynamic Trait Objects in Rust.* ICSE 2022. <https://github.com/model-checking/kani></span>
+<span id="ref-3">[3] R. E. Bixby,
+“Solving Real-World Linear Programs: A Decade and More of Progress,”
+*Operations Research*, vol. 50, no. 1, pp. 3–15, 2002.
+DOI: 10.1287/opre.50.1.3.17780.</span>
 
-<span id="ref-4">[4] X. Denis, J.-H. Jourdan, C. Marché. *Creusot: A Foundry for the Deductive Verification of Rust Programs.* ICFEM 2022. <https://github.com/creusot-rs/creusot></span>
+<span id="ref-4">[4] DeepSeek. *3FS: A High-Performance Distributed File System for AI Training and Inference Workloads.* GitHub, 2025. <https://github.com/deepseek-ai/3FS></span>
 
-<span id="ref-5">[5] G. J. Holzmann. *The SPIN Model Checker.* Addison-Wesley, 2003. <https://spinroot.com/></span>
+<span id="ref-5">[5] R. Qin et al. *Mooncake: A KVCache-centric Disaggregated Architecture for LLM Serving.* Moonshot AI, 2024. Best Paper Award, FAST 2025. <https://arxiv.org/abs/2407.00079></span>
 
-<span id="ref-6">[6] B. Romera-Paredes et al. *Mathematical discoveries from program search with large language models.* Nature, 2024. <https://doi.org/10.1038/s41586-023-06924-6></span>
+<span id="ref-6">[6] A. VanHattum et al. *Verifying Dynamic Trait Objects in Rust.* ICSE 2022. <https://github.com/model-checking/kani></span>
 
-<span id="ref-7">[7] A. Novikov et al. *AlphaEvolve: A coding agent for scientific and algorithmic discovery.* Google DeepMind, 2025. <https://deepmind.google/discover/blog/alphaevolve-a-gemini-powered-coding-agent-for-designing-advanced-algorithms/></span>
+<span id="ref-7">[7] X. Denis, J.-H. Jourdan, C. Marché. *Creusot: A Foundry for the Deductive Verification of Rust Programs.* ICFEM 2022. <https://github.com/creusot-rs/creusot></span>
 
-<span id="ref-8">[8] D. Sharma. *OpenEvolve: An open-source implementation of AlphaEvolve.* 2025. <https://github.com/algorithmicsuperintelligence/openevolve></span>
+<span id="ref-8">[8] G. J. Holzmann. *The SPIN Model Checker.* Addison-Wesley, 2003. <https://spinroot.com/></span>
 
-<span id="ref-9">[9] R. T. Lange, Y. Imajuku, E. Cetin. *ShinkaEvolve: Towards Open-Ended and Sample-Efficient Program Evolution.* arXiv:2509.19349, 2025. Sakana AI. <https://arxiv.org/abs/2509.19349></span>
+<span id="ref-9">[9] B. Romera-Paredes et al. *Mathematical discoveries from program search with large language models.* Nature, 2024. <https://doi.org/10.1038/s41586-023-06924-6></span>
 
-<span id="ref-10">[10] S. Agarwal et al. *AdaEvolve: Adaptive LLM Driven Zeroth-Order Optimization.* arXiv:2602.20133, 2026. <https://arxiv.org/abs/2602.20133></span>
+<span id="ref-10">[10] A. Novikov et al. *AlphaEvolve: A coding agent for scientific and algorithmic discovery.* Google DeepMind, 2025. <https://deepmind.google/discover/blog/alphaevolve-a-gemini-powered-coding-agent-for-designing-advanced-algorithms/></span>
 
-<span id="ref-11">[11] S. Agarwal et al. *SkyDiscover: A Flexible Framework for AI-Driven Scientific and Algorithmic Discovery.* UC Berkeley Sky Lab, 2026. <https://github.com/skydiscover-ai/skydiscover></span>
+<span id="ref-11">[11] Asankhaya Sharma. *OpenEvolve: An open-source implementation of AlphaEvolve.* 2025. <https://github.com/algorithmicsuperintelligence/openevolve></span>
 
-<span id="ref-12">[12] A. Singhvi et al. *GEPA: Reflective prompt evolution can outperform reinforcement learning.* ICLR 2026 (Oral). arXiv:2507.19457.</span>
+<span id="ref-12">[12] R. T. Lange, Y. Imajuku, E. Cetin. *ShinkaEvolve: Towards Open-Ended and Sample-Efficient Program Evolution.* arXiv:2509.19349, 2025. Sakana AI. <https://arxiv.org/abs/2509.19349></span>
 
-<span id="ref-13">[13] S. Cao et al. *K-Search: LLM Kernel Generation via Co-Evolving Intrinsic World Model.* arXiv:2602.19128, 2026. <https://arxiv.org/abs/2602.19128></span>
+<span id="ref-13">[13] Cemri, Mert, et al. *AdaEvolve: Adaptive LLM Driven Zeroth-Order Optimization.* UC Berkeley, 2026.. <https://arxiv.org/abs/2602.20133></span>
 
-<span id="ref-14">[14] *Nous: Hypothesis-Driven Experimentation for Software Systems.*
+<span id="ref-14">[14] Liu, Shu, et al.  *SkyDiscover: A Flexible Framework for AI-Driven Scientific and Algorithmic Discovery.* UC Berkeley Sky Lab, 2026.
+<https://github.com/skydiscover-ai/skydiscover></span>
+
+<span id="ref-15">[15] Agrawal, Lakshya A., et al.  *GEPA: Reflective prompt evolution can outperform reinforcement learning.* arXiv preprint arXiv:2507.19457 (2025).
+<https://github.com/gepa-ai/gepa></span>
+
+<span id="ref-16">[16] Cao, Shiyi, et al.  *K-Search: LLM Kernel Generation via Co-Evolving Intrinsic World Model.* arXiv preprint arXiv:2602.19128 (2026).
+<https://github.com/caoshiyi/K-Search></span>
+
+<span id="ref-17">[17] *Nous: Hypothesis-Driven Experimentation for Software Systems.*
 IBM Research, 2026.
 <https://github.com/AI-native-Systems-Research/agentic-strategy-evolution></span>
