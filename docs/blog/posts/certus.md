@@ -17,8 +17,9 @@ tags:
 
 # Certus: The End of One-Size-Fits-All Storage
 
-> What if a storage system tailored to optimize performance based on your exact workload and hardware characteristics could be *generated* in days rather than hand-built over years? **Certus** explores that question—using AI Native Systems techniques to synthesize hyper-specialized storage engines from requirements specifications.
+What if a storage system tailored to optimize performance based on your exact workload and hardware characteristics could be *generated* in days rather than hand-built over years? **Certus** explores that question—using AI Native Systems techniques to synthesize hyper-specialized storage engines from requirements specifications.
 
+<!-- more -->
 
 ## Executive Summary
 
