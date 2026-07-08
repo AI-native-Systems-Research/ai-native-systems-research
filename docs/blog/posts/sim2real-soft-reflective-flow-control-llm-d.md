@@ -245,3 +245,94 @@ out of dispatch slots in ways the simulator models conservatively. The sim-to-re
 failure of simulation; it is a reminder that simulation's job is ranking, not absolute prediction.
 BLIS ranked treatment over baseline on overloaded workloads. Real hardware confirmed and
 amplified that ranking.
+
+## Deploy: A Contribution to llm-d
+
+With real-cluster benchmarks confirming the gains predicted by simulation, the algorithm
+ships upstream as a new plugin in llm-d-router: `soft-reflective-ceiling-policy`. Users can
+enable it today with a single YAML change and no new infrastructure:
+
+```yaml
+apiVersion: llm-d.ai/v1alpha1
+kind: EndpointPickerConfig
+featureGates:
+  - flowControl
+plugins:
+  - type: queue-scorer
+  - type: kv-cache-utilization-scorer
+  - type: prefix-cache-scorer
+  - type: soft-reflective-ceiling-policy
+schedulingProfiles:
+  - name: default
+    plugins:
+      - pluginRef: queue-scorer
+        weight: 2.0
+      - pluginRef: kv-cache-utilization-scorer
+        weight: 2.0
+      - pluginRef: prefix-cache-scorer
+        weight: 3.0
+flowControl:
+  usageLimitPolicyPluginRef: soft-reflective-ceiling-policy
+```
+
+The plugin is most effective for deployments operating at 60–100% capacity with a meaningful
+fraction of sheddable traffic — code generation pipelines, batch reasoning jobs, background
+inference tasks running alongside latency-sensitive critical traffic. Under-capacity deployments
+see no effect. Deployments above 150% capacity are better served by admission control (which
+can shed load at the gate) rather than flow control (which cannot reject requests, only
+prioritize among admitted ones).
+
+## Closing the Loop
+
+This case study traces a second complete traversal of the AI-native loop:
+
+- **Observe:** identified that constant-ceiling flow control provides no priority differentiation
+  under load, leaving critical traffic to queue behind sheddable work
+- **Reason:** Nous and BLIS simulation explored the space of dispatch gating policies at machine
+  speed, converging on the reflective ceiling algorithm
+- **Change:** Nous agents translated the simulation algorithm into production Go code via the
+  same sim2real pipeline used in Part 1
+- **Validate:** real-cluster benchmarks on 2 × H100 with Qwen3-14B confirmed up to 98% TTFT
+  improvement for critical traffic at near-capacity load
+- **Deploy:** contributed as a new plugin into llm-d-router, enabled via a YAML config change
+
+## What We Learned
+
+Three lessons emerged from this iteration that were not obvious at the outset:
+
+**Proportionality beats binary cliffs.** The constant-ceiling baseline flips abruptly between
+fully-open and fully-blocked as saturation crosses a threshold. This causes oscillation and
+provides no graceful degradation for the cases that matter most — moderate overload, where the
+system is stressed but not catastrophic. A policy that smoothly ramps throttling intensity with
+saturation is more stable and more useful across a wider operating range.
+
+**A no-op at low load is a feature, not a bug.** The reflective ceiling guarantees the plugin
+does nothing when saturation is below the band's reflection point. Confirming this in simulation
+— the near-zero reasoning result at 0.2 QPS — gave confidence before real-hardware testing.
+A flow control policy that penalizes traffic when there is no contention would cause harm.
+Testing the absence of harm is as important as testing the presence of benefit.
+
+**Simulation predicts direction; real hardware reveals magnitude.** BLIS correctly ranked
+treatment over baseline on every overloaded workload. But the absolute gains on real hardware
+at near-capacity load exceeded simulation estimates. The sim-to-real gap here is not a
+calibration failure — the simulator is correctly conservative because it cannot fully model
+GPU memory pressure, vLLM preemption cascades, and batching interference under real load.
+The right expectation for simulation is: *if A beats B in simulation, A will beat B on real
+hardware.* What the magnitude will be is something only real hardware can answer.
+
+## What Comes Next
+
+This article and Part 1 together cover two distinct protection layers: admission control
+reduces total load at the gate by probabilistically rejecting sheddable requests before they
+enter the dispatch queue; flow control prioritizes dispatch among already-admitted requests.
+Composing both provides layered protection — admission control prevents overload, flow control
+ensures critical traffic is served first under normal-to-near-capacity operation.
+
+The natural next frontier is exploring multiple interacting policies simultaneously: how
+admission control and flow control compose under varying load, and what the joint policy space
+looks like when Nous searches it rather than each mechanism in isolation. With BLIS becoming
+the official llm-d simulator, this kind of multi-policy search becomes tractable. The same
+simulation infrastructure that validated these two algorithms can explore interactions,
+emergent behaviors, and entirely new problem classes — routing, autoscaling,
+prefill-decode disaggregation — at machine speed. The loop is proven. The simulator is ready.
+Now we scale it.
