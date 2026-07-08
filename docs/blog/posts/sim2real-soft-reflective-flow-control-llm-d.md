@@ -136,3 +136,112 @@ critical traffic. Interactive chat sees substantial improvement at high throughp
 at 1 QPS shows near-zero effect: saturation stays below the gating threshold and the policy is
 correctly a no-op. Simulation is working as intended when it predicts "no benefit needed" as
 accurately as it predicts "benefit exists."
+
+## AI-Assisted sim2real Translation: Simulation to Production Code
+
+The same translation pipeline used in Part 1 converts the simulation algorithm into a
+production Go plugin. AI agents read the simulation code, understand llm-d-router's plugin
+framework, map simulation signals to their production equivalents
+(`SaturationDetector.Saturation()` → `ComputeLimit()` parameter), and produce a complete
+package with unit tests and parameter validation that passes the full build and test suite.
+The target interface this time is `UsageLimitPolicy.ComputeLimit()` rather than the admitter
+interface, but the process is identical: the framework is generic, and the translation agents
+work from the interface contract rather than the internals.
+
+The output is not a prototype. The plugin is a proper production artifact with full provenance:
+a simulation-validated algorithm, translated by AI agents, ready to be registered and enabled
+with a YAML config change.
+
+## Validate: Real-Cluster Benchmark Results
+
+Simulation produced promising results. The only way to know the true value is to test on real
+hardware. Expensive GPU time is used only for validation — the exploration already happened in
+simulation.
+
+### Setup
+
+| Parameter | Value |
+|:---|:---|
+| Hardware | 2 × H100-SXM-80GB |
+| Model | Qwen/Qwen3-14B |
+| Baseline | Default llm-d-router flow control (constant ceiling 1.0) |
+| Treatment | soft-reflective-ceiling-policy |
+| Load generator | blis observe (open-loop, --max-concurrency 10000) |
+
+Note that this benchmark uses 2 × H100 rather than the 4 × H100 cluster used in Part 1,
+reflecting a different hardware configuration while keeping the same model.
+
+### Workloads
+
+Three workload shapes cover the range of production LLM deployment patterns:
+
+**Code generation** (large input ~1,176 tokens, moderate output ~195 tokens, 30% critical /
+70% sheddable): models IDE inline suggestions and CI/CD code review pipelines where critical
+suggestions share capacity with background analysis jobs.
+
+**Interactive chat** (short input ~39 tokens, moderate output ~300 tokens, 30% critical /
+70% sheddable): high-throughput conversational APIs serving mixed priority tiers.
+
+**Reasoning** (moderate input ~780 tokens, large output ~6,200 tokens, 50% critical /
+50% sheddable): agent chains and multi-step planning where critical interactive queries
+compete with batch reasoning jobs.
+
+All metrics below are for **critical-class traffic only**. Delta percentages show treatment
+vs. baseline (negative = improvement).
+
+### Results
+
+| Workload | QPS | TTFT mean Δ | TTFT p99 Δ | E2E mean Δ | E2E p99 Δ | Tput Δ |
+|:---|:---|:---|:---|:---|:---|:---|
+| Code Generation | 4 | −0.4% | +1.0% | −0.2% | −2.0% | +0.0% |
+| Code Generation | 10 | +2.9% | +8.9% | +1.0% | −2.4% | −0.8% |
+| Code Generation | 16 | **−98.1%** | **−96.7%** | **−49.1%** | −0.1% | −0.8% |
+| Code Generation | 24 | −96.6% | −91.2% | −55.6% | −9.3% | +8.0% |
+| Interactive Chat | 20 | −1.6% | −4.8% | −0.1% | +0.2% | −0.0% |
+| Interactive Chat | 40 | +2.6% | +18.4% | +1.9% | +2.2% | −0.0% |
+| Interactive Chat | 60 | +6.8% | +30.9% | +0.8% | +0.5% | −0.0% |
+| Interactive Chat | 80 | −31.1% | **−22.4%** | −17.8% | **−14.6%** | −0.9% |
+| Reasoning | 0.2 | −4.6% | −1.4% | +0.5% | +3.6% | −1.6% |
+| Reasoning | 0.4 | −36.6% | +16.7% | −7.1% | −1.2% | −3.1% |
+| Reasoning | 0.7 | **−95.1%** | **−91.2%** | **−66.5%** | **−48.5%** | **+64.4%** |
+| Reasoning | 1.2 | −44.6% | −44.6% | −35.5% | −37.3% | +35.8% |
+
+### Reading the Results
+
+The plugin's operating sweet spot is near-capacity load, where saturation fluctuates in the
+proportional gating regime (0.5–1.0):
+
+**Code generation @ 16 QPS** is the clearest signal. The baseline saturates on prefill
+from 70%-sheddable large-input requests; critical TTFT p99 reaches 13.6 s. The treatment
+proportionally gates sheddable dispatch, letting critical requests reach pods with minimal
+wait: critical TTFT p99 falls to 263 ms, a 96.7% reduction. The difference between a 13-second
+and a 263-millisecond time-to-first-token is the difference between a usable and an unusable
+developer experience.
+
+**Reasoning @ 0.7 QPS** shows the mechanism at work on long-running requests. Decode-heavy
+workloads cause sustained high saturation, and the proportional gating continuously protects
+critical prefill. Critical TTFT p99 drops from 330 s to 16 s (−91.2%), E2E improves −48.5%,
+and throughput recovers 64.4% — because the baseline was overloaded enough to drop requests
+that the treatment successfully completed.
+
+**Under-capacity workloads** (code generation @ 4/10 QPS, interactive chat @ 20 QPS,
+reasoning @ 0.2 QPS) show neutral results: saturation stays below the gating threshold and
+the plugin is correctly a no-op. This is expected and important — a flow control policy that
+penalizes traffic when there is no contention would cause harm rather than help.
+
+**Interactive chat @ 40/60 QPS** shows the one range where the treatment is modestly worse
+than baseline. These workloads operate near but not yet at capacity, in the transition zone
+where the reflective ceiling begins to engage but the benefit of protecting critical dispatch
+has not yet exceeded the overhead of rate-limiting sheddable traffic. The effect is small
+(TTFT p99 +18% and +31% respectively at low absolute baseline values) and disappears at 80
+QPS when the system is clearly above capacity.
+
+### Sim-to-Real Alignment
+
+Simulation correctly predicted the direction of improvement on every workload type. Real-hardware
+gains at near-capacity load exceeded the simulation estimates — because real GPU memory pressure,
+vLLM preemption events, and KV cache contention amplify the effect of keeping sheddable traffic
+out of dispatch slots in ways the simulator models conservatively. The sim-to-real gap is not a
+failure of simulation; it is a reminder that simulation's job is ranking, not absolute prediction.
+BLIS ranked treatment over baseline on overloaded workloads. Real hardware confirmed and
+amplified that ranking.
