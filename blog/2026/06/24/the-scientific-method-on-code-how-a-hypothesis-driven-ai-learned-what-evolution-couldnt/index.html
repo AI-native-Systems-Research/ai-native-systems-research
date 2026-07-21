@@ -1,0 +1,1682 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+        <meta name="description" content="Closing the loop — AI as the primary agent of continuous system evolution. Research and practice across inference platforms, GPU kernels, and storage systems.">
+      
+      
+      
+        <link rel="canonical" href="https://ai-native-systems-research.github.io/ai-native-systems-research/blog/2026/06/24/the-scientific-method-on-code-how-a-hypothesis-driven-ai-learned-what-evolution-couldnt/">
+      
+      
+        <link rel="prev" href="../../17/certus-the-end-of-one-size-fits-all-storage/">
+      
+      
+      
+        
+      
+      
+      <link rel="icon" href="../../../../../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.6">
+    
+    
+      
+        <title>The Scientific Method on Code: How a Hypothesis-Driven AI Learned What Evolution Couldn't - AI-native Systems Research</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../../../../assets/stylesheets/main.484c7ddc.min.css">
+      
+        
+        <link rel="stylesheet" href="../../../../../assets/stylesheets/palette.ab4e12ef.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+      <link rel="stylesheet" href="../../../../../stylesheets/extra.css">
+    
+    <script>__md_scope=new URL("../../../../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+  
+
+
+    
+    
+  
+  
+  <script>
+    (function() {
+      if (location.hostname === 'localhost' || location.hostname === '127.0.0.1') {
+        return;
+      }
+      var s = document.createElement('script');
+      s.async = true;
+      s.src = 'https://www.googletagmanager.com/gtag/js?id=G-83Z819J0CL';
+      document.head.appendChild(s);
+
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){ dataLayer.push(arguments); }
+      window.gtag = gtag;
+      gtag('js', new Date());
+      gtag('config', 'G-83Z819J0CL', {
+        client_storage: 'none',
+        anonymize_ip: true,
+        allow_google_signals: false,
+        allow_ad_personalization_signals: false,
+        ads_data_redaction: true,
+        page_location: location.origin + location.pathname,
+        send_page_view: true
+      });
+    })();
+  </script>
+  
+  <style>
+    .ga-notice {
+      position: fixed;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      background: var(--md-default-bg-color);
+      border-top: 1px solid var(--md-default-fg-color--lightest);
+      padding: 0.8rem 1rem;
+      z-index: 1000;
+      display: none;
+      box-shadow: 0 -2px 8px rgba(0, 0, 0, 0.05);
+      font-family: var(--md-text-font);
+    }
+    .ga-notice__inner {
+      max-width: 1200px;
+      margin: 0 auto;
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      flex-wrap: wrap;
+    }
+    .ga-notice__text {
+      flex: 1;
+      font-size: 0.8rem;
+      color: var(--md-default-fg-color);
+      min-width: 280px;
+      line-height: 1.4;
+    }
+    .ga-notice__text a {
+      color: var(--md-typeset-a-color);
+      text-decoration: underline;
+    }
+    .ga-notice__btn {
+      background: var(--md-primary-fg-color);
+      color: var(--md-primary-bg-color);
+      border: none;
+      padding: 0.5rem 1.2rem;
+      border-radius: 0.2rem;
+      cursor: pointer;
+      font-size: 0.8rem;
+      font-weight: 600;
+      font-family: inherit;
+    }
+    .ga-notice__btn:hover {
+      opacity: 0.9;
+    }
+  </style>
+
+  </head>
+  
+  
+    
+    
+      
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="indigo">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#the-scientific-method-on-code-how-a-hypothesis-driven-ai-learned-what-evolution-couldnt" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+      <div data-md-color-scheme="default" data-md-component="outdated" hidden>
+        
+      </div>
+    
+    
+      
+
+<header class="md-header" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href="../../../../.." title="AI-native Systems Research" class="md-header__button md-logo" aria-label="AI-native Systems Research" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M21.33 12.91c.09 1.55-.62 3.04-1.89 3.95l.77 1.49c.23.45.26.98.06 1.45-.19.47-.58.84-1.06 1l-.79.25a1.687 1.687 0 0 1-1.86-.55L14.44 18c-.89-.15-1.73-.53-2.44-1.1-.5.15-1 .23-1.5.23-.88 0-1.76-.27-2.5-.79-.53.16-1.07.23-1.62.22-.79.01-1.57-.15-2.3-.45a4.1 4.1 0 0 1-2.43-3.61c-.08-.72.04-1.45.35-2.11-.29-.75-.32-1.57-.07-2.33C2.3 7.11 3 6.32 3.87 5.82c.58-1.69 2.21-2.82 4-2.7 1.6-1.5 4.05-1.66 5.83-.37.42-.11.86-.17 1.3-.17 1.36-.03 2.65.57 3.5 1.64 2.04.53 3.5 2.35 3.58 4.47.05 1.11-.25 2.2-.86 3.13.07.36.11.72.11 1.09m-5-1.41c.57.07 1.02.5 1.02 1.07a1 1 0 0 1-1 1h-.63c-.32.9-.88 1.69-1.62 2.29.25.09.51.14.77.21 5.13-.07 4.53-3.2 4.53-3.25a2.59 2.59 0 0 0-2.69-2.49 1 1 0 0 1-1-1 1 1 0 0 1 1-1c1.23.03 2.41.49 3.33 1.3.05-.29.08-.59.08-.89-.06-1.24-.62-2.32-2.87-2.53-1.25-2.96-4.4-1.32-4.4-.4-.03.23.21.72.25.75a1 1 0 0 1 1 1c0 .55-.45 1-1 1-.53-.02-1.03-.22-1.43-.56-.48.31-1.03.5-1.6.56-.57.05-1.04-.35-1.07-.9a.97.97 0 0 1 .88-1.1c.16-.02.94-.14.94-.77 0-.66.25-1.29.68-1.79-.92-.25-1.91.08-2.91 1.29C6.75 5 6 5.25 5.45 7.2 4.5 7.67 4 8 3.78 9c1.08-.22 2.19-.13 3.22.25.5.19.78.75.59 1.29-.19.52-.77.78-1.29.59-.73-.32-1.55-.34-2.3-.06-.32.27-.32.83-.32 1.27 0 .74.37 1.43 1 1.83.53.27 1.12.41 1.71.4q-.225-.39-.39-.81a1.038 1.038 0 0 1 1.96-.68c.4 1.14 1.42 1.92 2.62 2.05 1.37-.07 2.59-.88 3.19-2.13.23-1.38 1.34-1.5 2.56-1.5m2 7.47-.62-1.3-.71.16 1 1.25zm-4.65-8.61a1 1 0 0 0-.91-1.03c-.71-.04-1.4.2-1.93.67-.57.58-.87 1.38-.84 2.19a1 1 0 0 0 1 1c.57 0 1-.45 1-1 0-.27.07-.54.23-.76.12-.1.27-.15.43-.15.55.03 1.02-.38 1.02-.92"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            AI-native Systems Research
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              The Scientific Method on Code: How a Hypothesis-Driven AI Learned What Evolution Couldn't
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+        <form class="md-header__option" data-md-component="palette">
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="(prefers-color-scheme: light)" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="indigo"  aria-label="Switch to dark mode"  type="radio" name="__palette" id="__palette_0">
+    
+      <label class="md-header__button md-icon" title="Switch to dark mode" for="__palette_1" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a4 4 0 0 0-4 4 4 4 0 0 0 4 4 4 4 0 0 0 4-4 4 4 0 0 0-4-4m0 10a6 6 0 0 1-6-6 6 6 0 0 1 6-6 6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12z"/></svg>
+      </label>
+    
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="(prefers-color-scheme: dark)" data-md-color-scheme="slate" data-md-color-primary="indigo" data-md-color-accent="indigo"  aria-label="Switch to light mode"  type="radio" name="__palette" id="__palette_1">
+    
+      <label class="md-header__button md-icon" title="Switch to light mode" for="__palette_0" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 18c-.89 0-1.74-.2-2.5-.55C11.56 16.5 13 14.42 13 12s-1.44-4.5-3.5-5.45C10.26 6.2 11.11 6 12 6a6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12z"/></svg>
+      </label>
+    
+  
+</form>
+      
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+        <div class="md-search__suggest" data-md-component="search-suggest"></div>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      
+    
+    
+      <div class="md-header__source">
+        <a href="https://github.com/AI-native-Systems-Research/ai-native-systems-research" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M439.6 236.1 244 40.5c-5.4-5.5-12.8-8.5-20.4-8.5s-15 3-20.4 8.4L162.5 81l51.5 51.5c27.1-9.1 52.7 16.8 43.4 43.7l49.7 49.7c34.2-11.8 61.2 31 35.5 56.7-26.5 26.5-70.2-2.9-56-37.3L240.3 199v121.9c25.3 12.5 22.3 41.8 9.1 55-6.4 6.4-15.2 10.1-24.3 10.1s-17.8-3.6-24.3-10.1c-17.6-17.6-11.1-46.9 11.2-56v-123c-20.8-8.5-24.6-30.7-18.6-45L142.6 101 8.5 235.1C3 240.6 0 247.9 0 255.5s3 15 8.5 20.4l195.6 195.7c5.4 5.4 12.7 8.4 20.4 8.4s15-3 20.4-8.4l194.7-194.7c5.4-5.4 8.4-12.8 8.4-20.4s-3-15-8.4-20.4"/></svg>
+  </div>
+  <div class="md-source__repository">
+    AI-native-Systems-Research/ai-native-systems-research
+  </div>
+</a>
+      </div>
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+            
+<nav class="md-tabs" aria-label="Tabs" data-md-component="tabs">
+  <div class="md-grid">
+    <ul class="md-tabs__list">
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../../../../.." class="md-tabs__link">
+        
+  
+  
+    
+  
+  Home
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../../../../technical-domains/" class="md-tabs__link">
+          
+  
+  
+    
+  
+  Technical Domains
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+    
+  
+  
+    
+    
+      <li class="md-tabs__item md-tabs__item--active">
+        <a href="../../../../" class="md-tabs__link">
+          
+  
+  
+    
+  
+  Blog
+
+        </a>
+      </li>
+    
+  
+
+      
+    </ul>
+  </div>
+</nav>
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+                
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" hidden>
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+  
+
+
+<nav class="md-nav md-nav--primary md-nav--lifted" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../../../../.." title="AI-native Systems Research" class="md-nav__button md-logo" aria-label="AI-native Systems Research" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M21.33 12.91c.09 1.55-.62 3.04-1.89 3.95l.77 1.49c.23.45.26.98.06 1.45-.19.47-.58.84-1.06 1l-.79.25a1.687 1.687 0 0 1-1.86-.55L14.44 18c-.89-.15-1.73-.53-2.44-1.1-.5.15-1 .23-1.5.23-.88 0-1.76-.27-2.5-.79-.53.16-1.07.23-1.62.22-.79.01-1.57-.15-2.3-.45a4.1 4.1 0 0 1-2.43-3.61c-.08-.72.04-1.45.35-2.11-.29-.75-.32-1.57-.07-2.33C2.3 7.11 3 6.32 3.87 5.82c.58-1.69 2.21-2.82 4-2.7 1.6-1.5 4.05-1.66 5.83-.37.42-.11.86-.17 1.3-.17 1.36-.03 2.65.57 3.5 1.64 2.04.53 3.5 2.35 3.58 4.47.05 1.11-.25 2.2-.86 3.13.07.36.11.72.11 1.09m-5-1.41c.57.07 1.02.5 1.02 1.07a1 1 0 0 1-1 1h-.63c-.32.9-.88 1.69-1.62 2.29.25.09.51.14.77.21 5.13-.07 4.53-3.2 4.53-3.25a2.59 2.59 0 0 0-2.69-2.49 1 1 0 0 1-1-1 1 1 0 0 1 1-1c1.23.03 2.41.49 3.33 1.3.05-.29.08-.59.08-.89-.06-1.24-.62-2.32-2.87-2.53-1.25-2.96-4.4-1.32-4.4-.4-.03.23.21.72.25.75a1 1 0 0 1 1 1c0 .55-.45 1-1 1-.53-.02-1.03-.22-1.43-.56-.48.31-1.03.5-1.6.56-.57.05-1.04-.35-1.07-.9a.97.97 0 0 1 .88-1.1c.16-.02.94-.14.94-.77 0-.66.25-1.29.68-1.79-.92-.25-1.91.08-2.91 1.29C6.75 5 6 5.25 5.45 7.2 4.5 7.67 4 8 3.78 9c1.08-.22 2.19-.13 3.22.25.5.19.78.75.59 1.29-.19.52-.77.78-1.29.59-.73-.32-1.55-.34-2.3-.06-.32.27-.32.83-.32 1.27 0 .74.37 1.43 1 1.83.53.27 1.12.41 1.71.4q-.225-.39-.39-.81a1.038 1.038 0 0 1 1.96-.68c.4 1.14 1.42 1.92 2.62 2.05 1.37-.07 2.59-.88 3.19-2.13.23-1.38 1.34-1.5 2.56-1.5m2 7.47-.62-1.3-.71.16 1 1.25zm-4.65-8.61a1 1 0 0 0-.91-1.03c-.71-.04-1.4.2-1.93.67-.57.58-.87 1.38-.84 2.19a1 1 0 0 0 1 1c.57 0 1-.45 1-1 0-.27.07-.54.23-.76.12-.1.27-.15.43-.15.55.03 1.02-.38 1.02-.92"/></svg>
+
+    </a>
+    AI-native Systems Research
+  </label>
+  
+    <div class="md-nav__source">
+      <a href="https://github.com/AI-native-Systems-Research/ai-native-systems-research" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M439.6 236.1 244 40.5c-5.4-5.5-12.8-8.5-20.4-8.5s-15 3-20.4 8.4L162.5 81l51.5 51.5c27.1-9.1 52.7 16.8 43.4 43.7l49.7 49.7c34.2-11.8 61.2 31 35.5 56.7-26.5 26.5-70.2-2.9-56-37.3L240.3 199v121.9c25.3 12.5 22.3 41.8 9.1 55-6.4 6.4-15.2 10.1-24.3 10.1s-17.8-3.6-24.3-10.1c-17.6-17.6-11.1-46.9 11.2-56v-123c-20.8-8.5-24.6-30.7-18.6-45L142.6 101 8.5 235.1C3 240.6 0 247.9 0 255.5s3 15 8.5 20.4l195.6 195.7c5.4 5.4 12.7 8.4 20.4 8.4s15-3 20.4-8.4l194.7-194.7c5.4-5.4 8.4-12.8 8.4-20.4s-3-15-8.4-20.4"/></svg>
+  </div>
+  <div class="md-source__repository">
+    AI-native-Systems-Research/ai-native-systems-research
+  </div>
+</a>
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../.." class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Home
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_2" >
+        
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../../../../../technical-domains/" class="md-nav__link ">
+              
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Technical Domains
+  
+
+    
+  </span>
+  
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_2" id="__nav_2_label" tabindex="0">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Technical Domains
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../../technical-domains/llm-d/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    llm-d: Inference Platform
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../../technical-domains/ai-kernels/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    AI-Generated Kernels
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../../technical-domains/storage-systems/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Storage Systems
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+        
+        
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3" checked>
+        
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../../../../" class="md-nav__link ">
+              
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Blog
+  
+
+    
+  </span>
+  
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_3" id="__nav_3_label" tabindex="">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_3">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Blog
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+      
+    
+    
+    
+      
+      
+        
+          
+          
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_3_2" >
+        
+          
+          <label class="md-nav__link" for="__nav_3_2" id="__nav_3_2_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Archive
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_3_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3_2">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Archive
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+    
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../archive/2026/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    2026
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+        
+          
+          
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_3_3" >
+        
+          
+          <label class="md-nav__link" for="__nav_3_3" id="__nav_3_3_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Categories
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_3_3_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3_3">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Categories
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+    
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../category/blis/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    BLIS
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../category/deep-dives/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Deep Dives
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../category/storage-systems/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Storage Systems
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../category/vision/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Vision
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../category/llm-d/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    llm-d
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+                
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#a-quick-recap-graph-coloring-and-why-its-hard" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        A Quick Recap: Graph Coloring and Why It's Hard
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#a-different-philosophy-the-scientific-method-on-code" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        A Different Philosophy: The Scientific Method on Code
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#the-campaign-four-iterations-of-structured-discovery" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        The Campaign: Four Iterations of Structured Discovery
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="The Campaign: Four Iterations of Structured Discovery">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#iteration-1-does-vertex-ordering-matter" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Iteration 1: Does Vertex Ordering Matter?
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#iteration-2-build-color-classes-not-just-pick-vertices" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Iteration 2: Build Color Classes, Not Just Pick Vertices
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Iteration 2: Build Color Classes, Not Just Pick Vertices">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#understanding-independent-sets" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Understanding Independent Sets
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#how-rlf-builds-a-color-class" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        How RLF Builds a Color Class
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#iteration-3-what-if-randomness-is-the-key" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Iteration 3: What If Randomness Is the Key?
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#iteration-4-stop-building-start-repairing" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Iteration 4: Stop Building — Start Repairing
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#what-the-framework-actually-learned" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        What the Framework Actually Learned
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#the-honest-comparison-nous-vs-openevolve" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        The Honest Comparison: Nous vs. OpenEvolve
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#conclusions-what-this-tells-us-and-what-it-doesnt" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Conclusions: What This Tells Us — and What It Doesn't
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Conclusions: What This Tells Us — and What It Doesn&#39;t">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#what-worked" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        What worked
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#the-two-big-limitations-and-why-they-might-be-features" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        The two big limitations — and why they might be features
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#whats-next" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        What's next
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#try-it-yourself" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Try It Yourself
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+  <div class="md-content md-content--post" data-md-component="content">
+    <div class="md-sidebar md-sidebar--post" data-md-component="sidebar" data-md-type="navigation">
+      <div class="md-sidebar__scrollwrap">
+        <div class="md-sidebar__inner md-post">
+          <nav class="md-nav md-nav--primary">
+            <div class="md-post__back">
+              <div class="md-nav__title md-nav__container">
+                <a href="../../../../" class="md-nav__link">
+                  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+                  <span class="md-ellipsis">
+                    Back to index
+                  </span>
+                </a>
+              </div>
+            </div>
+            
+              <div class="md-post__authors md-typeset">
+                
+                  <div class="md-profile md-post__profile">
+                    <span class="md-author md-author--long">
+                      <img src="https://github.com/eilamt.png" alt="Tamar Eilam">
+                    </span>
+                    <span class="md-profile__description">
+                      <strong>
+                        
+                          Tamar Eilam
+                        
+                      </strong>
+                      <br>
+                      IBM Fellow
+                    </span>
+                  </div>
+                
+              </div>
+            
+            <ul class="md-post__meta md-nav__list">
+              <li class="md-nav__item md-nav__item--section">
+                <div class="md-post__title">
+                  <span class="md-ellipsis">
+                    Metadata
+                  </span>
+                </div>
+                <nav class="md-nav">
+                  <ul class="md-nav__list">
+                    <li class="md-nav__item">
+                      <div class="md-nav__link">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 19H5V8h14m-3-7v2H8V1H6v2H5c-1.11 0-2 .89-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V5a2 2 0 0 0-2-2h-1V1m-1 11h-5v5h5z"/></svg>
+                        <time datetime="2026-06-24 00:00:00+00:00" class="md-ellipsis">June 24, 2026</time>
+                      </div>
+                    </li>
+                    
+                    
+                      <li class="md-nav__item">
+                        <div class="md-nav__link">
+                          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9 3v15h3V3zm3 2 4 13 3-1-4-13zM5 5v13h3V5zM3 19v2h18v-2z"/></svg>
+                          <span class="md-ellipsis">
+                            in
+                            
+                              <a href="../../../../category/deep-dives/">Deep Dives</a>, 
+                              <a href="../../../../category/vision/">Vision</a></span>
+                        </div>
+                      </li>
+                    
+                    
+                      
+                      <li class="md-nav__item">
+                        <div class="md-nav__link">
+                          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 20a8 8 0 0 0 8-8 8 8 0 0 0-8-8 8 8 0 0 0-8 8 8 8 0 0 0 8 8m0-18a10 10 0 0 1 10 10 10 10 0 0 1-10 10C6.47 22 2 17.5 2 12A10 10 0 0 1 12 2m.5 5v5.25l4.5 2.67-.75 1.23L11 13V7z"/></svg>
+                          <span class="md-ellipsis">
+                            
+                              19 min read
+                            
+                          </span>
+                        </div>
+                      </li>
+                    
+                  </ul>
+                </nav>
+              </li>
+            </ul>
+            
+          </nav>
+          
+        </div>
+      </div>
+    </div>
+    <article class="md-content__inner md-typeset">
+      
+        
+  
+
+
+
+  
+  
+
+
+<h1 id="the-scientific-method-on-code-how-a-hypothesis-driven-ai-learned-what-evolution-couldnt">The Scientific Method on Code: How a Hypothesis-Driven AI Learned What Evolution Couldn't<a class="headerlink" href="#the-scientific-method-on-code-how-a-hypothesis-driven-ai-learned-what-evolution-couldnt" title="Permanent link">&para;</a></h1>
+<p><em>Part 2 of a series on AI-driven algorithm discovery. <a href="https://medium.com/@tamareilam/can-ai-reinvent-algorithms-i-spent-my-api-budget-finding-out-403fbae2850a">Part 1 is here.</a></em></p>
+<p>The first post ended on a cliffhanger.</p>
+<p>I had spent weeks running an evolutionary AI framework — OpenEvolve — against a classic graph theory problem, watching it rediscover a 1979 algorithm called DSatur and then spin its wheels. It kept proposing variations on the same idea. It couldn't reason about why things worked or didn't. When I explicitly asked it to implement Kempe chains — an elegant post-processing technique — it produced buggy code that never ran a single useful operation.</p>
+<p>The root cause, I argued, was structural: mutation-based evolution finds better code without understanding it. There's no mechanism to ask <em>why</em> something works, no way to rule out dead ends, no compounding of knowledge across iterations. The AI was playing a slot machine, not doing science.</p>
+<p>So I decided to try the other philosophy. Instead of evolution, I used a framework built around the scientific method: the <a href="https://github.com/AI-native-Systems-Research/agentic-strategy-evolution">Nous open-source project</a>. Same benchmark. Same problem. Same starting algorithm. Completely different approach.</p>
+<p>What followed was one of the more instructive experiments I've run — not because the AI succeeded spectacularly, but because of what the structure of failure and success revealed about where this technology actually is.</p>
+<!-- more -->
+
+<hr />
+<h2 id="a-quick-recap-graph-coloring-and-why-its-hard">A Quick Recap: Graph Coloring and Why It's Hard<a class="headerlink" href="#a-quick-recap-graph-coloring-and-why-its-hard" title="Permanent link">&para;</a></h2>
+<p>Graph coloring is deceptively simple to state: given a graph — a set of nodes connected by edges — assign a color to each node so that no two connected nodes share a color. Use as few colors as possible. The minimum number of colors required is called the <strong>chromatic number</strong>, written χ (chi).</p>
+<p>The problem is everywhere in disguise. Scheduling exams so no student has two at the same time? Graph coloring. Assigning radio frequencies so nearby towers don't interfere? Graph coloring. Allocating CPU registers in a compiler? Also graph coloring.</p>
+<p>The catch: finding the exact minimum is NP-hard. So in practice, we use heuristics — fast algorithms that find good-enough solutions without guaranteeing optimality. The benchmark I used in both experiments is a suite of 22 graphs in the standardized DIMACS format, each with a known chromatic number. A mix of classes chosen because they're <em>hard to color</em>: seven queen graphs, four Mycielski graphs, four "book" graphs built from character co-occurrence in novels, two distance graphs between US cities, a college-football schedule graph, three register-allocation graphs from real compilers, and one large Leighton scheduling graph. The score for each graph is a weighted combination of coloring quality (how close to χ) and speed.</p>
+<p>In Part 1, OpenEvolve rediscovered <strong>DSatur</strong> (Brélaz, 1979): instead of coloring vertices in arbitrary order, prioritize the vertex with the most differently-colored neighbors already assigned. OpenEvolve found it by iteration 2 and never moved past it. Combined score: 0.9384, up from the greedy baseline of 0.8934. Not bad. But stuck.</p>
+<p>The question I wanted to answer with Nous: <em>can a framework that forces explicit causal reasoning do better?</em></p>
+<hr />
+<h2 id="a-different-philosophy-the-scientific-method-on-code">A Different Philosophy: The Scientific Method on Code<a class="headerlink" href="#a-different-philosophy-the-scientific-method-on-code" title="Permanent link">&para;</a></h2>
+<p>The difference between OpenEvolve and Nous is not primarily technical. It's philosophical.</p>
+<p>OpenEvolve treats the LLM as a <strong>mutation operator</strong>. Give it the current best program. Ask it to make a change. Score the result. Keep the winners. Repeat. No hypothesis required. No explanation needed. Just fitness and selection.</p>
+<p>Nous treats the LLM as a <strong>scientist</strong>. Before running any experiment, the AI must commit to a falsifiable claim: <em>I predict this mechanism will produce this measurable effect, because of this causal explanation.</em> Then it runs the experiment. Then it extracts structured lessons — whether the hypothesis was confirmed or refuted. Those lessons constrain the next iteration. The system gets smarter over time, and crucially, it can't un-learn what it's already ruled out.</p>
+<p>Here's how a Nous campaign works in practice. Each iteration has two AI working phases — <strong>Design</strong> and <strong>Execute-and-Analyze</strong> — separated by two human approval gates, and it closes by committing what it learned to a persistent principles store:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a>DESIGN (Claude Opus)
+<a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a>  → Human Design Gate
+<a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a>    → EXECUTE &amp; ANALYZE (Claude Sonnet)
+<a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a>      → Human Findings Gate
+<a id="__codelineno-0-5" name="__codelineno-0-5" href="#__codelineno-0-5"></a>        → EXTRACT PRINCIPLES → persistent store
+<a id="__codelineno-0-6" name="__codelineno-0-6" href="#__codelineno-0-6"></a>          → next iteration
+</code></pre></div>
+<p>The central object is the <strong>hypothesis bundle</strong>. Rather than testing one idea, each iteration tests a <em>family</em> of related questions simultaneously, across five arms:</p>
+<ul>
+<li><strong>h-main</strong> — <em>Does this mechanism work, and why?</em> The primary hypothesis, stated with a causal explanation.</li>
+<li><strong>h-ablation</strong> — <em>Which component is load-bearing?</em> Remove one piece and show what's essential.</li>
+<li><strong>h-super-additivity</strong> — <em>Do the pieces compound?</em> Test whether the whole exceeds the sum of its parts.</li>
+<li><strong>h-control-negative</strong> — <em>Where should it not work?</em> A negative control that confirms causality rather than coincidence.</li>
+<li><strong>h-robustness</strong> — <em>Does it generalize?</em> Vary a parameter and test sensitivity.</li>
+</ul>
+<p>This structure transforms the question from <em>"did the score go up?"</em> to <em>"do we understand why the score went up?"</em> — and crucially, <em>"what exactly can we rule out?"</em></p>
+<p>Two AI agents do the work. The <strong>Planner</strong> (Opus) explores the codebase, reads the accumulated principles from prior iterations, and produces the hypothesis bundle. The <strong>Executor</strong> (Sonnet) implements all arms, runs experiments in an isolated git worktree, compares observed metrics against predictions, and proposes new principles. The human gates are hard stops. Once the findings gate is approved, the iteration's principles are committed to the store.</p>
+<p>Knowledge accumulates in that living principles store. Each confirmed mechanism becomes a constraint on the next design. The Planner cannot propose a bundle that contradicts an established principle without explicit justification. By Iteration 4, the system had 17 active principles — a growing map of what works, what doesn't, and why.</p>
+<p>The campaign ran for four iterations in May 2026, using Claude Opus 4.5 for design and Claude Sonnet for execution. Total spend: $17.21 across ten model calls — $11.85 on the six Opus design calls, $5.37 on the four Sonnet execute-and-analyze calls.</p>
+<hr />
+<h2 id="the-campaign-four-iterations-of-structured-discovery">The Campaign: Four Iterations of Structured Discovery<a class="headerlink" href="#the-campaign-four-iterations-of-structured-discovery" title="Permanent link">&para;</a></h2>
+<h3 id="iteration-1-does-vertex-ordering-matter">Iteration 1: Does Vertex Ordering Matter?<a class="headerlink" href="#iteration-1-does-vertex-ordering-matter" title="Permanent link">&para;</a></h3>
+<p><strong>Starting score: 0.8934 → Ending score: 0.9384 (+0.0450)</strong></p>
+<p>The greedy baseline processes vertices in their original order and assigns the smallest available color to each. It's fast and simple and, as the campaign would confirm, actively harmful on some graphs. The DIMACS natural vertex ordering turns out to be mildly adversarial.</p>
+<p>The first research question: <em>does the order in which we color vertices matter, and if so, what makes an ordering good?</em></p>
+<p>The answer was unambiguous. DSatur — discovered independently here, as in the OpenEvolve experiment — improved the combined score by +0.0450. But what made this iteration genuinely informative wasn't the score. It was the causal dissection the arms provided.</p>
+<p>The <strong>h-ablation</strong> arm tested Largest-First ordering: sort vertices by degree before starting, then proceed greedily. It improved over baseline (+0.0171) but fell well short of DSatur (+0.0450). This isolated a specific mechanism: it's not that <em>any</em> informed ordering helps — it's that <em>dynamic</em> constraint tracking during coloring is what matters. Knowing a vertex has many neighbors (degree) is useful. Knowing how many <em>different colors</em> its neighbors already have (saturation) is more useful, because that's a direct measure of how constrained your choices will be.</p>
+<p>The <strong>h-control-negative</strong> arm tested random ordering. This produced a surprising finding: random ordering also improved over baseline (+0.0166), nearly matching the Largest-First improvement. The DIMACS files' natural vertex ordering is so adversarial that even shuffling randomly helps. This fact — that roughly 37% of DSatur's total gain comes simply from <em>not</em> using the original order, with 63% attributable to the saturation signal itself — became a precise, quantified principle.</p>
+<p>One anomaly worth noting: DSatur actually <em>regressed</em> on queen7_7, using 11 colors instead of the baseline's 10. On this particular 7×7 chessboard graph, all vertices have nearly equal saturation degree and overall degree, so DSatur's tiebreaking degenerates to vertex index — restoring an adversarial order. The framework flagged this as a principle: vertex-transitive graphs are specifically resistant to saturation-based heuristics.</p>
+<p><strong>Key principles extracted:</strong> Vertex ordering is load-bearing. Dynamic saturation tracking is the mechanism, not just degree. The DIMACS natural order is mildly adversarial. le450_15c — the hardest graph in the suite — improved from 30 to 23 colors but remains far from χ=15: it requires something fundamentally different.</p>
+<div class="admonition note">
+<p class="admonition-title">A word on le450_15c, the campaign's stubborn case</p>
+<p>This is a Leighton graph: 450 vertices, ~16,680 edges, average degree ~74. Leighton graphs have a useful property — the chromatic number is known by construction. The generator plants a clique of size k, so χ is guaranteed to be exactly k — here, 15. The naming encodes this: le450_15c is a 450-vertex graph with χ=15.</p>
+<p>The honest part: le450_15c isn't actually unbeatable — specialized graph-coloring solvers reach 15 or 16 on it without enormous effort. Our RLF-based pipeline, by contrast, plateaued at 23 for three iterations and only reached 22 once TabuCol arrived. That persistent 7-color gap is the clearest single illustration of the difference between a general construction-and-tuning approach and a solver specialized for this problem.</p>
+</div>
+<hr />
+<h3 id="iteration-2-build-color-classes-not-just-pick-vertices">Iteration 2: Build Color Classes, Not Just Pick Vertices<a class="headerlink" href="#iteration-2-build-color-classes-not-just-pick-vertices" title="Permanent link">&para;</a></h3>
+<p><strong>Starting score: 0.9556 (multi-start RLF discovered as best arm) → h-main: 0.9540 (+0.0156 over DSatur)</strong></p>
+<div class="admonition info">
+<p class="admonition-title">A note on baselines</p>
+<p>Throughout this campaign, the h-main result sets the official score for each iteration. But sometimes an arm discovers something better. In Iteration 2, the robustness arm found multi-start RLF at 0.9556, which became the baseline for Iteration 3. This is the hypothesis bundle working as intended: structured exploration surfacing unexpected wins.</p>
+</div>
+<p>DSatur works at the level of individual vertices — it always asks "which single vertex should I color next?" Iteration 2's research question was more ambitious: <em>what if instead of picking vertices one at a time, we build entire groups of non-conflicting vertices at once?</em></p>
+<p>It's worth being clear about where that question came from: <strong>the AI proposed it, not me.</strong> I never suggested RLF, or independent sets, or any specific algorithm. The Planner explored the codebase, read its own Iteration 1 principles, and decided on its own that the next thing worth testing was a shift from vertex-level to color-class-level construction. My only role at the design gate was to approve or reject — and I approved.</p>
+<p>This is the idea behind <strong>Recursive Largest First (RLF)</strong>, an algorithm from Frank Leighton in 1979.</p>
+<h4 id="understanding-independent-sets">Understanding Independent Sets<a class="headerlink" href="#understanding-independent-sets" title="Permanent link">&para;</a></h4>
+<p>An independent set is a group of vertices in a graph that have no edges between them. If you can find an independent set, you can color all its members with the same color: no two of them are adjacent, so there's no conflict.</p>
+<p>Graph coloring is, at its core, a problem of partitioning vertices into independent sets. Each color class <em>is</em> an independent set. The fewer independent sets you need to cover all vertices, the fewer colors you use.</p>
+<h4 id="how-rlf-builds-a-color-class">How RLF Builds a Color Class<a class="headerlink" href="#how-rlf-builds-a-color-class" title="Permanent link">&para;</a></h4>
+<p>RLF builds one color class at a time. It starts the class with a seed vertex (the highest-degree uncolored vertex), and immediately marks all the seed's neighbors as <strong>blocked</strong> — they can't join this class. Then it grows the class using the <strong>block-counting rule</strong>:</p>
+<blockquote>
+<p>Among all the vertices still eligible to join the current class, choose the one with the <strong>most neighbors already in the blocked set</strong>.</p>
+</blockquote>
+<p>The intuition: when you pick a vertex whose neighbors are mostly <em>already</em> blocked, adding it to the class costs very little — most of the vertices it would have excluded were excluded anyway. You're picking the vertex whose "damage" is already sunk. Greedily preferring these vertices packs each color class as densely as possible, which means fewer classes — fewer colors — overall.</p>
+<hr />
+<p>🎨 <strong><a href="https://eilamt.github.io/graph-coloring/rlf_animation.html">Watch the RLF animation: building color classes step by step →</a></strong></p>
+<p><em>(Step through it with Next, or hit Auto. Watch the blocked set grow in red as each vertex joins the current class, and watch the block counts — neighbors already blocked — drive each choice.)</em></p>
+<hr />
+<p>The ablation arm tested RLF <em>without</em> block-counting — replacing it with a simple degree heuristic. The result was striking: not only did it fail to match RLF, it actually scored <em>below</em> DSatur (0.9249 vs 0.9384). Building independent sets is only better than DSatur when you're building them <em>correctly</em>. The block-counting rule isn't an optimization — it's the entire mechanism.</p>
+<p>The super-additivity arm tested a DSatur+RLF ensemble: run both and keep whichever uses fewer colors. Result: identical to RLF alone on all 22 graphs. RLF uniformly dominated DSatur — not on most graphs, on <em>every single one</em>. DSatur was retired.</p>
+<p><strong>Key principles extracted:</strong> Block-counting is the load-bearing mechanism of RLF, not the independent-set framing itself. RLF uniformly dominates DSatur. le450_15c remains at 23 — resistant to everything.</p>
+<hr />
+<h3 id="iteration-3-what-if-randomness-is-the-key">Iteration 3: What If Randomness Is the Key?<a class="headerlink" href="#iteration-3-what-if-randomness-is-the-key" title="Permanent link">&para;</a></h3>
+<p><strong>Starting score: 0.9556 → Ending score: 0.9615 (+0.0059)</strong></p>
+<p>RLF is deterministic. Given the same graph, it always produces the same coloring. The research question: <em>what if we run RLF multiple times with different starting conditions and keep the best result?</em></p>
+<p>The mechanism is called <strong>multi-start RLF with IS-randomization</strong>. Two sources of randomness are introduced:</p>
+<ol>
+<li><strong>Seed diversity</strong>: each run starts from a different first vertex when building the first independent set</li>
+<li><strong>IS-randomization</strong>: within each run, when two vertices are tied for the block-count criterion, choose randomly rather than by index</li>
+</ol>
+<p>The ablation arm isolated the two mechanisms cleanly. Seed diversity alone improved queen11_11 from 14 to 13 colors but couldn't improve queen6_6. The full combination found queen6_6=7 (its chromatic number) while the seed-only ablation could not, so the difference is attributable to IS-randomization. The two mechanisms attack <em>different</em> graphs — seed diversity helps larger structured queens, IS-randomization helps smaller symmetric ones. Both are needed.</p>
+<p>The robustness arm produced the most instructive result: a refutation. The hypothesis predicted that uniform K=4 across all graphs would capture most of the gain. It captured <em>none</em>. The combined score was 0.9556 — identical to the Iteration 2 baseline. The gain from multi-start RLF isn't gradual. It's discontinuous: you need at least K=6 for small graphs (n≤130), and anything less is equivalent to K=3 deterministic. This kind of sharp threshold would be invisible to a mutation-based approach.</p>
+<p>And then the Kempe chains question, carried over from Part 1. The Executor implemented a Kempe-chain elimination pass on top of multi-start RLF, and this time the implementation was <em>correct</em>: the component search walks the two-color subgraph properly and the swaps preserve a valid coloring.</p>
+<p>The result: <strong>zero reductions on all 22 graphs.</strong> But I want to be careful about what that does and doesn't establish. The variant that ran was a <em>restricted</em> form — it only ever tried to eliminate the single <em>smallest</em> color class; it skipped the attempt if that class held more than n/4 of the vertices; it required a <em>single</em> alternative color to absorb the entire class in one sweep; and it stopped at the first pass that failed.</p>
+<p>So the honest conclusion is narrower than "Kempe chains never help." It's: <em>this restricted Kempe variant finds no improvement on multi-start RLF colorings across this benchmark.</em> The principle the system recorded (RP-13) is a good illustration of why the <code>applicability-bounds</code> field in principles.json matters:</p>
+<blockquote>
+<p><strong>RP-13</strong> <em>(domain principle, confidence: high)</em></p>
+<p><strong>Statement:</strong> "Kempe-chain post-processing on multi-start RLF (adaptive K=6/4/3) yields zero improvement on all 22 DIMACS benchmarks. Multi-start RLF color classes are already Kempe-stable: no Kempe-chain swap can eliminate any color class from the resulting coloring."</p>
+<p><strong>Regime:</strong> "22 DIMACS benchmark graphs, adaptive K multi-start RLF as initial coloring"</p>
+<p><strong>Applicability bounds:</strong> explicitly does <em>not</em> rule out (a) Kempe on DSatur output, (b) Kempe in a more complex local search — "iterated Kempe chains targeting pairs of classes, not just the smallest" — or (c) TabuCol / simulated annealing.</p>
+</blockquote>
+<p><strong>Key principles extracted:</strong> IS-randomization and seed diversity are complementary mechanisms targeting different graph structures <em>in this suite</em>. The K-schedule gain is discontinuous — K=6 is a threshold for these graph sizes and this budget. The restricted Kempe variant yields no improvement after multi-start RLF. le450_15c confirmed resistant to all greedy and multi-start methods across three iterations.</p>
+<hr />
+<h3 id="iteration-4-stop-building-start-repairing">Iteration 4: Stop Building — Start Repairing<a class="headerlink" href="#iteration-4-stop-building-start-repairing" title="Permanent link">&para;</a></h3>
+<p><strong>Starting score: 0.9615 → Ending score: 0.9690 (+0.0075)</strong></p>
+<p>The first three iterations all worked the same way: find a better algorithm for building a valid coloring from scratch. All of these are <strong>construction heuristics</strong>.</p>
+<p>The principles accumulated over three iterations pointed at a ceiling. The fourth research question made a conceptual jump: <em>what if we stop building and start repairing?</em></p>
+<p>This pivot is the single most interesting decision in the campaign, and again, <strong>the AI made it — not me.</strong> Reading its own accumulated principles, the Planner concluded that construction heuristics had been exhausted and that the next move had to be a different <em>class</em> of algorithm entirely. It proposed switching from building colorings to repairing them. No human suggested local search; the framework reasoned its way there from what it had ruled out.</p>
+<p>The algorithm is <strong>TabuCol</strong> (Hertz &amp; de Werra, 1987). The idea is different in kind from anything tried before:</p>
+<ol>
+<li>Start with a valid k-coloring from multi-start RLF</li>
+<li>Forcibly try to squeeze it into k−1 colors: remap some vertices to a reduced color palette, deliberately introducing conflicts</li>
+<li>Iteratively repair: at each step, find the move — vertex v to color c — that most reduces the total conflict count</li>
+<li>Keep a <strong>tabu list</strong>: recently moved vertices are temporarily forbidden from moving back to their old color, preventing the search from cycling</li>
+<li>If conflicts reach zero, you have a valid (k−1)-coloring. Try k−2. Repeat until time runs out.</li>
+</ol>
+<p>TabuCol doesn't require a move to be beneficial. It will <em>increase</em> conflicts if that's the best available option. This is what allows it to escape local minima — temporarily making things worse to reach a region of the search space that opens up further improvement.</p>
+<p>The main hypothesis was confirmed: combined score 0.9659, with le450_15c finally cracking from 23 to 22 colors. After three iterations of stubborn resistance, the first crack in le450_15c's armor — and it required a completely different mechanism class to produce it.</p>
+<p>But the most interesting result came from the robustness arm. The classical recommendation for TabuCol's tabu tenure parameter is 7–15 (Hertz &amp; de Werra's own suggestion). The h-main arm used tenure=7; the robustness arm varied it to tenure=11. Result: <strong>0.9690</strong>, the best score across any arm in any iteration. queen7_7 dropped from 9 to 8 colors — an improvement the main arm couldn't achieve. Tenure=11 became the campaign's best result.</p>
+<p><strong>Key principles extracted:</strong> TabuCol operates in conflict-repair space, sidestepping the construction ceiling. The tabu memory mechanism is load-bearing — random walk without tabu is no better than baseline. Tenure=11 is strictly better than tenure=7 for symmetric queen graphs. le450_15c cracks to 22 — reachable via local search, still far from χ=15.</p>
+<hr />
+<h2 id="what-the-framework-actually-learned">What the Framework Actually Learned<a class="headerlink" href="#what-the-framework-actually-learned" title="Permanent link">&para;</a></h2>
+<p>The principles accumulated across four iterations form a causal chain, not just a list of facts:</p>
+<ul>
+<li><strong>RP-1/2 (Iter-1):</strong> Vertex ordering matters. Dynamic saturation tracking is the mechanism. → This tells us <em>what signal to track</em>.</li>
+<li><strong>RP-4 (Iter-1, confirmed across Iter-2 and 3):</strong> le450_15c is resistant to all ordering-based methods. → This rules out an entire approach family before it's tried.</li>
+<li><strong>RP-8 (Iter-2):</strong> Block-counting is the load-bearing component of RLF. → This tells us <em>why</em> RLF works, not just <em>that</em> it works.</li>
+<li><strong>RP-13 (Iter-3):</strong> A restricted Kempe-chain post-processing variant finds no improvement on RLF colorings across this benchmark. → This closes a direction of inquiry <em>for this benchmark and this variant</em>, with applicability bounds recorded.</li>
+<li><strong>RP-16/17 (Iter-4):</strong> TabuCol's tabu memory is load-bearing. Tenure=11 outperforms the classical tenure=7 on symmetric graphs. → These constrain the next investigation's starting point.</li>
+</ul>
+<p>Each principle is a constraint on the next design. The system gets narrower search space and sharper hypotheses with each iteration. The overall score progression:</p>
+<table>
+<thead>
+<tr>
+<th>Iteration</th>
+<th>Algorithm</th>
+<th>Combined Score</th>
+<th>Δ</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Baseline</td>
+<td>Naive greedy</td>
+<td><strong>0.8934</strong></td>
+<td>—</td>
+</tr>
+<tr>
+<td>1</td>
+<td>DSatur</td>
+<td><strong>0.9384</strong></td>
+<td>+0.0450</td>
+</tr>
+<tr>
+<td>2</td>
+<td>RLF (best arm: multi-start RLF)</td>
+<td><strong>0.9556</strong></td>
+<td>+0.0172</td>
+</tr>
+<tr>
+<td>3</td>
+<td>Multi-start RLF + IS-randomization</td>
+<td><strong>0.9615</strong></td>
+<td>+0.0059</td>
+</tr>
+<tr>
+<td>4</td>
+<td>RLF + TabuCol (tenure=11)</td>
+<td><strong>0.9690</strong></td>
+<td>+0.0075</td>
+</tr>
+</tbody>
+</table>
+<p><img alt="Score progression across four iterations" src="../../../../assets/score_progression_table.png" /></p>
+<p>The gains are diminishing — which is expected. The easy improvements come first. But crucially, each iteration represents a genuine change in the <em>kind</em> of algorithm being used, not just parameter tuning. DSatur → RLF is a shift in granularity (vertices → color classes). RLF → TabuCol is a shift in approach (construction → repair). These are paradigm changes, not refinements.</p>
+<hr />
+<h2 id="the-honest-comparison-nous-vs-openevolve">The Honest Comparison: Nous vs. OpenEvolve<a class="headerlink" href="#the-honest-comparison-nous-vs-openevolve" title="Permanent link">&para;</a></h2>
+<p><strong>Nous clearly produced better results.</strong> OpenEvolve stagnated at 0.9384 (DSatur). Nous reached 0.9690 — a gap of more than 0.03 combined score. Nous made three genuine paradigm shifts across four iterations. OpenEvolve made only one.</p>
+<p><strong>But the comparison has a confound, and it's a big one.</strong> The Nous campaign ran on Claude Opus 4.5 for design and Claude Sonnet for execution. The OpenEvolve experiments ran on a different, generally weaker backend: Gemini 2.0 Flash (free tier), with Claude Sonnet 4.5 as the optional alternative for some runs. No Opus model drove OpenEvolve at all. I can't cleanly separate the framework effect from the model effect.</p>
+<p>That said, the backend gap doesn't explain the <em>kind</em> of difference we saw. A stronger model produces better individual proposals, but it doesn't, on its own, create a mechanism for ruling out dead ends or for pivoting from construction to repair after three iterations of accumulated principles. Those came from the structure, not the model.</p>
+<p><strong>What the framework difference explains, regardless of model:</strong> OpenEvolve had no mechanism to rule out dead ends. It kept proposing post-optimization recoloring passes that achieved zero recolorings — in experiment after experiment. Nous ruled out its Kempe variant in a single arm (RP-13) and carried that principle into every subsequent iteration. No equivalent of RP-13 is possible in a mutation-based system, because there's nowhere to store "we checked this; it doesn't help here."</p>
+<p>OpenEvolve also couldn't make the construction-to-repair conceptual jump. Every proposal was a variation on the greedy construction paradigm. Nous's fourth iteration crossed that boundary not because a mutation happened to produce TabuCol, but because the principle accumulation had explicitly eliminated the construction approach as a path to further improvement, forcing the designer to consider a different mechanism class entirely.</p>
+<p>The deepest difference: <strong>OpenEvolve blindly finds better scores. Nous builds a model of the problem.</strong></p>
+<p>One more thing the logs make clear. The references in this post — Brélaz 1979, Leighton 1979, Hertz &amp; de Werra 1987 — didn't come from me. I never mentioned an algorithm by name. The Planner brought them itself: with web access enabled, it did its own literature search, named the canonical algorithms in its design documents, and decided which to try. So the human contribution here was almost nothing on the "what to try" axis. What the campaign genuinely <em>produced</em> wasn't the algorithms — those were known — it was the experimental determination of <em>which mechanisms actually matter on this workload and how to tune them</em>: block-counting is load-bearing, IS-randomization and seed diversity are complementary, tenure=11 beats the textbook default here.</p>
+<hr />
+<h2 id="conclusions-what-this-tells-us-and-what-it-doesnt">Conclusions: What This Tells Us — and What It Doesn't<a class="headerlink" href="#conclusions-what-this-tells-us-and-what-it-doesnt" title="Permanent link">&para;</a></h2>
+<h3 id="what-worked">What worked<a class="headerlink" href="#what-worked" title="Permanent link">&para;</a></h3>
+<p>The hypothesis bundle structure genuinely changed the quality of knowledge produced. Having five arms per iteration meant each iteration answered not just "did it improve?" but "which component caused the improvement?", "what does this compare against?", and "where does it break down?" The robustness arm in particular was productive beyond its primary purpose — it surfaced the tenure=11 finding that became the campaign's best result.</p>
+<p>The principle accumulation worked as designed. By Iteration 4, the Planner had a 17-principle map of the problem that ruled out entire families of approaches and focused the search on what remained genuinely open. This is the structural difference from mutation-based evolution: the system's search space <em>narrowed</em> with each iteration, rather than remaining the same size throughout.</p>
+<h3 id="the-two-big-limitations-and-why-they-might-be-features">The two big limitations — and why they might be features<a class="headerlink" href="#the-two-big-limitations-and-why-they-might-be-features" title="Permanent link">&para;</a></h3>
+<p><strong>Limitation 1: It overfit to 22 graphs.</strong> The principles got more benchmark-specific with each iteration. "IS-randomization helps small symmetric queens," "tenure=11 beats tenure=7 on the queen family," "K=6 is the threshold for n≤130" — these are precise statements about <em>these</em> 22 graphs, not about graph coloring in general. We have no evidence they transfer to random geometric graphs, register-allocation graphs from a compiler we didn't test, or anything outside the suite.</p>
+<p><strong>Limitation 2: It didn't discover anything new.</strong> Every algorithm it found — DSatur (1979), RLF (1979), TabuCol (1987) — is in the textbooks. The system independently rediscovered four decades of graph coloring research, which is genuinely impressive, but it raises a pointed question: is the model <em>reasoning</em>, or <em>pattern-matching</em> to algorithms it saw in training? The honest answer is we don't know. (Ironically, the OpenEvolve experiments in Part 1 got <em>closer</em> to novelty in one case — the impractical clique-based tie-breaking — precisely because blind mutation doesn't pattern-match to known algorithms.)</p>
+<p>Now the complication. <strong>For the field I actually care about — applied algorithms for computer systems — both of these "limitations" describe exactly what we want.</strong></p>
+<p>In systems research, we very rarely invent a new algorithm. What we do, almost all the time, is take known mechanisms — scheduling disciplines, cache-eviction policies, load-balancing strategies — and <em>select, combine, and tune</em> them for the specific characteristics of a particular environment and workload. The win comes from fitting the mechanism to the deployment, not from inventing a mechanism nobody has seen. And "fitting to the deployment" is <em>precisely</em> overfitting.</p>
+<p>Read through that lens, the two limitations invert:</p>
+<ul>
+<li>Overfitting to 22 graphs isn't a failure of generalization — it's the system doing exactly what an AI-Native System should do when handed a specific environment: discover and tune the mechanisms that work best <em>for that environment</em>.</li>
+<li>Not inventing a new algorithm isn't a poverty of imagination — it's good engineering judgment. Reaching for DSatur, then RLF, then TabuCol, and combining RLF→TabuCol with a tuned tenure, is what an expert would do: stand on the literature, compose known parts, and fine-tune.</li>
+</ul>
+<p>So whether these are bugs or features depends entirely on what you're asking the AI to do. If the goal is <em>algorithmic discovery</em> — extend human knowledge, find something genuinely new — they're real limitations. If the goal is <em>AI-Native Systems research</em> — autonomously find and tune the mechanisms that work best in a specific deployment — this is not a bug. It's the entire point.</p>
+<h3 id="whats-next">What's next<a class="headerlink" href="#whats-next" title="Permanent link">&para;</a></h3>
+<p>Two directions I want to pursue. The first is a proper head-to-head against <strong>Glia</strong>, the MIT framework for AI-driven systems design (later renamed Engram; paper at <a href="https://arxiv.org/abs/2510.27176">arxiv.org/abs/2510.27176</a>). Running both against the same systems problem, with the same backend model, would actually isolate what the hypothesis-bundle structure buys you.</p>
+<p>The second is the harder and more important one: can a hypothesis-driven approach produce a genuine <em>breakthrough</em> — a mechanism that isn't already in the literature — rather than expert-level rediscovery and tuning? Graph coloring was the wrong problem to answer that with, precisely because 40 years of excellent algorithms are sitting in the training data. The right test is a problem where the good answer <em>isn't</em> known, where pattern-matching has nothing to match. That's the experiment I want to run next.</p>
+<p>That's the question worth chasing. The framework knows how to rule things out, tune to an environment, and explain itself along the way. Whether it can invent — that we don't yet know.</p>
+<hr />
+<h2 id="try-it-yourself">Try It Yourself<a class="headerlink" href="#try-it-yourself" title="Permanent link">&para;</a></h2>
+<p>The complete Nous campaign — all four iterations, all hypothesis bundles, all findings, all accumulated principles — is preserved at:</p>
+<p>🔗 <a href="https://github.com/eilamt/graph-coloring/tree/main/.nous/graph-coloring-v1">github.com/eilamt/graph-coloring</a></p>
+<p>The Nous framework itself is open-source:</p>
+<p>🔗 <a href="https://github.com/AI-native-Systems-Research/agentic-strategy-evolution">github.com/AI-native-Systems-Research/agentic-strategy-evolution</a></p>
+<p>The OpenEvolve graph coloring example from Part 1 — evaluator, the 22 DIMACS benchmarks, and the archived evolution runs — lives in an open pull request:</p>
+<p>🔗 <a href="https://github.com/algorithmicsuperintelligence/openevolve/pull/396">github.com/algorithmicsuperintelligence/openevolve/pull/396</a></p>
+<hr />
+<p><em>The interactive RLF animation referenced in Iteration 2 is at <a href="https://eilamt.github.io/graph-coloring/rlf_animation.html">eilamt.github.io/graph-coloring/rlf_animation.html</a>. All benchmark data uses the standard DIMACS graph coloring instances.</em></p>
+
+
+
+
+
+
+
+  
+  
+
+
+
+  
+
+
+  
+
+
+
+      
+    </article>
+  </div>
+
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+          <button type="button" class="md-top md-icon" data-md-component="top" hidden>
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8z"/></svg>
+  Back to top
+</button>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+    
+      
+        
+      
+      <nav class="md-footer__inner md-grid" aria-label="Footer" >
+        
+          
+          <a href="../../17/certus-the-end-of-one-size-fits-all-storage/" class="md-footer__link md-footer__link--prev" aria-label="Previous: Certus: The End of One-Size-Fits-All Storage">
+            <div class="md-footer__button md-icon">
+              
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+            </div>
+            <div class="md-footer__title">
+              <span class="md-footer__direction">
+                Previous
+              </span>
+              <div class="md-ellipsis">
+                Certus: The End of One-Size-Fits-All Storage
+              </div>
+            </div>
+          </a>
+        
+        
+      </nav>
+    
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      
+      <script id="__config" type="application/json">{"annotate": null, "base": "../../../../..", "features": ["navigation.tabs", "navigation.indexes", "navigation.sections", "navigation.expand", "navigation.footer", "navigation.top", "search.highlight", "search.suggest", "content.code.copy", "toc.follow"], "search": "../../../../../assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": {"default": "latest", "provider": "mike"}}</script>
+    
+    
+  
+      <script src="../../../../../assets/javascripts/bundle.79ae519e.min.js"></script>
+      
+    
+  <div class="ga-notice" id="ga-notice" role="region" aria-label="Analytics notice">
+    <div class="ga-notice__inner">
+      <span class="ga-notice__text">
+        We use cookieless Google Analytics to count how many readers each post gets &mdash;
+        no cookies, no tracking across sites. Your page URL (without query parameters), browser,
+        and approximate location may be processed.
+        <a href="../../../../../privacy/">Read what's collected &rarr;</a>
+      </span>
+      <button class="ga-notice__btn" id="ga-notice-dismiss" type="button">Got it</button>
+    </div>
+  </div>
+  <script>
+    (function() {
+      var notice = document.getElementById('ga-notice');
+      var btn = document.getElementById('ga-notice-dismiss');
+      if (!notice || !btn) return;
+      try {
+        if (!localStorage.getItem('analytics-notice-dismissed')) {
+          notice.style.display = 'block';
+        }
+      } catch (e) { /* localStorage unavailable; just don't show */ }
+      btn.addEventListener('click', function() {
+        try { localStorage.setItem('analytics-notice-dismissed', '1'); } catch (e) {}
+        notice.style.display = 'none';
+      });
+    })();
+  </script>
+
+  </body>
+</html>
