@@ -156,7 +156,7 @@ vs. baseline (negative = improvement).
 
 The chart below covers all workloads and request rates, comparing the soft-reflective-ceiling-policy treatment to the default constant-ceiling baseline. Each QPS group shows three bars: TTFT p99 (dark blue), E2E p99 (light blue), and throughput (teal). Bars above zero indicate improvement; bars below zero indicate regression. The dashed vertical line in each panel marks where proportional gating begins.
 
-![Critical-class TTFT p99, E2E p99, and throughput vs baseline](../../assets/sim2real-flow-control-ttft.png)
+![Critical-class TTFT p99, E2E p99, and throughput vs baseline](../../assets/sim2real-flow-control-results.png)
 
 ### Reading the Results
 
