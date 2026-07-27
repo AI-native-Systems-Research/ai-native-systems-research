@@ -38,7 +38,7 @@ points in the pipeline and neither replaces the other.
 The concrete outcome is the **soft-reflective ceiling policy**: a new flow control plugin for
 llm-d-router that reduces critical-class TTFT p99 by up to 98% at near-capacity load without
 rejecting a single request. It is now merged into
-[llm-d-router](https://github.com/llm-d/llm-d-router), and users can enable it today with a
+[llm-d-router](https://github.com/llm-d/llm-d-router/tree/main/pkg/epp/framework/plugins/flowcontrol/usagelimits/softreflectiveceiling), and users can enable it today with a
 single YAML change.
 
 <!-- more -->
@@ -65,9 +65,9 @@ The same simulator used in Part 1, [BLIS](https://github.com/inference-sim/infer
 (a high-fidelity discrete-event simulator for distributed LLM inference systems), provides the
 economics that make agentic exploration viable. A single workload evaluation that takes 30
 minutes on real hardware completes in seconds using BLIS. Nous can evaluate many candidate
-policies across diverse workload conditions before a single GPU is reserved. (See
+policies across diverse workload conditions before a single GPU is reserved (see
 [Part 1](sim2real-probabilistic-admitter-llm-d.md) for a full treatment of the simulator and
-its role in the loop.)
+its role in the loop).
 
 ### The Discovery: Nous
 
