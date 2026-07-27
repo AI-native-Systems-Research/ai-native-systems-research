@@ -4,16 +4,16 @@ categories:
   - llm-d
   - Deep Dives
 authors:
-  - jgchn
-  - toslali-ibm
   - kalantar
+  - toslali-ibm
+  - jgchn
 description: >
   Part 2 of the sim2real series: simulation-driven discovery of the soft-reflective ceiling
   policy cuts critical-class TTFT by up to 98% at near-capacity load, without rejecting a
   single request.
 ---
 
-# From Simulation to Production: Soft-Reflective Flow Control for llm-d
+# From Simulation to Production Part II: Soft-Reflective Flow Control for llm-d
 
 *Part 2 of the sim2real series. A case study in closing the AI-native loop across a second
 problem class: dispatch prioritization.*
@@ -24,15 +24,15 @@ The [first article in this series](sim2real-probabilistic-admitter-llm-d.md) tra
 complete traversal of the AI-native loop for llm-d's admission control layer: an AI agent
 framework ([Nous](https://github.com/AI-native-Systems-Research/agentic-strategy-evolution))
 used a high-fidelity simulator ([BLIS](https://github.com/inference-sim/inference-sim)) to
-discover the probabilistic admitter, which cuts critical-traffic TTFT by up to 97% at
-overloaded workloads. That article also introduced the core methodology: simulation lets the
-loop run at machine speed, reserving expensive GPU time for validating the few candidates that
-actually merit real-hardware testing.
+discover a probabilistic, proactive admission control policy that cuts critical-traffic TTFT
+by up to 97% at near-saturation workloads. That article restates the core methodology:
+simulation lets the loop run at machine speed, reserving expensive GPU time for validating
+the few candidates that actually merit real-hardware testing.
 
 This article applies the same loop to a different problem: **flow control**. The distinction
 matters. Admission control acts at the gate: it decides whether an incoming request enters the
 system at all, and may reject it. Flow control acts at the dispatch queue: it decides which
-already-admitted request gets sent to a backend pod next. The two mechanisms protect different
+already-admitted request gets sent to a backend server next. The two mechanisms protect different
 points in the pipeline and neither replaces the other.
 
 The concrete outcome is the **soft-reflective ceiling policy**: a new flow control plugin for
@@ -45,22 +45,17 @@ single YAML change.
 
 ## Observe: The Flow Control Problem
 
-llm-d's flow control framework gates dispatch of queued requests to backend pods based on
+llm-d's flow control framework gates dispatch of queued requests to backend servers based on
 cluster saturation. Each priority band is assigned a ceiling value: when saturation reaches
-or exceeds a band's ceiling, dispatch halts for that band. The only built-in policy is a
-constant ceiling of 1.0 for all bands, which is effectively a no-op. Every band dispatches
-freely until pods are fully saturated, regardless of whether a request is a critical
-interactive query or a background batch job.
+or exceeds a band's ceiling, dispatch halts for that band.
 
-This leaves operators with two choices, neither satisfactory. With the status quo, sheddable
-traffic competes equally with critical traffic for dispatch slots. Under load, critical requests
-queue behind sheddable work, inflating TTFT for the traffic that matters most. The alternative,
-setting a lower static ceiling for sheddable bands (e.g., `ceiling=0.5`), creates a binary
-cliff: below that saturation level, sheddable traffic dispatches freely; above it, the band is
-fully blocked. There is no middle ground. The system jumps from zero throttling to complete
-starvation with no proportional response to intermediate load, and oscillates rather than settling.
-
-Nous identified this as the next opportunity after admission control.
+The default flow control option, [static-usage-limit policy](https://github.com/llm-d/llm-d-router/tree/main/pkg/epp/framework/plugins/flowcontrol/usagelimits),
+applies a single threshold to every priority band equally. Its default threshold is 1.0,
+making it effectively a no-op: every band dispatches freely until pods are fully saturated.
+Lowering the threshold does not help: setting threshold=0.5 gates critical traffic and
+sheddable traffic at the same saturation point. There is no way to say "shed non-critical work
+first." Under load, critical requests queue behind sheddable work, inflating TTFT for the
+traffic that matters most.
 
 ## Reason + Change: Simulation-Driven Discovery
 
@@ -69,7 +64,7 @@ Nous identified this as the next opportunity after admission control.
 The same simulator used in Part 1, [BLIS](https://github.com/inference-sim/inference-sim)
 (a high-fidelity discrete-event simulator for distributed LLM inference systems), provides the
 economics that make agentic exploration viable. A single workload evaluation that takes 30
-minutes on real hardware completes in seconds in simulation. Nous can evaluate many candidate
+minutes on real hardware completes in seconds using BLIS. Nous can evaluate many candidate
 policies across diverse workload conditions before a single GPU is reserved. (See
 [Part 1](sim2real-probabilistic-admitter-llm-d.md) for a full treatment of the simulator and
 its role in the loop.)
@@ -100,20 +95,20 @@ ticks produces proportional throughput without any change to the dispatch code p
 For a two-tier deployment (critical + sheddable), the ceiling collapses to `1 - saturation`
 for the sheddable band:
 
-| Saturation | Sheddable ceiling | Regime |
-|:---|:---|:---|
-| 0.00–0.50 | 1.00–0.50 | Below saturation: no gating |
-| 0.50 | 0.50 | Boundary: gating begins |
-| 0.60 | 0.40 | Proportional |
-| 0.75 | 0.25 | Proportional |
-| 0.90 | 0.10 | Proportional |
-| ≥ 1.00 | 0.00 | Hard block |
+| Saturation | Regime | Critical ceiling | Critical blocked | Sheddable ceiling | Sheddable blocked |
+|:---|:---|:---|:---|:---|:---|
+| 0.00–0.50 | Below saturation: no gating | 1.00 | 0% | 1.00–0.50 | 0% |
+| 0.50 | Boundary: gating begins | 1.00 | 0% | 0.50 | 0% |
+| 0.60 | Proportional | 1.00 | 0% | 0.40 | 50% |
+| 0.75 | Proportional | 1.00 | 0% | 0.25 | 67% |
+| 0.90 | Proportional | 1.00 | 0% | 0.10 | 89% |
+| ≥ 1.00 | Hard block | 1.00 | 0% | 0.00 | 100% |
 
 The dead zone below saturation 0.5 means sheddable traffic flows freely at half-capacity and
 below. The steep tail beyond 0.8 reserves nearly all dispatch capacity for critical traffic
 without ever fully closing the sheddable gate: bounded latency, not indefinite starvation.
 
-Compare this to the Part 1 algorithm: the quintic admitter has two constants discovered by
+Compare this to the Part 1 algorithm: the probabilistic admitter has two constants discovered by
 Nous (exponent 5, multiplier 300) tuned to hit a shedding curve of the right shape. The
 reflective ceiling has no free parameters; the shape is determined entirely by the number of
 priority bands and the current saturation reading. Adding a new InferenceObjective priority
@@ -124,39 +119,17 @@ level automatically extends the reflection with no config change.
 Before committing to real-hardware benchmarks, BLIS confirmed the algorithm's direction across
 three workload types:
 
-| Workload | Rate | Critical/Sheddable | Critical TTFT mean Δ | Critical TTFT P90 Δ | Throughput Δ |
-|:---|:---|:---|:---|:---|:---|
-| Code generation | 18 QPS | 30/70 | **−91.3%** | **−89.6%** | −2.5% |
-| Interactive chat | 150 QPS | 30/70 | **−40.7%** | **−29.7%** | −0.4% |
-| Reasoning | 1 QPS | 50/50 | −2.9% | −0.2% | +2.0% |
-
-Code generation (heavy on large-input prefill) benefits most because sheddable
-large-context requests occupy dispatch slots that the reflective ceiling keeps available for
-critical traffic. Interactive chat sees substantial improvement at high throughput. Reasoning
-at 1 QPS shows near-zero effect: saturation stays below the gating threshold and the policy is
-correctly a no-op. Simulation is working as intended when it predicts "no benefit needed" as
-accurately as it predicts "benefit exists."
+| Workload | Input tokens | Output tokens | Critical/Sheddable | Models |
+|:---|:---|:---|:---|:---|
+| Code generation | ~1,176 (large) | ~195 (moderate) | 30/70 | IDE inline suggestions and CI/CD code review pipelines where critical suggestions share capacity with background analysis jobs. |
+| Interactive chat | ~39 (short) | ~300 (moderate) | 30/70 | High-throughput conversational APIs serving mixed priority tiers. |
+| Reasoning | ~780 (moderate) | ~6,200 (large) | 50/50 | Agent chains and multi-step planning where critical interactive queries compete with batch reasoning jobs. |
 
 ## AI-Assisted sim2real Translation: Simulation to Production Code
 
-The same translation pipeline used in Part 1 converts the simulation algorithm into a
-production Go plugin. AI agents read the simulation code, understand llm-d-router's plugin
-framework, map simulation signals to their production equivalents
-(`SaturationDetector.Saturation()` to `ComputeLimit()` parameter), and produce a complete
-package with unit tests and parameter validation that passes the full build and test suite.
-The target interface this time is `UsageLimitPolicy.ComputeLimit()` rather than the admitter
-interface, but the process is identical: the framework is generic, and the translation agents
-work from the interface contract rather than the internals.
-
-The output is not a prototype. The plugin is a proper production artifact with full provenance:
-a simulation-validated algorithm, translated by AI agents, ready to be registered and enabled
-with a YAML config change.
+The [same sim2real translation pipeline from Part 1](sim2real-probabilistic-admitter-llm-d.md#ai-assisted-sim2real-translation-simulation-to-production-code) applies here. The agents work from the interface contract, produce a complete package with unit tests and parameter validation, and the output carries full provenance: a simulation-validated algorithm, translated by AI agents, ready to be registered and enabled with a YAML config change.
 
 ## Validate: Real-Cluster Benchmark Results
-
-Simulation produced promising results. The only way to know the true value is to test on real
-hardware. Expensive GPU time is used only for validation; the exploration already happened in
-simulation.
 
 ### Setup
 
@@ -173,38 +146,17 @@ reflecting a different hardware configuration while keeping the same model.
 
 ### Workloads
 
-Three workload shapes cover the range of production LLM deployment patterns:
-
-**Code generation** (large input ~1,176 tokens, moderate output ~195 tokens, 30% critical /
-70% sheddable): models IDE inline suggestions and CI/CD code review pipelines where critical
-suggestions share capacity with background analysis jobs.
-
-**Interactive chat** (short input ~39 tokens, moderate output ~300 tokens, 30% critical /
-70% sheddable): high-throughput conversational APIs serving mixed priority tiers.
-
-**Reasoning** (moderate input ~780 tokens, large output ~6,200 tokens, 50% critical /
-50% sheddable): agent chains and multi-step planning where critical interactive queries
-compete with batch reasoning jobs.
+The real deployment was validated against the same workloads as the simulator: code generation,
+interactive chat and reasoning.
 
 All metrics below are for **critical-class traffic only**. Delta percentages show treatment
 vs. baseline (negative = improvement).
 
 ### Results
 
-| Workload | QPS | TTFT mean Δ | TTFT p99 Δ | E2E mean Δ | E2E p99 Δ | Tput Δ |
-|:---|:---|:---|:---|:---|:---|:---|
-| Code Generation | 4 | −0.4% | +1.0% | −0.2% | −2.0% | +0.0% |
-| Code Generation | 10 | +2.9% | +8.9% | +1.0% | −2.4% | −0.8% |
-| Code Generation | 16 | **−98.1%** | **−96.7%** | **−49.1%** | −0.1% | −0.8% |
-| Code Generation | 24 | −96.6% | −91.2% | −55.6% | −9.3% | +8.0% |
-| Interactive Chat | 20 | −1.6% | −4.8% | −0.1% | +0.2% | −0.0% |
-| Interactive Chat | 40 | +2.6% | +18.4% | +1.9% | +2.2% | −0.0% |
-| Interactive Chat | 60 | +6.8% | +30.9% | +0.8% | +0.5% | −0.0% |
-| Interactive Chat | 80 | −31.1% | **−22.4%** | −17.8% | **−14.6%** | −0.9% |
-| Reasoning | 0.2 | −4.6% | −1.4% | +0.5% | +3.6% | −1.6% |
-| Reasoning | 0.4 | −36.6% | +16.7% | −7.1% | −1.2% | −3.1% |
-| Reasoning | 0.7 | **−95.1%** | **−91.2%** | **−66.5%** | **−48.5%** | **+64.4%** |
-| Reasoning | 1.2 | −44.6% | −44.6% | −35.5% | −37.3% | +35.8% |
+The chart below covers all workloads and request rates, comparing the soft-reflective-ceiling-policy treatment to the default constant-ceiling baseline. Each QPS group shows three bars: TTFT p99 (dark blue), E2E p99 (light blue), and throughput (teal). Bars above zero indicate improvement; bars below zero indicate regression. The dashed vertical line in each panel marks where proportional gating begins.
+
+![Critical-class TTFT p99, E2E p99, and throughput vs baseline](../../assets/sim2real-flow-control-ttft.png)
 
 ### Reading the Results
 
@@ -235,16 +187,6 @@ where the reflective ceiling begins to engage but the benefit of protecting crit
 has not yet exceeded the overhead of rate-limiting sheddable traffic. The effect is small
 (TTFT p99 +18% and +31% respectively at low absolute baseline values) and disappears at 80
 QPS when the system is clearly above capacity.
-
-### Sim-to-Real Alignment
-
-Simulation correctly predicted the direction of improvement on every workload type. Real-hardware
-gains at near-capacity load exceeded the simulation estimates, because real GPU memory pressure,
-vLLM preemption events, and KV cache contention amplify the effect of keeping sheddable traffic
-out of dispatch slots in ways the simulator models conservatively. The sim-to-real gap is not a
-failure of simulation; it is a reminder that simulation's job is ranking, not absolute prediction.
-BLIS ranked treatment over baseline on overloaded workloads. Real hardware confirmed and
-amplified that ranking.
 
 ## Deploy: A Contribution to llm-d
 
@@ -284,17 +226,7 @@ prioritize among admitted ones).
 
 ## Closing the Loop
 
-This case study traces a second complete traversal of the AI-native loop:
-
-- **Observe:** identified that constant-ceiling flow control provides no priority differentiation
-  under load, leaving critical traffic to queue behind sheddable work
-- **Reason:** Nous and BLIS simulation explored the space of dispatch gating policies at machine
-  speed, converging on the reflective ceiling algorithm
-- **Change:** Nous agents translated the simulation algorithm into production Go code via the
-  same sim2real pipeline used in Part 1
-- **Validate:** real-cluster benchmarks on 2 × H100 with Qwen3-14B confirmed up to 98% TTFT
-  improvement for critical traffic at near-capacity load
-- **Deploy:** contributed as a new plugin into llm-d-router, enabled via a YAML config change
+A second traversal of the [same loop](sim2real-probabilistic-admitter-llm-d.md#closing-the-loop): constant-ceiling flow control left critical traffic queuing behind sheddable work; simulation-driven discovery produced the reflective ceiling algorithm; AI-assisted translation delivered a production Go plugin; real-cluster benchmarks on 2 × H100 confirmed up to 98% TTFT improvement at near-capacity load; and the plugin is now in llm-d-router, enabled with a YAML config change.
 
 ## What We Learned
 
@@ -312,13 +244,10 @@ does nothing when saturation is below the band's reflection point. Confirming th
 A flow control policy that penalizes traffic when there is no contention would cause harm.
 Testing the absence of harm is as important as testing the presence of benefit.
 
-**Simulation predicts direction; real hardware reveals magnitude.** BLIS correctly ranked
-treatment over baseline on every overloaded workload. But the absolute gains on real hardware
-at near-capacity load exceeded simulation estimates. The sim-to-real gap here is not a
-calibration failure; the simulator is correctly conservative because it cannot fully model
-GPU memory pressure, vLLM preemption cascades, and batching interference under real load.
-The right expectation for simulation is: *if A beats B in simulation, A will beat B on real
-hardware.* What the magnitude will be is something only real hardware can answer.
+**Simulation is conservative; real hardware quantifies the result.** The absolute gains on real
+hardware exceeded simulation estimates. That gap is not a calibration failure; the simulator
+cannot fully model GPU memory pressure, vLLM preemption cascades, and batching interference
+under real load. Real gains may well meet or exceed what simulation predicts, not fall short.
 
 ## What Comes Next
 
@@ -334,4 +263,4 @@ looks like when Nous searches it rather than each mechanism in isolation. With B
 the official llm-d simulator, this kind of multi-policy search becomes tractable. The same
 simulation infrastructure that validated these two algorithms can explore interactions,
 emergent behaviors, and entirely new problem classes: routing, autoscaling,
-prefill-decode disaggregation. The loop is proven. The simulator is ready. Now we scale it.
+prefill-decode disaggregation.
