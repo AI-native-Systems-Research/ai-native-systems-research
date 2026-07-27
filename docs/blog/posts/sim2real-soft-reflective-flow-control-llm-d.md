@@ -244,10 +244,14 @@ does nothing when saturation is below the band's reflection point. Confirming th
 A flow control policy that penalizes traffic when there is no contention would cause harm.
 Testing the absence of harm is as important as testing the presence of benefit.
 
-**Simulation is conservative; real hardware quantifies the result.** The absolute gains on real
-hardware exceeded simulation estimates. That gap is not a calibration failure; the simulator
+**Simulation confirms direction; real hardware quantifies magnitude.** In this case the absolute
+gains on real hardware exceeded simulation estimates, but that is not guaranteed. The simulator
 cannot fully model GPU memory pressure, vLLM preemption cascades, and batching interference
-under real load. Real gains may well meet or exceed what simulation predicts, not fall short.
+under real load, so measured magnitudes can differ in either direction. For policy evolution,
+that is fine: the goal is not 100% accuracy, but reliable signal on whether a candidate policy
+improves or regresses the target metric. A simulation that correctly predicts the direction of
+improvement filters out bad candidates before any GPU time is spent, regardless of whether
+the magnitude matches exactly.
 
 ## What Comes Next
 
