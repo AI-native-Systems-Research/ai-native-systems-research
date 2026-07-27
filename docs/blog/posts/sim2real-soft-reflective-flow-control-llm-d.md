@@ -111,8 +111,8 @@ without ever fully closing the sheddable gate: bounded latency, not indefinite s
 Compare this to the Part 1 algorithm: the probabilistic admitter has two constants discovered by
 Nous (exponent 5, multiplier 300) tuned to hit a shedding curve of the right shape. The
 reflective ceiling has no free parameters; the shape is determined entirely by the number of
-priority bands and the current saturation reading. Adding a new InferenceObjective priority
-level automatically extends the reflection with no config change.
+priority bands and the current saturation reading. Adding a new priority level (a new `InferenceObjective` in llm-d-router's terms)
+automatically extends the reflection with no config change.
 
 ### Simulation Results
 
