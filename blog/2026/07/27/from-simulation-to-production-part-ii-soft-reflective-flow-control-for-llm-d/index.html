@@ -1,0 +1,1795 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+        <meta name="description" content="Part 2 of the sim2real series: simulation-driven discovery of the soft-reflective ceiling policy cuts critical-class TTFT by up to 98% at near-capacity load, without rejecting a single request.
+">
+      
+      
+      
+        <link rel="canonical" href="https://ai-native-systems-research.github.io/ai-native-systems-research/blog/2026/07/27/from-simulation-to-production-part-ii-soft-reflective-flow-control-for-llm-d/">
+      
+      
+        <link rel="prev" href="../../../06/24/the-scientific-method-on-code-how-a-hypothesis-driven-ai-learned-what-evolution-couldnt/">
+      
+      
+      
+        
+      
+      
+      <link rel="icon" href="../../../../../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.6">
+    
+    
+      
+        <title>From Simulation to Production Part II: Soft-Reflective Flow Control for llm-d - AI-native Systems Research</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../../../../assets/stylesheets/main.484c7ddc.min.css">
+      
+        
+        <link rel="stylesheet" href="../../../../../assets/stylesheets/palette.ab4e12ef.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+      <link rel="stylesheet" href="../../../../../stylesheets/extra.css">
+    
+    <script>__md_scope=new URL("../../../../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+  
+
+
+    
+    
+  
+  
+  <script>
+    (function() {
+      if (location.hostname === 'localhost' || location.hostname === '127.0.0.1') {
+        return;
+      }
+      var s = document.createElement('script');
+      s.async = true;
+      s.src = 'https://www.googletagmanager.com/gtag/js?id=G-83Z819J0CL';
+      document.head.appendChild(s);
+
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){ dataLayer.push(arguments); }
+      window.gtag = gtag;
+      gtag('js', new Date());
+      gtag('config', 'G-83Z819J0CL', {
+        client_storage: 'none',
+        anonymize_ip: true,
+        allow_google_signals: false,
+        allow_ad_personalization_signals: false,
+        ads_data_redaction: true,
+        page_location: location.origin + location.pathname,
+        send_page_view: true
+      });
+    })();
+  </script>
+  
+  <style>
+    .ga-notice {
+      position: fixed;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      background: var(--md-default-bg-color);
+      border-top: 1px solid var(--md-default-fg-color--lightest);
+      padding: 0.8rem 1rem;
+      z-index: 1000;
+      display: none;
+      box-shadow: 0 -2px 8px rgba(0, 0, 0, 0.05);
+      font-family: var(--md-text-font);
+    }
+    .ga-notice__inner {
+      max-width: 1200px;
+      margin: 0 auto;
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      flex-wrap: wrap;
+    }
+    .ga-notice__text {
+      flex: 1;
+      font-size: 0.8rem;
+      color: var(--md-default-fg-color);
+      min-width: 280px;
+      line-height: 1.4;
+    }
+    .ga-notice__text a {
+      color: var(--md-typeset-a-color);
+      text-decoration: underline;
+    }
+    .ga-notice__btn {
+      background: var(--md-primary-fg-color);
+      color: var(--md-primary-bg-color);
+      border: none;
+      padding: 0.5rem 1.2rem;
+      border-radius: 0.2rem;
+      cursor: pointer;
+      font-size: 0.8rem;
+      font-weight: 600;
+      font-family: inherit;
+    }
+    .ga-notice__btn:hover {
+      opacity: 0.9;
+    }
+  </style>
+
+  </head>
+  
+  
+    
+    
+      
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="indigo">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#from-simulation-to-production-part-ii-soft-reflective-flow-control-for-llm-d" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+      <div data-md-color-scheme="default" data-md-component="outdated" hidden>
+        
+      </div>
+    
+    
+      
+
+<header class="md-header" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href="../../../../.." title="AI-native Systems Research" class="md-header__button md-logo" aria-label="AI-native Systems Research" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M21.33 12.91c.09 1.55-.62 3.04-1.89 3.95l.77 1.49c.23.45.26.98.06 1.45-.19.47-.58.84-1.06 1l-.79.25a1.687 1.687 0 0 1-1.86-.55L14.44 18c-.89-.15-1.73-.53-2.44-1.1-.5.15-1 .23-1.5.23-.88 0-1.76-.27-2.5-.79-.53.16-1.07.23-1.62.22-.79.01-1.57-.15-2.3-.45a4.1 4.1 0 0 1-2.43-3.61c-.08-.72.04-1.45.35-2.11-.29-.75-.32-1.57-.07-2.33C2.3 7.11 3 6.32 3.87 5.82c.58-1.69 2.21-2.82 4-2.7 1.6-1.5 4.05-1.66 5.83-.37.42-.11.86-.17 1.3-.17 1.36-.03 2.65.57 3.5 1.64 2.04.53 3.5 2.35 3.58 4.47.05 1.11-.25 2.2-.86 3.13.07.36.11.72.11 1.09m-5-1.41c.57.07 1.02.5 1.02 1.07a1 1 0 0 1-1 1h-.63c-.32.9-.88 1.69-1.62 2.29.25.09.51.14.77.21 5.13-.07 4.53-3.2 4.53-3.25a2.59 2.59 0 0 0-2.69-2.49 1 1 0 0 1-1-1 1 1 0 0 1 1-1c1.23.03 2.41.49 3.33 1.3.05-.29.08-.59.08-.89-.06-1.24-.62-2.32-2.87-2.53-1.25-2.96-4.4-1.32-4.4-.4-.03.23.21.72.25.75a1 1 0 0 1 1 1c0 .55-.45 1-1 1-.53-.02-1.03-.22-1.43-.56-.48.31-1.03.5-1.6.56-.57.05-1.04-.35-1.07-.9a.97.97 0 0 1 .88-1.1c.16-.02.94-.14.94-.77 0-.66.25-1.29.68-1.79-.92-.25-1.91.08-2.91 1.29C6.75 5 6 5.25 5.45 7.2 4.5 7.67 4 8 3.78 9c1.08-.22 2.19-.13 3.22.25.5.19.78.75.59 1.29-.19.52-.77.78-1.29.59-.73-.32-1.55-.34-2.3-.06-.32.27-.32.83-.32 1.27 0 .74.37 1.43 1 1.83.53.27 1.12.41 1.71.4q-.225-.39-.39-.81a1.038 1.038 0 0 1 1.96-.68c.4 1.14 1.42 1.92 2.62 2.05 1.37-.07 2.59-.88 3.19-2.13.23-1.38 1.34-1.5 2.56-1.5m2 7.47-.62-1.3-.71.16 1 1.25zm-4.65-8.61a1 1 0 0 0-.91-1.03c-.71-.04-1.4.2-1.93.67-.57.58-.87 1.38-.84 2.19a1 1 0 0 0 1 1c.57 0 1-.45 1-1 0-.27.07-.54.23-.76.12-.1.27-.15.43-.15.55.03 1.02-.38 1.02-.92"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            AI-native Systems Research
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              From Simulation to Production Part II: Soft-Reflective Flow Control for llm-d
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+        <form class="md-header__option" data-md-component="palette">
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="(prefers-color-scheme: light)" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="indigo"  aria-label="Switch to dark mode"  type="radio" name="__palette" id="__palette_0">
+    
+      <label class="md-header__button md-icon" title="Switch to dark mode" for="__palette_1" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a4 4 0 0 0-4 4 4 4 0 0 0 4 4 4 4 0 0 0 4-4 4 4 0 0 0-4-4m0 10a6 6 0 0 1-6-6 6 6 0 0 1 6-6 6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12z"/></svg>
+      </label>
+    
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="(prefers-color-scheme: dark)" data-md-color-scheme="slate" data-md-color-primary="indigo" data-md-color-accent="indigo"  aria-label="Switch to light mode"  type="radio" name="__palette" id="__palette_1">
+    
+      <label class="md-header__button md-icon" title="Switch to light mode" for="__palette_0" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 18c-.89 0-1.74-.2-2.5-.55C11.56 16.5 13 14.42 13 12s-1.44-4.5-3.5-5.45C10.26 6.2 11.11 6 12 6a6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12z"/></svg>
+      </label>
+    
+  
+</form>
+      
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+        <div class="md-search__suggest" data-md-component="search-suggest"></div>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      
+    
+    
+      <div class="md-header__source">
+        <a href="https://github.com/AI-native-Systems-Research/ai-native-systems-research" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M439.6 236.1 244 40.5c-5.4-5.5-12.8-8.5-20.4-8.5s-15 3-20.4 8.4L162.5 81l51.5 51.5c27.1-9.1 52.7 16.8 43.4 43.7l49.7 49.7c34.2-11.8 61.2 31 35.5 56.7-26.5 26.5-70.2-2.9-56-37.3L240.3 199v121.9c25.3 12.5 22.3 41.8 9.1 55-6.4 6.4-15.2 10.1-24.3 10.1s-17.8-3.6-24.3-10.1c-17.6-17.6-11.1-46.9 11.2-56v-123c-20.8-8.5-24.6-30.7-18.6-45L142.6 101 8.5 235.1C3 240.6 0 247.9 0 255.5s3 15 8.5 20.4l195.6 195.7c5.4 5.4 12.7 8.4 20.4 8.4s15-3 20.4-8.4l194.7-194.7c5.4-5.4 8.4-12.8 8.4-20.4s-3-15-8.4-20.4"/></svg>
+  </div>
+  <div class="md-source__repository">
+    AI-native-Systems-Research/ai-native-systems-research
+  </div>
+</a>
+      </div>
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+            
+<nav class="md-tabs" aria-label="Tabs" data-md-component="tabs">
+  <div class="md-grid">
+    <ul class="md-tabs__list">
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../../../../.." class="md-tabs__link">
+        
+  
+  
+    
+  
+  Home
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../../../../technical-domains/" class="md-tabs__link">
+          
+  
+  
+    
+  
+  Technical Domains
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+    
+  
+  
+    
+    
+      <li class="md-tabs__item md-tabs__item--active">
+        <a href="../../../../" class="md-tabs__link">
+          
+  
+  
+    
+  
+  Blog
+
+        </a>
+      </li>
+    
+  
+
+      
+    </ul>
+  </div>
+</nav>
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+                
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" hidden>
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+  
+
+
+<nav class="md-nav md-nav--primary md-nav--lifted" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../../../../.." title="AI-native Systems Research" class="md-nav__button md-logo" aria-label="AI-native Systems Research" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M21.33 12.91c.09 1.55-.62 3.04-1.89 3.95l.77 1.49c.23.45.26.98.06 1.45-.19.47-.58.84-1.06 1l-.79.25a1.687 1.687 0 0 1-1.86-.55L14.44 18c-.89-.15-1.73-.53-2.44-1.1-.5.15-1 .23-1.5.23-.88 0-1.76-.27-2.5-.79-.53.16-1.07.23-1.62.22-.79.01-1.57-.15-2.3-.45a4.1 4.1 0 0 1-2.43-3.61c-.08-.72.04-1.45.35-2.11-.29-.75-.32-1.57-.07-2.33C2.3 7.11 3 6.32 3.87 5.82c.58-1.69 2.21-2.82 4-2.7 1.6-1.5 4.05-1.66 5.83-.37.42-.11.86-.17 1.3-.17 1.36-.03 2.65.57 3.5 1.64 2.04.53 3.5 2.35 3.58 4.47.05 1.11-.25 2.2-.86 3.13.07.36.11.72.11 1.09m-5-1.41c.57.07 1.02.5 1.02 1.07a1 1 0 0 1-1 1h-.63c-.32.9-.88 1.69-1.62 2.29.25.09.51.14.77.21 5.13-.07 4.53-3.2 4.53-3.25a2.59 2.59 0 0 0-2.69-2.49 1 1 0 0 1-1-1 1 1 0 0 1 1-1c1.23.03 2.41.49 3.33 1.3.05-.29.08-.59.08-.89-.06-1.24-.62-2.32-2.87-2.53-1.25-2.96-4.4-1.32-4.4-.4-.03.23.21.72.25.75a1 1 0 0 1 1 1c0 .55-.45 1-1 1-.53-.02-1.03-.22-1.43-.56-.48.31-1.03.5-1.6.56-.57.05-1.04-.35-1.07-.9a.97.97 0 0 1 .88-1.1c.16-.02.94-.14.94-.77 0-.66.25-1.29.68-1.79-.92-.25-1.91.08-2.91 1.29C6.75 5 6 5.25 5.45 7.2 4.5 7.67 4 8 3.78 9c1.08-.22 2.19-.13 3.22.25.5.19.78.75.59 1.29-.19.52-.77.78-1.29.59-.73-.32-1.55-.34-2.3-.06-.32.27-.32.83-.32 1.27 0 .74.37 1.43 1 1.83.53.27 1.12.41 1.71.4q-.225-.39-.39-.81a1.038 1.038 0 0 1 1.96-.68c.4 1.14 1.42 1.92 2.62 2.05 1.37-.07 2.59-.88 3.19-2.13.23-1.38 1.34-1.5 2.56-1.5m2 7.47-.62-1.3-.71.16 1 1.25zm-4.65-8.61a1 1 0 0 0-.91-1.03c-.71-.04-1.4.2-1.93.67-.57.58-.87 1.38-.84 2.19a1 1 0 0 0 1 1c.57 0 1-.45 1-1 0-.27.07-.54.23-.76.12-.1.27-.15.43-.15.55.03 1.02-.38 1.02-.92"/></svg>
+
+    </a>
+    AI-native Systems Research
+  </label>
+  
+    <div class="md-nav__source">
+      <a href="https://github.com/AI-native-Systems-Research/ai-native-systems-research" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M439.6 236.1 244 40.5c-5.4-5.5-12.8-8.5-20.4-8.5s-15 3-20.4 8.4L162.5 81l51.5 51.5c27.1-9.1 52.7 16.8 43.4 43.7l49.7 49.7c34.2-11.8 61.2 31 35.5 56.7-26.5 26.5-70.2-2.9-56-37.3L240.3 199v121.9c25.3 12.5 22.3 41.8 9.1 55-6.4 6.4-15.2 10.1-24.3 10.1s-17.8-3.6-24.3-10.1c-17.6-17.6-11.1-46.9 11.2-56v-123c-20.8-8.5-24.6-30.7-18.6-45L142.6 101 8.5 235.1C3 240.6 0 247.9 0 255.5s3 15 8.5 20.4l195.6 195.7c5.4 5.4 12.7 8.4 20.4 8.4s15-3 20.4-8.4l194.7-194.7c5.4-5.4 8.4-12.8 8.4-20.4s-3-15-8.4-20.4"/></svg>
+  </div>
+  <div class="md-source__repository">
+    AI-native-Systems-Research/ai-native-systems-research
+  </div>
+</a>
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../.." class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Home
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_2" >
+        
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../../../../../technical-domains/" class="md-nav__link ">
+              
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Technical Domains
+  
+
+    
+  </span>
+  
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_2" id="__nav_2_label" tabindex="0">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Technical Domains
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../../technical-domains/llm-d/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    llm-d: Inference Platform
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../../technical-domains/ai-kernels/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    AI-Generated Kernels
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../../technical-domains/storage-systems/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Storage Systems
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+        
+        
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3" checked>
+        
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../../../../" class="md-nav__link ">
+              
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Blog
+  
+
+    
+  </span>
+  
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_3" id="__nav_3_label" tabindex="">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_3">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Blog
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+      
+    
+    
+    
+      
+      
+        
+          
+          
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_3_2" >
+        
+          
+          <label class="md-nav__link" for="__nav_3_2" id="__nav_3_2_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Archive
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_3_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3_2">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Archive
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+    
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../archive/2026/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    2026
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+        
+          
+          
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_3_3" >
+        
+          
+          <label class="md-nav__link" for="__nav_3_3" id="__nav_3_3_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Categories
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_3_3_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3_3">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Categories
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+    
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../category/blis/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    BLIS
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../category/deep-dives/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Deep Dives
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../category/storage-systems/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Storage Systems
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../category/vision/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Vision
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../category/llm-d/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    llm-d
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+                
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#introduction" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Introduction
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#observe-the-flow-control-problem" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Observe: The Flow Control Problem
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#reason-change-simulation-driven-discovery" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Reason + Change: Simulation-Driven Discovery
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Reason + Change: Simulation-Driven Discovery">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#the-simulator-blis" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        The Simulator: BLIS
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#the-discovery-nous" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        The Discovery: Nous
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#simulation-results" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Simulation Results
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#ai-assisted-sim2real-translation-simulation-to-production-code" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        AI-Assisted sim2real Translation: Simulation to Production Code
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#validate-real-cluster-benchmark-results" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Validate: Real-Cluster Benchmark Results
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Validate: Real-Cluster Benchmark Results">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#setup" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Setup
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#workloads" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Workloads
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#results" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Results
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#reading-the-results" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Reading the Results
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#deploy-a-contribution-to-llm-d" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Deploy: A Contribution to llm-d
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#closing-the-loop" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Closing the Loop
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#what-we-learned" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        What We Learned
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#what-comes-next" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        What Comes Next
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+  <div class="md-content md-content--post" data-md-component="content">
+    <div class="md-sidebar md-sidebar--post" data-md-component="sidebar" data-md-type="navigation">
+      <div class="md-sidebar__scrollwrap">
+        <div class="md-sidebar__inner md-post">
+          <nav class="md-nav md-nav--primary">
+            <div class="md-post__back">
+              <div class="md-nav__title md-nav__container">
+                <a href="../../../../" class="md-nav__link">
+                  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+                  <span class="md-ellipsis">
+                    Back to index
+                  </span>
+                </a>
+              </div>
+            </div>
+            
+              <div class="md-post__authors md-typeset">
+                
+                  <div class="md-profile md-post__profile">
+                    <span class="md-author md-author--long">
+                      <img src="https://github.com/kalantar.png" alt="Michael Kalantar">
+                    </span>
+                    <span class="md-profile__description">
+                      <strong>
+                        
+                          Michael Kalantar
+                        
+                      </strong>
+                      <br>
+                      AI-native Systems Researcher
+                    </span>
+                  </div>
+                
+                  <div class="md-profile md-post__profile">
+                    <span class="md-author md-author--long">
+                      <img src="https://github.com/toslali-ibm.png" alt="Mert Toslali">
+                    </span>
+                    <span class="md-profile__description">
+                      <strong>
+                        
+                          Mert Toslali
+                        
+                      </strong>
+                      <br>
+                      AI-native Systems Researcher
+                    </span>
+                  </div>
+                
+                  <div class="md-profile md-post__profile">
+                    <span class="md-author md-author--long">
+                      <img src="https://github.com/jgchn.png" alt="Jing Chen">
+                    </span>
+                    <span class="md-profile__description">
+                      <strong>
+                        
+                          Jing Chen
+                        
+                      </strong>
+                      <br>
+                      AI-native Systems Researcher
+                    </span>
+                  </div>
+                
+              </div>
+            
+            <ul class="md-post__meta md-nav__list">
+              <li class="md-nav__item md-nav__item--section">
+                <div class="md-post__title">
+                  <span class="md-ellipsis">
+                    Metadata
+                  </span>
+                </div>
+                <nav class="md-nav">
+                  <ul class="md-nav__list">
+                    <li class="md-nav__item">
+                      <div class="md-nav__link">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 19H5V8h14m-3-7v2H8V1H6v2H5c-1.11 0-2 .89-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V5a2 2 0 0 0-2-2h-1V1m-1 11h-5v5h5z"/></svg>
+                        <time datetime="2026-07-27 00:00:00+00:00" class="md-ellipsis">July 27, 2026</time>
+                      </div>
+                    </li>
+                    
+                    
+                      <li class="md-nav__item">
+                        <div class="md-nav__link">
+                          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9 3v15h3V3zm3 2 4 13 3-1-4-13zM5 5v13h3V5zM3 19v2h18v-2z"/></svg>
+                          <span class="md-ellipsis">
+                            in
+                            
+                              <a href="../../../../category/llm-d/">llm-d</a>, 
+                              <a href="../../../../category/deep-dives/">Deep Dives</a></span>
+                        </div>
+                      </li>
+                    
+                    
+                      
+                      <li class="md-nav__item">
+                        <div class="md-nav__link">
+                          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 20a8 8 0 0 0 8-8 8 8 0 0 0-8-8 8 8 0 0 0-8 8 8 8 0 0 0 8 8m0-18a10 10 0 0 1 10 10 10 10 0 0 1-10 10C6.47 22 2 17.5 2 12A10 10 0 0 1 12 2m.5 5v5.25l4.5 2.67-.75 1.23L11 13V7z"/></svg>
+                          <span class="md-ellipsis">
+                            
+                              9 min read
+                            
+                          </span>
+                        </div>
+                      </li>
+                    
+                  </ul>
+                </nav>
+              </li>
+            </ul>
+            
+          </nav>
+          
+        </div>
+      </div>
+    </div>
+    <article class="md-content__inner md-typeset">
+      
+        
+  
+
+
+
+  
+  
+
+
+<h1 id="from-simulation-to-production-part-ii-soft-reflective-flow-control-for-llm-d">From Simulation to Production Part II: Soft-Reflective Flow Control for llm-d<a class="headerlink" href="#from-simulation-to-production-part-ii-soft-reflective-flow-control-for-llm-d" title="Permanent link">&para;</a></h1>
+<p><em>Part 2 of the sim2real series. A case study in closing the AI-native loop across a second
+problem class: dispatch prioritization.</em></p>
+<h2 id="introduction">Introduction<a class="headerlink" href="#introduction" title="Permanent link">&para;</a></h2>
+<p>The <a href="../../../05/13/from-simulation-to-production-how-an-ai-native-pipeline-discovered-a-better-admission-controller-for-llm-d/">first article in this series</a> traced a
+complete traversal of the AI-native loop for llm-d's admission control layer: an AI agent
+framework (<a href="https://github.com/AI-native-Systems-Research/agentic-strategy-evolution">Nous</a>)
+used a high-fidelity simulator (<a href="https://github.com/inference-sim/inference-sim">BLIS</a>) to
+discover a probabilistic, proactive admission control policy that cuts critical-traffic TTFT
+by up to 97% at near-saturation workloads. That article restates the core methodology:
+simulation lets the loop run at machine speed, reserving expensive GPU time for validating
+the few candidates that actually merit real-hardware testing.</p>
+<p>This article applies the same loop to a different problem: <strong>flow control</strong>. The distinction
+matters. Admission control acts at the gate: it decides whether an incoming request enters the
+system at all, and may reject it. Flow control acts at the dispatch queue: it decides which
+already-admitted request gets sent to a backend server next. The two mechanisms protect different
+points in the pipeline and neither replaces the other.</p>
+<p>The concrete outcome is the <strong>soft-reflective ceiling policy</strong>: a new flow control plugin for
+llm-d-router that reduces critical-class TTFT p99 by up to 98% at near-capacity load without
+rejecting a single request. It is now merged into
+<a href="https://github.com/llm-d/llm-d-router/tree/main/pkg/epp/framework/plugins/flowcontrol/usagelimits/softreflectiveceiling">llm-d-router</a>, and users can enable it today with a
+single YAML change.</p>
+<!-- more -->
+
+<h2 id="observe-the-flow-control-problem">Observe: The Flow Control Problem<a class="headerlink" href="#observe-the-flow-control-problem" title="Permanent link">&para;</a></h2>
+<p>llm-d's flow control framework gates dispatch of queued requests to backend servers based on
+cluster saturation. Each priority band is assigned a ceiling value: when saturation reaches
+or exceeds a band's ceiling, dispatch halts for that band.</p>
+<p>The default flow control option, <a href="https://github.com/llm-d/llm-d-router/tree/main/pkg/epp/framework/plugins/flowcontrol/usagelimits">static-usage-limit policy</a>,
+applies a single threshold to every priority band equally. Its default threshold is 1.0,
+making it effectively a no-op: every band dispatches freely until pods are fully saturated.
+Lowering the threshold does not help: setting threshold=0.5 gates critical traffic and
+sheddable traffic at the same saturation point. There is no way to say "shed non-critical work
+first." Under load, critical requests queue behind sheddable work, inflating TTFT for the
+traffic that matters most.</p>
+<h2 id="reason-change-simulation-driven-discovery">Reason + Change: Simulation-Driven Discovery<a class="headerlink" href="#reason-change-simulation-driven-discovery" title="Permanent link">&para;</a></h2>
+<h3 id="the-simulator-blis">The Simulator: BLIS<a class="headerlink" href="#the-simulator-blis" title="Permanent link">&para;</a></h3>
+<p>The same simulator used in Part 1, <a href="https://github.com/inference-sim/inference-sim">BLIS</a>
+(a high-fidelity discrete-event simulator for distributed LLM inference systems), provides the
+economics that make agentic exploration viable. A single workload evaluation that takes 30
+minutes on real hardware completes in seconds using BLIS. Nous can evaluate many candidate
+policies across diverse workload conditions before a single GPU is reserved (see
+<a href="../../../05/13/from-simulation-to-production-how-an-ai-native-pipeline-discovered-a-better-admission-controller-for-llm-d/">Part 1</a> for a full treatment of the simulator and
+its role in the loop).</p>
+<h3 id="the-discovery-nous">The Discovery: Nous<a class="headerlink" href="#the-discovery-nous" title="Permanent link">&para;</a></h3>
+<p>Nous explored the space of flow control policies in simulation using the same hypothesis-driven
+experimentation loop it applied to admission control. Given the objective of protecting
+critical-band dispatch under load, it searched for a policy with two properties that binary
+cliff policies lack: a dead zone at low saturation where no gating occurs (avoiding unnecessary
+overhead when there is no contention), and a smooth ramp that becomes more aggressive as
+saturation grows (avoiding oscillation at the threshold).</p>
+<p>The algorithm that emerged has a strikingly natural form. For N priority bands, the
+per-band ceiling is:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a>ceiling[0] = 1.0                         # critical: never gated
+<a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a>ceiling[i] = 1 - i * saturation / (N-1)  # linearly reflected
+</code></pre></div>
+<p>When the sheddable band's saturation exceeds its ceiling, rather than fully blocking, the
+plugin rate-limits dispatch to every <code>round(saturation / (1 - saturation))</code>-th tick, a
+proportional duty cycle that scales smoothly with load. The dispatch loop already treats
+<code>saturation &gt;= ceiling</code> as a head-of-line block, so alternating 1.0 and 0.0 on successive
+ticks produces proportional throughput without any change to the dispatch code path.</p>
+<p>For a two-tier deployment (critical + sheddable), the ceiling collapses to <code>1 - saturation</code>
+for the sheddable band:</p>
+<table>
+<thead>
+<tr>
+<th style="text-align: left;">Saturation</th>
+<th style="text-align: left;">Regime</th>
+<th style="text-align: left;">Critical ceiling</th>
+<th style="text-align: left;">Critical blocked</th>
+<th style="text-align: left;">Sheddable ceiling</th>
+<th style="text-align: left;">Sheddable blocked</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: left;">0.00–0.50</td>
+<td style="text-align: left;">Below saturation: no gating</td>
+<td style="text-align: left;">1.00</td>
+<td style="text-align: left;">0%</td>
+<td style="text-align: left;">1.00–0.50</td>
+<td style="text-align: left;">0%</td>
+</tr>
+<tr>
+<td style="text-align: left;">0.50</td>
+<td style="text-align: left;">Boundary: gating begins</td>
+<td style="text-align: left;">1.00</td>
+<td style="text-align: left;">0%</td>
+<td style="text-align: left;">0.50</td>
+<td style="text-align: left;">0%</td>
+</tr>
+<tr>
+<td style="text-align: left;">0.60</td>
+<td style="text-align: left;">Proportional</td>
+<td style="text-align: left;">1.00</td>
+<td style="text-align: left;">0%</td>
+<td style="text-align: left;">0.40</td>
+<td style="text-align: left;">50%</td>
+</tr>
+<tr>
+<td style="text-align: left;">0.75</td>
+<td style="text-align: left;">Proportional</td>
+<td style="text-align: left;">1.00</td>
+<td style="text-align: left;">0%</td>
+<td style="text-align: left;">0.25</td>
+<td style="text-align: left;">67%</td>
+</tr>
+<tr>
+<td style="text-align: left;">0.90</td>
+<td style="text-align: left;">Proportional</td>
+<td style="text-align: left;">1.00</td>
+<td style="text-align: left;">0%</td>
+<td style="text-align: left;">0.10</td>
+<td style="text-align: left;">89%</td>
+</tr>
+<tr>
+<td style="text-align: left;">≥ 1.00</td>
+<td style="text-align: left;">Hard block</td>
+<td style="text-align: left;">1.00</td>
+<td style="text-align: left;">0%</td>
+<td style="text-align: left;">0.00</td>
+<td style="text-align: left;">100%</td>
+</tr>
+</tbody>
+</table>
+<p>The dead zone below saturation 0.5 means sheddable traffic flows freely at half-capacity and
+below. The steep tail beyond 0.8 reserves nearly all dispatch capacity for critical traffic
+without ever fully closing the sheddable gate: bounded latency, not indefinite starvation.</p>
+<p>Compare this to the Part 1 algorithm: the probabilistic admitter has two constants discovered by
+Nous (exponent 5, multiplier 300) tuned to hit a shedding curve of the right shape. The
+reflective ceiling has no free parameters; the shape is determined entirely by the number of
+priority bands and the current saturation reading. Adding a new priority level (a new <code>InferenceObjective</code> in llm-d-router's terms)
+automatically extends the reflection with no config change.</p>
+<h3 id="simulation-results">Simulation Results<a class="headerlink" href="#simulation-results" title="Permanent link">&para;</a></h3>
+<p>Before committing to real-hardware benchmarks, BLIS confirmed the algorithm's direction across
+three workload types:</p>
+<table>
+<thead>
+<tr>
+<th style="text-align: left;">Workload</th>
+<th style="text-align: left;">Input tokens</th>
+<th style="text-align: left;">Output tokens</th>
+<th style="text-align: left;">Critical/Sheddable</th>
+<th style="text-align: left;">Models</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: left;">Code generation</td>
+<td style="text-align: left;">~1,176 (large)</td>
+<td style="text-align: left;">~195 (moderate)</td>
+<td style="text-align: left;">30/70</td>
+<td style="text-align: left;">IDE inline suggestions and CI/CD code review pipelines where critical suggestions share capacity with background analysis jobs.</td>
+</tr>
+<tr>
+<td style="text-align: left;">Interactive chat</td>
+<td style="text-align: left;">~39 (short)</td>
+<td style="text-align: left;">~300 (moderate)</td>
+<td style="text-align: left;">30/70</td>
+<td style="text-align: left;">High-throughput conversational APIs serving mixed priority tiers.</td>
+</tr>
+<tr>
+<td style="text-align: left;">Reasoning</td>
+<td style="text-align: left;">~780 (moderate)</td>
+<td style="text-align: left;">~6,200 (large)</td>
+<td style="text-align: left;">50/50</td>
+<td style="text-align: left;">Agent chains and multi-step planning where critical interactive queries compete with batch reasoning jobs.</td>
+</tr>
+</tbody>
+</table>
+<h2 id="ai-assisted-sim2real-translation-simulation-to-production-code">AI-Assisted sim2real Translation: Simulation to Production Code<a class="headerlink" href="#ai-assisted-sim2real-translation-simulation-to-production-code" title="Permanent link">&para;</a></h2>
+<p>The <a href="../../../05/13/from-simulation-to-production-how-an-ai-native-pipeline-discovered-a-better-admission-controller-for-llm-d/#ai-assisted-sim2real-translation-simulation-to-production-code">same sim2real translation pipeline from Part 1</a> applies here. The agents work from the interface contract, produce a complete package with unit tests and parameter validation, and the output carries full provenance: a simulation-validated algorithm, translated by AI agents, ready to be registered and enabled with a YAML config change.</p>
+<h2 id="validate-real-cluster-benchmark-results">Validate: Real-Cluster Benchmark Results<a class="headerlink" href="#validate-real-cluster-benchmark-results" title="Permanent link">&para;</a></h2>
+<h3 id="setup">Setup<a class="headerlink" href="#setup" title="Permanent link">&para;</a></h3>
+<table>
+<thead>
+<tr>
+<th style="text-align: left;">Parameter</th>
+<th style="text-align: left;">Value</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: left;">Hardware</td>
+<td style="text-align: left;">2 × H100-SXM-80GB</td>
+</tr>
+<tr>
+<td style="text-align: left;">Model</td>
+<td style="text-align: left;">Qwen/Qwen3-14B</td>
+</tr>
+<tr>
+<td style="text-align: left;">Baseline</td>
+<td style="text-align: left;">Default llm-d-router flow control (constant ceiling 1.0)</td>
+</tr>
+<tr>
+<td style="text-align: left;">Treatment</td>
+<td style="text-align: left;">soft-reflective-ceiling-policy</td>
+</tr>
+<tr>
+<td style="text-align: left;">Load generator</td>
+<td style="text-align: left;">blis observe (open-loop, --max-concurrency 10000)</td>
+</tr>
+</tbody>
+</table>
+<p>Note that this benchmark uses 2 × H100 rather than the 4 × H100 cluster used in Part 1,
+reflecting a different hardware configuration while keeping the same model.</p>
+<h3 id="workloads">Workloads<a class="headerlink" href="#workloads" title="Permanent link">&para;</a></h3>
+<p>The real deployment was validated against the same workloads as the simulator: code generation,
+interactive chat and reasoning.</p>
+<p>All metrics below are for <strong>critical-class traffic only</strong>. Delta percentages show treatment
+vs. baseline (negative = improvement).</p>
+<h3 id="results">Results<a class="headerlink" href="#results" title="Permanent link">&para;</a></h3>
+<p>The chart below covers all workloads and request rates, comparing the soft-reflective-ceiling-policy treatment to the default constant-ceiling baseline. Each QPS group shows three bars: TTFT p99 (dark blue), E2E p99 (light blue), and throughput (teal). Bars above zero indicate improvement; bars below zero indicate regression. The dashed vertical line in each panel marks where proportional gating begins.</p>
+<p><img alt="Critical-class TTFT p99, E2E p99, and throughput vs baseline" src="../../../../../assets/sim2real-flow-control-results.png" /></p>
+<h3 id="reading-the-results">Reading the Results<a class="headerlink" href="#reading-the-results" title="Permanent link">&para;</a></h3>
+<p>The plugin's operating sweet spot is near-capacity load, where saturation fluctuates in the
+proportional gating regime (0.5–1.0):</p>
+<p><strong>Code generation @ 16 QPS</strong> is the clearest signal. The baseline saturates on prefill
+from 70%-sheddable large-input requests; critical TTFT p99 reaches 13.6 s. The treatment
+proportionally gates sheddable dispatch, letting critical requests reach pods with minimal
+wait: critical TTFT p99 falls to 263 ms, a 96.7% reduction. The difference between a 13-second
+and a 263-millisecond time-to-first-token is the difference between a usable and an unusable
+developer experience.</p>
+<p><strong>Reasoning @ 0.7 QPS</strong> shows the mechanism at work on long-running requests. Decode-heavy
+workloads cause sustained high saturation, and the proportional gating continuously protects
+critical prefill. Critical TTFT p99 drops from 330 s to 16 s (−91.2%), E2E improves −48.5%,
+and throughput recovers 64.4%, because the baseline was overloaded enough to drop requests
+that the treatment successfully completed.</p>
+<p><strong>Under-capacity workloads</strong> (code generation @ 4/10 QPS, interactive chat @ 20 QPS,
+reasoning @ 0.2 QPS) show neutral results: saturation stays below the gating threshold and
+the plugin is correctly a no-op. This is expected and important: a flow control policy that
+penalizes traffic when there is no contention would cause harm rather than help.</p>
+<p><strong>Interactive chat @ 40/60 QPS</strong> shows the one range where the treatment is modestly worse
+than baseline. These workloads operate near but not yet at capacity, in the transition zone
+where the reflective ceiling begins to engage but the benefit of protecting critical dispatch
+has not yet exceeded the overhead of rate-limiting sheddable traffic. The effect is small
+(TTFT p99 +18% and +31% respectively at low absolute baseline values) and disappears at 80
+QPS when the system is clearly above capacity.</p>
+<h2 id="deploy-a-contribution-to-llm-d">Deploy: A Contribution to llm-d<a class="headerlink" href="#deploy-a-contribution-to-llm-d" title="Permanent link">&para;</a></h2>
+<p>With real-cluster benchmarks confirming the gains predicted by simulation, the algorithm
+ships upstream as a new plugin in llm-d-router: <code>soft-reflective-ceiling-policy</code>. Users can
+enable it today with a single YAML change and no new infrastructure:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a><span class="nt">apiVersion</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">llm-d.ai/v1alpha1</span>
+<a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a><span class="nt">kind</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">EndpointPickerConfig</span>
+<a id="__codelineno-1-3" name="__codelineno-1-3" href="#__codelineno-1-3"></a><span class="nt">featureGates</span><span class="p">:</span>
+<a id="__codelineno-1-4" name="__codelineno-1-4" href="#__codelineno-1-4"></a><span class="w">  </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">flowControl</span>
+<a id="__codelineno-1-5" name="__codelineno-1-5" href="#__codelineno-1-5"></a><span class="nt">plugins</span><span class="p">:</span>
+<a id="__codelineno-1-6" name="__codelineno-1-6" href="#__codelineno-1-6"></a><span class="w">  </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">type</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">queue-scorer</span>
+<a id="__codelineno-1-7" name="__codelineno-1-7" href="#__codelineno-1-7"></a><span class="w">  </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">type</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">kv-cache-utilization-scorer</span>
+<a id="__codelineno-1-8" name="__codelineno-1-8" href="#__codelineno-1-8"></a><span class="w">  </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">type</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">prefix-cache-scorer</span>
+<a id="__codelineno-1-9" name="__codelineno-1-9" href="#__codelineno-1-9"></a><span class="w">  </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">type</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">soft-reflective-ceiling-policy</span>
+<a id="__codelineno-1-10" name="__codelineno-1-10" href="#__codelineno-1-10"></a><span class="nt">schedulingProfiles</span><span class="p">:</span>
+<a id="__codelineno-1-11" name="__codelineno-1-11" href="#__codelineno-1-11"></a><span class="w">  </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">default</span>
+<a id="__codelineno-1-12" name="__codelineno-1-12" href="#__codelineno-1-12"></a><span class="w">    </span><span class="nt">plugins</span><span class="p">:</span>
+<a id="__codelineno-1-13" name="__codelineno-1-13" href="#__codelineno-1-13"></a><span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">pluginRef</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">queue-scorer</span>
+<a id="__codelineno-1-14" name="__codelineno-1-14" href="#__codelineno-1-14"></a><span class="w">        </span><span class="nt">weight</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">2.0</span>
+<a id="__codelineno-1-15" name="__codelineno-1-15" href="#__codelineno-1-15"></a><span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">pluginRef</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">kv-cache-utilization-scorer</span>
+<a id="__codelineno-1-16" name="__codelineno-1-16" href="#__codelineno-1-16"></a><span class="w">        </span><span class="nt">weight</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">2.0</span>
+<a id="__codelineno-1-17" name="__codelineno-1-17" href="#__codelineno-1-17"></a><span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">pluginRef</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">prefix-cache-scorer</span>
+<a id="__codelineno-1-18" name="__codelineno-1-18" href="#__codelineno-1-18"></a><span class="w">        </span><span class="nt">weight</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">3.0</span>
+<a id="__codelineno-1-19" name="__codelineno-1-19" href="#__codelineno-1-19"></a><span class="nt">flowControl</span><span class="p">:</span>
+<a id="__codelineno-1-20" name="__codelineno-1-20" href="#__codelineno-1-20"></a><span class="w">  </span><span class="nt">usageLimitPolicyPluginRef</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">soft-reflective-ceiling-policy</span>
+</code></pre></div>
+<p>The plugin is most effective for deployments operating at 60-100% capacity with a meaningful
+fraction of sheddable traffic: code generation pipelines, batch reasoning jobs, background
+inference tasks running alongside latency-sensitive critical traffic. Under-capacity deployments
+see no effect. Deployments above 150% capacity are better served by admission control (which
+can shed load at the gate) rather than flow control (which cannot reject requests, only
+prioritize among admitted ones).</p>
+<h2 id="closing-the-loop">Closing the Loop<a class="headerlink" href="#closing-the-loop" title="Permanent link">&para;</a></h2>
+<p>A second traversal of the <a href="../../../05/13/from-simulation-to-production-how-an-ai-native-pipeline-discovered-a-better-admission-controller-for-llm-d/#closing-the-loop">same loop</a>: constant-ceiling flow control left critical traffic queuing behind sheddable work; simulation-driven discovery produced the reflective ceiling algorithm; AI-assisted translation delivered a production Go plugin; real-cluster benchmarks on 2 × H100 confirmed up to 98% TTFT improvement at near-capacity load; and the plugin is now in llm-d-router, enabled with a YAML config change.</p>
+<h2 id="what-we-learned">What We Learned<a class="headerlink" href="#what-we-learned" title="Permanent link">&para;</a></h2>
+<p>Three lessons emerged from this iteration that were not obvious at the outset:</p>
+<p><strong>Proportionality beats binary cliffs.</strong> The constant-ceiling baseline flips abruptly between
+fully-open and fully-blocked as saturation crosses a threshold. This causes oscillation and
+provides no graceful degradation for the cases that matter most: moderate overload, where the
+system is stressed but not catastrophic. A policy that smoothly ramps throttling intensity with
+saturation is more stable and more useful across a wider operating range.</p>
+<p><strong>A no-op at low load is a feature, not a bug.</strong> The reflective ceiling guarantees the plugin
+does nothing when saturation is below the band's reflection point. Confirming this in simulation
+(the near-zero reasoning result at 0.2 QPS) gave confidence before real-hardware testing.
+A flow control policy that penalizes traffic when there is no contention would cause harm.
+Testing the absence of harm is as important as testing the presence of benefit.</p>
+<p><strong>Simulation confirms direction; real hardware quantifies magnitude.</strong> In this case the absolute
+gains on real hardware exceeded simulation estimates, but that is not guaranteed. The simulator
+cannot fully model GPU memory pressure, vLLM preemption cascades, and batching interference
+under real load, so measured magnitudes can differ in either direction. For policy evolution,
+that is fine: the goal is not 100% accuracy, but reliable signal on whether a candidate policy
+improves or regresses the target metric. A simulation that correctly predicts the direction of
+improvement filters out bad candidates before any GPU time is spent, regardless of whether
+the magnitude matches exactly.</p>
+<h2 id="what-comes-next">What Comes Next<a class="headerlink" href="#what-comes-next" title="Permanent link">&para;</a></h2>
+<p>This article and Part 1 together cover two distinct protection layers: admission control
+reduces total load at the gate by probabilistically rejecting sheddable requests before they
+enter the dispatch queue; flow control prioritizes dispatch among already-admitted requests.
+Composing both provides layered protection: admission control prevents overload, flow control
+ensures critical traffic is served first under normal-to-near-capacity operation.</p>
+<p>The natural next frontier is exploring multiple interacting policies simultaneously: how
+admission control and flow control compose under varying load, and what the joint policy space
+looks like when Nous searches it rather than each mechanism in isolation. With BLIS becoming
+the official llm-d simulator, this kind of multi-policy search becomes tractable. The same
+simulation infrastructure that validated these two algorithms can explore interactions,
+emergent behaviors, and entirely new problem classes: routing, autoscaling,
+prefill-decode disaggregation.</p>
+
+
+
+
+
+
+
+  
+  
+
+
+
+  
+
+
+  
+
+
+
+      
+    </article>
+  </div>
+
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+          <button type="button" class="md-top md-icon" data-md-component="top" hidden>
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8z"/></svg>
+  Back to top
+</button>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+    
+      
+        
+      
+      <nav class="md-footer__inner md-grid" aria-label="Footer" >
+        
+          
+          <a href="../../../06/24/the-scientific-method-on-code-how-a-hypothesis-driven-ai-learned-what-evolution-couldnt/" class="md-footer__link md-footer__link--prev" aria-label="Previous: The Scientific Method on Code: How a Hypothesis-Driven AI Learned What Evolution Couldn&#39;t">
+            <div class="md-footer__button md-icon">
+              
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+            </div>
+            <div class="md-footer__title">
+              <span class="md-footer__direction">
+                Previous
+              </span>
+              <div class="md-ellipsis">
+                The Scientific Method on Code: How a Hypothesis-Driven AI Learned What Evolution Couldn't
+              </div>
+            </div>
+          </a>
+        
+        
+      </nav>
+    
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      
+      <script id="__config" type="application/json">{"annotate": null, "base": "../../../../..", "features": ["navigation.tabs", "navigation.indexes", "navigation.sections", "navigation.expand", "navigation.footer", "navigation.top", "search.highlight", "search.suggest", "content.code.copy", "toc.follow"], "search": "../../../../../assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": {"default": "latest", "provider": "mike"}}</script>
+    
+    
+  
+      <script src="../../../../../assets/javascripts/bundle.79ae519e.min.js"></script>
+      
+    
+  <div class="ga-notice" id="ga-notice" role="region" aria-label="Analytics notice">
+    <div class="ga-notice__inner">
+      <span class="ga-notice__text">
+        We use cookieless Google Analytics to count how many readers each post gets &mdash;
+        no cookies, no tracking across sites. Your page URL (without query parameters), browser,
+        and approximate location may be processed.
+        <a href="../../../../../privacy/">Read what's collected &rarr;</a>
+      </span>
+      <button class="ga-notice__btn" id="ga-notice-dismiss" type="button">Got it</button>
+    </div>
+  </div>
+  <script>
+    (function() {
+      var notice = document.getElementById('ga-notice');
+      var btn = document.getElementById('ga-notice-dismiss');
+      if (!notice || !btn) return;
+      try {
+        if (!localStorage.getItem('analytics-notice-dismissed')) {
+          notice.style.display = 'block';
+        }
+      } catch (e) { /* localStorage unavailable; just don't show */ }
+      btn.addEventListener('click', function() {
+        try { localStorage.setItem('analytics-notice-dismissed', '1'); } catch (e) {}
+        notice.style.display = 'none';
+      });
+    })();
+  </script>
+
+  </body>
+</html>

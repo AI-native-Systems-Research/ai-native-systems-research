@@ -1065,6 +1065,76 @@
       <nav class="md-post__authors md-typeset">
         
           <span class="md-author">
+            <img src="https://github.com/kalantar.png" alt="Michael Kalantar">
+          </span>
+        
+      </nav>
+    
+    <div class="md-post__meta md-meta">
+      <ul class="md-meta__list">
+        <li class="md-meta__item">
+          <time datetime="2026-07-27 00:00:00+00:00">July 27, 2026</time></li>
+        
+          <li class="md-meta__item">
+            in
+            
+              <a href="../../category/llm-d/" class="md-meta__link">llm-d</a>, 
+              <a href="../../category/deep-dives/" class="md-meta__link">Deep Dives</a></li>
+        
+        
+          
+          <li class="md-meta__item">
+            
+              9 min read
+            
+          </li>
+        
+        
+      </ul>
+      
+    </div>
+  </header>
+  <div class="md-post__content md-typeset">
+    <h2 id="from-simulation-to-production-part-ii-soft-reflective-flow-control-for-llm-d"><a class="toclink" href="../../2026/07/27/from-simulation-to-production-part-ii-soft-reflective-flow-control-for-llm-d/">From Simulation to Production Part II: Soft-Reflective Flow Control for llm-d</a></h2>
+<p><em>Part 2 of the sim2real series. A case study in closing the AI-native loop across a second
+problem class: dispatch prioritization.</em></p>
+<h3 id="introduction"><a class="toclink" href="../../2026/07/27/from-simulation-to-production-part-ii-soft-reflective-flow-control-for-llm-d/#introduction">Introduction</a></h3>
+<p>The <a href="../../2026/05/13/from-simulation-to-production-how-an-ai-native-pipeline-discovered-a-better-admission-controller-for-llm-d/">first article in this series</a> traced a
+complete traversal of the AI-native loop for llm-d's admission control layer: an AI agent
+framework (<a href="https://github.com/AI-native-Systems-Research/agentic-strategy-evolution">Nous</a>)
+used a high-fidelity simulator (<a href="https://github.com/inference-sim/inference-sim">BLIS</a>) to
+discover a probabilistic, proactive admission control policy that cuts critical-traffic TTFT
+by up to 97% at near-saturation workloads. That article restates the core methodology:
+simulation lets the loop run at machine speed, reserving expensive GPU time for validating
+the few candidates that actually merit real-hardware testing.</p>
+<p>This article applies the same loop to a different problem: <strong>flow control</strong>. The distinction
+matters. Admission control acts at the gate: it decides whether an incoming request enters the
+system at all, and may reject it. Flow control acts at the dispatch queue: it decides which
+already-admitted request gets sent to a backend server next. The two mechanisms protect different
+points in the pipeline and neither replaces the other.</p>
+<p>The concrete outcome is the <strong>soft-reflective ceiling policy</strong>: a new flow control plugin for
+llm-d-router that reduces critical-class TTFT p99 by up to 98% at near-capacity load without
+rejecting a single request. It is now merged into
+<a href="https://github.com/llm-d/llm-d-router/tree/main/pkg/epp/framework/plugins/flowcontrol/usagelimits/softreflectiveceiling">llm-d-router</a>, and users can enable it today with a
+single YAML change.</p>
+
+    
+      <nav class="md-post__action">
+        <a href="../../2026/07/27/from-simulation-to-production-part-ii-soft-reflective-flow-control-for-llm-d/">
+          Continue reading
+        </a>
+      </nav>
+    
+    
+  </div>
+</article>
+      
+        <article class="md-post md-post--excerpt">
+  <header class="md-post__header">
+    
+      <nav class="md-post__authors md-typeset">
+        
+          <span class="md-author">
             <img src="https://github.com/eilamt.png" alt="Tamar Eilam">
           </span>
         
