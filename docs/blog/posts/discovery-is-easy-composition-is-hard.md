@@ -19,6 +19,9 @@ tags:
 
 # Discovery Is Easy, Composition Is Hard
 
+_Why LLM Optimizers Find the Right Answers But Can't Assemble Them_
+_Case Study I: The Certus Cold-Read Path_
+
 This is the first in a series of case studies applying AI-driven optimization to [Certus](https://ai-native-systems-research.github.io/ai-native-systems-research/blog/2026/06/17/certus-the-end-of-one-size-fits-all-storage/), a hyper-specialized storage system for LLM inference and KV-cache workloads. We gave six LLM-driven code optimization frameworks and one coding agent the same task: speed up Certus's *cold-read path*, the performance-critical path for retrieving cached KV blocks from NVMe storage to GPU memory.
 
 <!-- more -->
