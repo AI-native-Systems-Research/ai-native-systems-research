@@ -17,7 +17,6 @@ tags:
   - evolutionary-optimization
 ---
 
-<div style="text-align:center" markdown>
 # Discovery Is Easy, Composition Is Hard
 
 <p style="font-style:italic;opacity:0.75;margin-top:-0.6rem" markdown>
