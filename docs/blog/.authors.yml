@@ -61,7 +61,7 @@ authors:
     avatar: https://github.com/vasia.png
   assaft:
     name: Assaf Toledo
-    description: ""
+    description: AI-native Systems Research Manager
     avatar: https://github.com/assaftibm.png
   Gal-bloch:
     name: Gal Bloch
@@ -69,5 +69,13 @@ authors:
     avatar: https://github.com/Gal-bloch.png
   gilv:
     name: Gil Vernik
-    description: ""
+    description: Senior Research Scientist
     avatar: https://github.com/gilv.png
+  shiyicao:
+    name: Shiyi Cao
+    description: Ph.D. student at UC Berkeley EECS
+    avatar: https://github.com/caoshiyi.png
+  jegonzal:
+    name: Joseph E. Gonzalez
+    description: Professor in EECS @ UC Berkeley
+    avatar: https://github.com/jegonzal.png
