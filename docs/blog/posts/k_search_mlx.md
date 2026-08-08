@@ -3,9 +3,10 @@ date: 2026-08-06
 categories:
   - Kernels
 authors:
-  - assaft
   - Gal-bloch
+  - assaft
   - gilv
+  - factor
 description: >
   How we used K-Search to translate CUDA kernels to MLX, enabling high-performance
   inference kernels on Apple Silicon with minimal manual effort.
