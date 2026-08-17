@@ -1,7 +1,7 @@
 ---
 date: 2026-08-06
 categories:
-  - Kernels
+  - AI Kernels
 authors:
   - shiyicao
   - Gal-bloch
@@ -28,4 +28,4 @@ port high-performance kernels while maintaining competitive performance.
 !!! info "Originally published on the BAIR Blog"
     This post was originally published on the Berkeley AI Research (BAIR) blog.
 
-    [Continue reading on BAIR →]([https://bair.berkeley.edu/blog/](https://bair.berkeley.edu/blog/2026/07/29/cuda-to-mlx-k-search/)){ .md-button .md-button--primary }
+    [Continue reading on BAIR →](https://bair.berkeley.edu/blog/2026/07/29/cuda-to-mlx-k-search/){ .md-button .md-button--primary }
