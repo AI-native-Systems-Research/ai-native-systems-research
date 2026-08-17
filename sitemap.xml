@@ -21,6 +21,10 @@
          <lastmod>2026-08-17</lastmod>
     </url>
     <url>
+         <loc>https://ai-native-systems-research.github.io/ai-native-systems-research/blog/2026/08/06/what-weve-learned-about-modeling-llm-latency/</loc>
+         <lastmod>2026-08-17</lastmod>
+    </url>
+    <url>
          <loc>https://ai-native-systems-research.github.io/ai-native-systems-research/blog/2026/03/05/why-simulate-before-you-scale/</loc>
          <lastmod>2026-08-17</lastmod>
     </url>
@@ -30,10 +34,6 @@
     </url>
     <url>
          <loc>https://ai-native-systems-research.github.io/ai-native-systems-research/blog/2026/08/04/discovery-is-easy-composition-is-hard/</loc>
-         <lastmod>2026-08-17</lastmod>
-    </url>
-    <url>
-         <loc>https://ai-native-systems-research.github.io/ai-native-systems-research/blog/2026/08/06/ai-native-systems-for-portable-kernels-across-hardware-architectures/</loc>
          <lastmod>2026-08-17</lastmod>
     </url>
     <url>
@@ -73,15 +73,15 @@
          <lastmod>2026-08-17</lastmod>
     </url>
     <url>
-         <loc>https://ai-native-systems-research.github.io/ai-native-systems-research/blog/category/ai-kernels/</loc>
-         <lastmod>2026-08-17</lastmod>
-    </url>
-    <url>
-         <loc>https://ai-native-systems-research.github.io/ai-native-systems-research/blog/category/storage-systems/</loc>
+         <loc>https://ai-native-systems-research.github.io/ai-native-systems-research/blog/category/blis/</loc>
          <lastmod>2026-08-17</lastmod>
     </url>
     <url>
          <loc>https://ai-native-systems-research.github.io/ai-native-systems-research/blog/category/deep-dives/</loc>
+         <lastmod>2026-08-17</lastmod>
+    </url>
+    <url>
+         <loc>https://ai-native-systems-research.github.io/ai-native-systems-research/blog/category/storage-systems/</loc>
          <lastmod>2026-08-17</lastmod>
     </url>
     <url>
@@ -90,10 +90,6 @@
     </url>
     <url>
          <loc>https://ai-native-systems-research.github.io/ai-native-systems-research/blog/category/vision/</loc>
-         <lastmod>2026-08-17</lastmod>
-    </url>
-    <url>
-         <loc>https://ai-native-systems-research.github.io/ai-native-systems-research/blog/category/blis/</loc>
          <lastmod>2026-08-17</lastmod>
     </url>
 </urlset>

@@ -16,7 +16,7 @@
         <link rel="prev" href="../technical-domains/storage-systems/">
       
       
-        <link rel="next" href="category/ai-kernels/">
+        <link rel="next" href="category/blis/">
       
       
         
@@ -801,8 +801,6 @@
       
         
       
-        
-      
     
     
     
@@ -852,36 +850,6 @@
 
           </label>
           <ul class="md-nav__list" data-md-scrollfix>
-            
-              
-                
-  
-  
-  
-    
-  
-  
-    <li class="md-nav__item">
-      <a href="category/ai-kernels/" class="md-nav__link">
-        
-  
-  
-  <span class="md-ellipsis">
-    
-  
-    AI Kernels
-  
-
-    
-  </span>
-  
-  
-
-      </a>
-    </li>
-  
-
-              
             
               
                 
@@ -1087,7 +1055,7 @@
       <nav class="md-post__authors md-typeset">
         
           <span class="md-author">
-            <img src="https://github.com/caoshiyi.png" alt="Shiyi Cao">
+            <img src="https://github.com/susiejojo.png" alt="Dipanwita Guhathakurta">
           </span>
         
       </nav>
@@ -1100,7 +1068,8 @@
           <li class="md-meta__item">
             in
             
-              <a href="category/ai-kernels/" class="md-meta__link">AI Kernels</a></li>
+              <a href="category/blis/" class="md-meta__link">BLIS</a>, 
+              <a href="category/deep-dives/" class="md-meta__link">Deep Dives</a></li>
         
         
           
@@ -1116,17 +1085,25 @@
     </div>
   </header>
   <div class="md-post__content md-typeset">
-    <h2 id="ai-native-systems-for-portable-kernels-across-hardware-architectures"><a class="toclink" href="2026/08/06/ai-native-systems-for-portable-kernels-across-hardware-architectures/">AI-Native Systems for Portable Kernels Across Hardware Architectures</a></h2>
-<p>Modern AI kernels are overwhelmingly written for CUDA, making it difficult to
-bring state-of-the-art optimizations to emerging hardware backends. In this
-post, we show how IBM Research collaborated with the K-Search team to
-automatically translate CUDA kernels to MLX, demonstrating that evolutionary
-kernel optimization can dramatically reduce the engineering effort required to
-port high-performance kernels while maintaining competitive performance.</p>
+    <h2 id="what-weve-learned-about-modeling-llm-latency"><a class="toclink" href="2026/08/06/what-weve-learned-about-modeling-llm-latency/">What We've Learned About Modeling LLM Latency</a></h2>
+<p>The <a href="2026/04/09/the-physics-of-high-fidelity-distributed-inference-platform-simulation/">last post in the BLIS series</a> covered how BLIS models the engine,
+data plane, and control plane to predict full-pipeline latency without touching a GPU. What it
+didn't answer is whether the predictions can be trusted.</p>
+<p>That comes down to one number. Everything BLIS reports at the cluster level rests on its
+estimate of how long a single <strong>forward pass</strong> takes, so if that's off, nothing above it can
+be right. This post is about how we estimate it, how well it holds up, and where it falls
+short.</p>
+<p>The headline, up front: fit once on H100, BLIS predicts held-out configurations (six models
+across three GPU types) at <strong>6.7% median end-to-end error</strong>, roughly <strong>200× faster</strong> than
+running them for real, and those predictions have already steered serving policies we later
+confirmed on a physical cluster: a
+<a href="2026/05/13/from-simulation-to-production-how-an-ai-native-pipeline-discovered-a-better-admission-controller-for-llm-d/">better admission controller</a>
+and <a href="2026/07/27/from-simulation-to-production-part-ii-soft-reflective-flow-control-for-llm-d/">soft reflective flow control</a>
+for llm-d. The rest of this post is how we get there, and where it still falls short.</p>
 
     
       <nav class="md-post__action">
-        <a href="2026/08/06/ai-native-systems-for-portable-kernels-across-hardware-architectures/">
+        <a href="2026/08/06/what-weve-learned-about-modeling-llm-latency/">
           Continue reading
         </a>
       </nav>
@@ -1667,13 +1644,13 @@ single YAML change.</p>
         
         
           
-          <a href="category/ai-kernels/" class="md-footer__link md-footer__link--next" aria-label="Next: AI Kernels">
+          <a href="category/blis/" class="md-footer__link md-footer__link--next" aria-label="Next: BLIS">
             <div class="md-footer__title">
               <span class="md-footer__direction">
                 Next
               </span>
               <div class="md-ellipsis">
-                AI Kernels
+                BLIS
               </div>
             </div>
             <div class="md-footer__button md-icon">

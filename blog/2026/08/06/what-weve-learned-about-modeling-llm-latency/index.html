@@ -6,12 +6,12 @@
       <meta charset="utf-8">
       <meta name="viewport" content="width=device-width,initial-scale=1">
       
-        <meta name="description" content="How we used K-Search to translate CUDA kernels to MLX, enabling high-performance inference kernels on Apple Silicon with minimal manual effort.
+        <meta name="description" content="How BLIS predicts a single forward pass on a CPU, how well those predictions hold up on models and GPUs it never trained on, and where they still fall short.
 ">
       
       
       
-        <link rel="canonical" href="https://ai-native-systems-research.github.io/ai-native-systems-research/blog/2026/08/06/ai-native-systems-for-portable-kernels-across-hardware-architectures/">
+        <link rel="canonical" href="https://ai-native-systems-research.github.io/ai-native-systems-research/blog/2026/08/06/what-weve-learned-about-modeling-llm-latency/">
       
       
         <link rel="prev" href="../../04/discovery-is-easy-composition-is-hard/">
@@ -26,7 +26,7 @@
     
     
       
-        <title>AI-Native Systems for Portable Kernels Across Hardware Architectures - AI-native Systems Research</title>
+        <title>What We've Learned About Modeling LLM Latency - AI-native Systems Research</title>
       
     
     
@@ -158,7 +158,7 @@
     <div data-md-component="skip">
       
         
-        <a href="#ai-native-systems-for-portable-kernels-across-hardware-architectures" class="md-skip">
+        <a href="#what-weve-learned-about-modeling-llm-latency" class="md-skip">
           Skip to content
         </a>
       
@@ -196,7 +196,7 @@
         <div class="md-header__topic" data-md-component="header-topic">
           <span class="md-ellipsis">
             
-              AI-Native Systems for Portable Kernels Across Hardware Architectures
+              What We've Learned About Modeling LLM Latency
             
           </span>
         </div>
@@ -802,8 +802,6 @@
       
         
       
-        
-      
     
     
     
@@ -853,36 +851,6 @@
 
           </label>
           <ul class="md-nav__list" data-md-scrollfix>
-            
-              
-                
-  
-  
-  
-    
-  
-  
-    <li class="md-nav__item">
-      <a href="../../../../category/ai-kernels/" class="md-nav__link">
-        
-  
-  
-  <span class="md-ellipsis">
-    
-  
-    AI Kernels
-  
-
-    
-  </span>
-  
-  
-
-      </a>
-    </li>
-  
-
-              
             
               
                 
@@ -1098,27 +1066,12 @@
                 
                   <div class="md-profile md-post__profile">
                     <span class="md-author md-author--long">
-                      <img src="https://github.com/caoshiyi.png" alt="Shiyi Cao">
+                      <img src="https://github.com/susiejojo.png" alt="Dipanwita Guhathakurta">
                     </span>
                     <span class="md-profile__description">
                       <strong>
                         
-                          Shiyi Cao
-                        
-                      </strong>
-                      <br>
-                      Ph.D. student at UC Berkeley EECS
-                    </span>
-                  </div>
-                
-                  <div class="md-profile md-post__profile">
-                    <span class="md-author md-author--long">
-                      <img src="https://github.com/Gal-bloch.png" alt="Gal Bloch">
-                    </span>
-                    <span class="md-profile__description">
-                      <strong>
-                        
-                          Gal Bloch
+                          Dipanwita Guhathakurta
                         
                       </strong>
                       <br>
@@ -1128,61 +1081,121 @@
                 
                   <div class="md-profile md-post__profile">
                     <span class="md-author md-author--long">
-                      <img src="https://github.com/assaftibm.png" alt="Assaf Toledo">
+                      <img src="https://github.com/toslali-ibm.png" alt="Mert Toslali">
                     </span>
                     <span class="md-profile__description">
                       <strong>
                         
-                          Assaf Toledo
+                          Mert Toslali
                         
                       </strong>
                       <br>
-                      AI-native Systems Research Manager
+                      AI-native Systems Researcher
                     </span>
                   </div>
                 
                   <div class="md-profile md-post__profile">
                     <span class="md-author md-author--long">
-                      <img src="https://github.com/gilv.png" alt="Gil Vernik">
+                      <img src="https://github.com/jgchn.png" alt="Jing Chen">
                     </span>
                     <span class="md-profile__description">
                       <strong>
                         
-                          Gil Vernik
+                          Jing Chen
                         
                       </strong>
                       <br>
-                      Senior Research Scientist
+                      AI-native Systems Researcher
                     </span>
                   </div>
                 
                   <div class="md-profile md-post__profile">
                     <span class="md-author md-author--long">
-                      <img src="https://github.com/mef63.png" alt="Michael Factor">
+                      <img src="https://github.com/namasl.png" alt="Nick Masluk">
                     </span>
                     <span class="md-profile__description">
                       <strong>
                         
-                          Michael Factor
+                          Nick Masluk
                         
                       </strong>
                       <br>
-                      IBM Fellow
+                      AI-native Systems Researcher
                     </span>
                   </div>
                 
                   <div class="md-profile md-post__profile">
                     <span class="md-author md-author--long">
-                      <img src="https://github.com/jegonzal.png" alt="Joseph E. Gonzalez">
+                      <img src="https://github.com/kalantar.png" alt="Michael Kalantar">
                     </span>
                     <span class="md-profile__description">
                       <strong>
                         
-                          Joseph E. Gonzalez
+                          Michael Kalantar
                         
                       </strong>
                       <br>
-                      Professor in EECS @ UC Berkeley
+                      AI-native Systems Researcher
+                    </span>
+                  </div>
+                
+                  <div class="md-profile md-post__profile">
+                    <span class="md-author md-author--long">
+                      <img src="https://github.com/atantawi.png" alt="Asser Tantawi">
+                    </span>
+                    <span class="md-profile__description">
+                      <strong>
+                        
+                          Asser Tantawi
+                        
+                      </strong>
+                      <br>
+                      AI-native Systems Researcher
+                    </span>
+                  </div>
+                
+                  <div class="md-profile md-post__profile">
+                    <span class="md-author md-author--long">
+                      <img src="https://github.com/vishakha-r.png" alt="Vishakha Ramani">
+                    </span>
+                    <span class="md-profile__description">
+                      <strong>
+                        
+                          Vishakha Ramani
+                        
+                      </strong>
+                      <br>
+                      AI-native Systems Researcher
+                    </span>
+                  </div>
+                
+                  <div class="md-profile md-post__profile">
+                    <span class="md-author md-author--long">
+                      <img src="https://github.com/sriumcp.png" alt="Srinivasan Parthasarathy">
+                    </span>
+                    <span class="md-profile__description">
+                      <strong>
+                        
+                          Srinivasan Parthasarathy
+                        
+                      </strong>
+                      <br>
+                      AI-native Systems Researcher
+                    </span>
+                  </div>
+                
+                  <div class="md-profile md-post__profile">
+                    <span class="md-author md-author--long">
+                      <img src="https://github.com/fabolive.png" alt="Fabio A. Oliveira">
+                    </span>
+                    <span class="md-profile__description">
+                      <strong>
+                        
+                          Fabio A. Oliveira
+                        
+                      </strong>
+                      <br>
+                      AI-native Systems Senior Research Manager
                     </span>
                   </div>
                 
@@ -1211,7 +1224,8 @@
                           <span class="md-ellipsis">
                             in
                             
-                              <a href="../../../../category/ai-kernels/">AI Kernels</a></span>
+                              <a href="../../../../category/blis/">BLIS</a>, 
+                              <a href="../../../../category/deep-dives/">Deep Dives</a></span>
                         </div>
                       </li>
                     
@@ -1249,19 +1263,28 @@
   
 
 
-<h1 id="ai-native-systems-for-portable-kernels-across-hardware-architectures">AI-Native Systems for Portable Kernels Across Hardware Architectures<a class="headerlink" href="#ai-native-systems-for-portable-kernels-across-hardware-architectures" title="Permanent link">&para;</a></h1>
-<p>Modern AI kernels are overwhelmingly written for CUDA, making it difficult to
-bring state-of-the-art optimizations to emerging hardware backends. In this
-post, we show how IBM Research collaborated with the K-Search team to
-automatically translate CUDA kernels to MLX, demonstrating that evolutionary
-kernel optimization can dramatically reduce the engineering effort required to
-port high-performance kernels while maintaining competitive performance.</p>
+<h1 id="what-weve-learned-about-modeling-llm-latency">What We've Learned About Modeling LLM Latency<a class="headerlink" href="#what-weve-learned-about-modeling-llm-latency" title="Permanent link">&para;</a></h1>
+<p>The <a href="../../../04/09/the-physics-of-high-fidelity-distributed-inference-platform-simulation/">last post in the BLIS series</a> covered how BLIS models the engine,
+data plane, and control plane to predict full-pipeline latency without touching a GPU. What it
+didn't answer is whether the predictions can be trusted.</p>
+<p>That comes down to one number. Everything BLIS reports at the cluster level rests on its
+estimate of how long a single <strong>forward pass</strong> takes, so if that's off, nothing above it can
+be right. This post is about how we estimate it, how well it holds up, and where it falls
+short.</p>
+<p>The headline, up front: fit once on H100, BLIS predicts held-out configurations (six models
+across three GPU types) at <strong>6.7% median end-to-end error</strong>, roughly <strong>200× faster</strong> than
+running them for real, and those predictions have already steered serving policies we later
+confirmed on a physical cluster: a
+<a href="../../../05/13/from-simulation-to-production-how-an-ai-native-pipeline-discovered-a-better-admission-controller-for-llm-d/">better admission controller</a>
+and <a href="../../../07/27/from-simulation-to-production-part-ii-soft-reflective-flow-control-for-llm-d/">soft reflective flow control</a>
+for llm-d. The rest of this post is how we get there, and where it still falls short.</p>
 <!-- more -->
 
 <div class="admonition info">
-<p class="admonition-title">Originally published on the BAIR Blog</p>
-<p>This post was originally published on the Berkeley AI Research (BAIR) blog.</p>
-<p><a class="md-button md-button--primary" href="https://bair.berkeley.edu/blog/2026/07/29/cuda-to-mlx-k-search/">Continue reading on BAIR →</a></p>
+<p class="admonition-title">Cross-posted from the BLIS blog</p>
+<p>This post was originally published on the
+<a href="https://inference-sim.github.io/inference-sim/latest/">BLIS</a> blog.</p>
+<p><a class="md-button md-button--primary" href="https://inference-sim.github.io/inference-sim/latest/blog/2026/08/06/what-weve-learned-about-modeling-llm-latency/">Continue reading on inference-sim →</a></p>
 </div>
 
 
