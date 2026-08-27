@@ -6,18 +6,16 @@
       <meta charset="utf-8">
       <meta name="viewport" content="width=device-width,initial-scale=1">
       
-        <meta name="description" content="How BLIS predicts a single forward pass on a CPU, how well those predictions hold up on models and GPUs it never trained on, and where they still fall short.
+        <meta name="description" content="Six months after introducing AI-Native Systems, an update on the architecture, a concrete walk-through of the loop, and the lessons learned from running it against real inference, storage, and kernel workloads.
 ">
       
       
       
-        <link rel="canonical" href="https://ai-native-systems-research.github.io/ai-native-systems-research/blog/2026/08/06/what-weve-learned-about-modeling-llm-latency/">
+        <link rel="canonical" href="https://ai-native-systems-research.github.io/ai-native-systems-research/blog/2026/08/27/ai-native-systems-six-months-in-what-weve-learned-building-the-loop/">
       
       
-        <link rel="prev" href="../ai-native-systems-for-portable-kernels-across-hardware-architectures/">
+        <link rel="prev" href="../../06/what-weve-learned-about-modeling-llm-latency/">
       
-      
-        <link rel="next" href="../../27/ai-native-systems-six-months-in-what-weve-learned-building-the-loop/">
       
       
         
@@ -28,7 +26,7 @@
     
     
       
-        <title>What We've Learned About Modeling LLM Latency - AI-native Systems Research</title>
+        <title>AI-Native Systems, Six Months In: What We've Learned Building the Loop - AI-native Systems Research</title>
       
     
     
@@ -160,7 +158,7 @@
     <div data-md-component="skip">
       
         
-        <a href="#what-weve-learned-about-modeling-llm-latency" class="md-skip">
+        <a href="#ai-native-systems-six-months-in-what-weve-learned-building-the-loop" class="md-skip">
           Skip to content
         </a>
       
@@ -198,7 +196,7 @@
         <div class="md-header__topic" data-md-component="header-topic">
           <span class="md-ellipsis">
             
-              What We've Learned About Modeling LLM Latency
+              AI-Native Systems, Six Months In: What We've Learned Building the Loop
             
           </span>
         </div>
@@ -1073,6 +1071,75 @@
     
   
   
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#the-updated-definition" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        The Updated Definition
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#architecture-made-concrete" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Architecture, Made Concrete
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Architecture, Made Concrete">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#how-the-pieces-fit-together" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        How the pieces fit together
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#lessons-learned" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Lessons Learned
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#where-this-is-headed" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Where This Is Headed
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
 </nav>
                   </div>
                 </div>
@@ -1100,121 +1167,31 @@
                 
                   <div class="md-profile md-post__profile">
                     <span class="md-author md-author--long">
-                      <img src="https://github.com/susiejojo.png" alt="Dipanwita Guhathakurta">
+                      <img src="https://github.com/eilamt.png" alt="Tamar Eilam">
                     </span>
                     <span class="md-profile__description">
                       <strong>
                         
-                          Dipanwita Guhathakurta
+                          Tamar Eilam
                         
                       </strong>
                       <br>
-                      AI-native Systems Researcher
+                      IBM Fellow
                     </span>
                   </div>
                 
                   <div class="md-profile md-post__profile">
                     <span class="md-author md-author--long">
-                      <img src="https://github.com/toslali-ibm.png" alt="Mert Toslali">
+                      <img src="https://github.com/mef63.png" alt="Michael Factor">
                     </span>
                     <span class="md-profile__description">
                       <strong>
                         
-                          Mert Toslali
+                          Michael Factor
                         
                       </strong>
                       <br>
-                      AI-native Systems Researcher
-                    </span>
-                  </div>
-                
-                  <div class="md-profile md-post__profile">
-                    <span class="md-author md-author--long">
-                      <img src="https://github.com/jgchn.png" alt="Jing Chen">
-                    </span>
-                    <span class="md-profile__description">
-                      <strong>
-                        
-                          Jing Chen
-                        
-                      </strong>
-                      <br>
-                      AI-native Systems Researcher
-                    </span>
-                  </div>
-                
-                  <div class="md-profile md-post__profile">
-                    <span class="md-author md-author--long">
-                      <img src="https://github.com/namasl.png" alt="Nick Masluk">
-                    </span>
-                    <span class="md-profile__description">
-                      <strong>
-                        
-                          Nick Masluk
-                        
-                      </strong>
-                      <br>
-                      AI-native Systems Researcher
-                    </span>
-                  </div>
-                
-                  <div class="md-profile md-post__profile">
-                    <span class="md-author md-author--long">
-                      <img src="https://github.com/kalantar.png" alt="Michael Kalantar">
-                    </span>
-                    <span class="md-profile__description">
-                      <strong>
-                        
-                          Michael Kalantar
-                        
-                      </strong>
-                      <br>
-                      AI-native Systems Researcher
-                    </span>
-                  </div>
-                
-                  <div class="md-profile md-post__profile">
-                    <span class="md-author md-author--long">
-                      <img src="https://github.com/atantawi.png" alt="Asser Tantawi">
-                    </span>
-                    <span class="md-profile__description">
-                      <strong>
-                        
-                          Asser Tantawi
-                        
-                      </strong>
-                      <br>
-                      AI-native Systems Researcher
-                    </span>
-                  </div>
-                
-                  <div class="md-profile md-post__profile">
-                    <span class="md-author md-author--long">
-                      <img src="https://github.com/vishakha-r.png" alt="Vishakha Ramani">
-                    </span>
-                    <span class="md-profile__description">
-                      <strong>
-                        
-                          Vishakha Ramani
-                        
-                      </strong>
-                      <br>
-                      AI-native Systems Researcher
-                    </span>
-                  </div>
-                
-                  <div class="md-profile md-post__profile">
-                    <span class="md-author md-author--long">
-                      <img src="https://github.com/sriumcp.png" alt="Srinivasan Parthasarathy">
-                    </span>
-                    <span class="md-profile__description">
-                      <strong>
-                        
-                          Srinivasan Parthasarathy
-                        
-                      </strong>
-                      <br>
-                      AI-native Systems Researcher
+                      IBM Fellow
                     </span>
                   </div>
                 
@@ -1233,6 +1210,21 @@
                     </span>
                   </div>
                 
+                  <div class="md-profile md-post__profile">
+                    <span class="md-author md-author--long">
+                      <img src="https://github.com/ShilaOfek.png" alt="Shila Ofek-Koifman">
+                    </span>
+                    <span class="md-profile__description">
+                      <strong>
+                        
+                          Shila Ofek-Koifman
+                        
+                      </strong>
+                      <br>
+                      Director, Language Technologies
+                    </span>
+                  </div>
+                
               </div>
             
             <ul class="md-post__meta md-nav__list">
@@ -1247,7 +1239,7 @@
                     <li class="md-nav__item">
                       <div class="md-nav__link">
                         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 19H5V8h14m-3-7v2H8V1H6v2H5c-1.11 0-2 .89-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V5a2 2 0 0 0-2-2h-1V1m-1 11h-5v5h5z"/></svg>
-                        <time datetime="2026-08-06 00:00:00+00:00" class="md-ellipsis">August 6, 2026</time>
+                        <time datetime="2026-08-27 00:00:00+00:00" class="md-ellipsis">August 27, 2026</time>
                       </div>
                     </li>
                     
@@ -1258,8 +1250,7 @@
                           <span class="md-ellipsis">
                             in
                             
-                              <a href="../../../../category/blis/">BLIS</a>, 
-                              <a href="../../../../category/deep-dives/">Deep Dives</a></span>
+                              <a href="../../../../category/vision/">Vision</a></span>
                         </div>
                       </li>
                     
@@ -1270,7 +1261,7 @@
                           <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 20a8 8 0 0 0 8-8 8 8 0 0 0-8-8 8 8 0 0 0-8 8 8 8 0 0 0 8 8m0-18a10 10 0 0 1 10 10 10 10 0 0 1-10 10C6.47 22 2 17.5 2 12A10 10 0 0 1 12 2m.5 5v5.25l4.5 2.67-.75 1.23L11 13V7z"/></svg>
                           <span class="md-ellipsis">
                             
-                              1 min read
+                              10 min read
                             
                           </span>
                         </div>
@@ -1297,29 +1288,66 @@
   
 
 
-<h1 id="what-weve-learned-about-modeling-llm-latency">What We've Learned About Modeling LLM Latency<a class="headerlink" href="#what-weve-learned-about-modeling-llm-latency" title="Permanent link">&para;</a></h1>
-<p>The <a href="../../../04/09/the-physics-of-high-fidelity-distributed-inference-platform-simulation/">last post in the BLIS series</a> covered how BLIS models the engine,
-data plane, and control plane to predict full-pipeline latency without touching a GPU. What it
-didn't answer is whether the predictions can be trusted.</p>
-<p>That comes down to one number. Everything BLIS reports at the cluster level rests on its
-estimate of how long a single <strong>forward pass</strong> takes, so if that's off, nothing above it can
-be right. This post is about how we estimate it, how well it holds up, and where it falls
-short.</p>
-<p>The headline, up front: fit once on H100, BLIS predicts held-out configurations (six models
-across three GPU types) at <strong>6.7% median end-to-end error</strong>, roughly <strong>200× faster</strong> than
-running them for real, and those predictions have already steered serving policies we later
-confirmed on a physical cluster: a
-<a href="../../../05/13/from-simulation-to-production-how-an-ai-native-pipeline-discovered-a-better-admission-controller-for-llm-d/">better admission controller</a>
-and <a href="../../../07/27/from-simulation-to-production-part-ii-soft-reflective-flow-control-for-llm-d/">soft reflective flow control</a>
-for llm-d. The rest of this post is how we get there, and where it still falls short.</p>
+<h1 id="ai-native-systems-six-months-in-what-weve-learned-building-the-loop">AI-Native Systems, Six Months In: What We've Learned Building the Loop<a class="headerlink" href="#ai-native-systems-six-months-in-what-weve-learned-building-the-loop" title="Permanent link">&para;</a></h1>
+<p><em>Tamar Eilam, Michael Factor, Shila Ofek-Koifman, Fabio Oliveira</em></p>
+<p>In April, we <a href="https://ai-native-systems-research.github.io/ai-native-systems-research/blog/2026/04/21/ai-native-systems-autonomous-evolution-at-machine-speed/">introduced AI-Native Systems</a> as a bet: that a system's evolution, the whole loop from observing a problem to deploying a fix, could be driven primarily by AI, continuously, at machine speed, rather than mediated step-by-step by humans. We described that loop in terms of a <strong>Reasoner</strong> that observes and hypothesizes, and a <strong>Changer</strong> that plans and implements, operating over a <strong>System Under Control</strong>.</p>
+<p>Since then we've built and run pieces of that loop against real systems: a distributed inference platform, a hyperspecialized storage engine, and compute kernels for accelerators. Based on that experience, we now have a better understanding of the principles behind building an AI-native system and what's actually required in practice to build such a system. This post is an update, not a reboot: we'll walk through a sharper, more concrete architecture, show with a concrete example how its pieces fit together, and share what we've learned over the past several months of work, including the parts that didn't work the first time.</p>
+<p>If you read the April post, this picks up where it left off. If you didn't, this should stand on its own.</p>
 <!-- more -->
 
-<div class="admonition info">
-<p class="admonition-title">Cross-posted from the BLIS blog</p>
-<p>This post was originally published on the
-<a href="https://inference-sim.github.io/inference-sim/latest/">BLIS</a> blog.</p>
-<p><a class="md-button md-button--primary" href="https://inference-sim.github.io/inference-sim/latest/blog/2026/08/06/what-weve-learned-about-modeling-llm-latency/">Continue reading on inference-sim →</a></p>
-</div>
+<hr />
+<h3 id="the-updated-definition">The Updated Definition<a class="headerlink" href="#the-updated-definition" title="Permanent link">&para;</a></h3>
+<p>We now define an AI-Native System as a complex software system that continuously and autonomously develops a <strong>System Under Control</strong> through four coordinated activities: <strong>Opportunity Discovery</strong>, <strong>Disciplined Experimentation</strong>, <strong>Validation</strong>, and a persistent <strong>World Model</strong>.  These activities  operate in a closed loop, with AI as the primary agent and humans defining constraints and objectives, to improve and specialize a system given its actual usage pattern.</p>
+<p>The System Under Control itself has three components:</p>
+<ul>
+<li><strong>Running System</strong> — config, logs, metrics, the live thing in production that is the source of business value.</li>
+<li><strong>Static Artifacts</strong> — code, git history, specs, docs, requirements, policies, etc.</li>
+<li><strong>Playground</strong> — test environments, simulators, tests, and the results of prior runs which enable evaluating proposed changes without affecting the live system.</li>
+</ul>
+<p>What's changed from our initial view is the shape of the controlling loop itself. Our prior split between Reasoner and Changer was the right instinct but too coarse.
+In practice, "observe and hypothesize" and "plan and implement" each split further once we tried to build them, and a third concern (does this actually work, and can we trust it?) needed to be first-class rather than implicit. So we now talk about four coordinated activities instead of two:</p>
+<ul>
+<li><strong>Opportunity Discovery</strong> — given signals from the running system, experimentation, and validation; exogenous information such as articles and blogs; user feedback; and source code related artifacts, identify promising areas to investigate along with directional questions.</li>
+<li><strong>Disciplined Experimentation</strong> — given a direction to investigate and guidance on how to evaluate it, follow a methodical process to reach the objective with justification for the chosen direction to enable explainability to humans and to the model for future improvements.</li>
+<li><strong>Validation</strong> — establish metrics and benchmarks, check for regression-free improvement, detect drift, manage the playground, and keep the evaluation environment faithful to the real system and how it is being used.</li>
+<li><strong>World Model</strong> — enable the other components to store and access over time both domain-specific knowledge and the principles the various components have discovered from a given deployment. Since principles stored are driven by results of experimentations, the main purpose of the World Model is to enable true and efficient co-evolution, rather than blind repetition and re-discovery.</li>
+</ul>
+<p>Each of these is a generic mechanism whose behavior is parameterized by whatever System Under Control it's pointed at. The mechanism is shared, the content is domain-specific. World Model is the connective tissue: it's how the other three share what they've learned with each other, and with their future selves.</p>
+<hr />
+<h3 id="architecture-made-concrete">Architecture, Made Concrete<a class="headerlink" href="#architecture-made-concrete" title="Permanent link">&para;</a></h3>
+<p>Here's our current high-level conceptual architecture:</p>
+<p><img alt="Elements of a continuously improving AI-Native System" src="../../../../assets/AINS-elements.png" /></p>
+<p>The System Under Control sits on top, shown here alongside three concrete proof points we'll come back to: accelerator kernels, a distributed inference stack, and a domain-specific storage system. Below it, the four activities operate on a shared agent platform.</p>
+<ul>
+<li><strong>Opportunity Discovery:</strong> Given a whole codebase and a high-level repository-wide objective such as reduce latency,  it discovers what is worth optimizing: a specific code location (the <strong>where</strong>), a plain-English description of the opportunity (the <strong>what</strong>), one or more evidence-linked techniques to realize it (the <strong>how</strong>), and the signal that justified flagging it in the first place (the <strong>why</strong>). It fuses multiple kinds of signal to get there: behaviors surfaced from telemetry which can indicate anomolies or opportunities, findings surfaced from literature, and an understanding of the functions of the code.  It uses these signal to create a ranked, evidence-backed list of proposals which provide a starting point for downstream experimentation engines. It doesn't run the optimization itself but rather figures out what question we should be asking. There will be a blog, paper and publiclly available code in the near future for our implementatino of opportunity discovery.</li>
+<li><strong>Disciplined Experimentation:</strong>  <em>Nous</em> is our agentic research harness that applies the scientific method, generating and validating/disproving a set of hypotheses and building a pinciple-based understanding of the answer to a research question. In Nous a planning agent proposes testable hypotheses, an execution agent runs the experiments, and a principle store (the World Model) accumulates validated claims with confidence scores across iterations. We described Nous in more depth, with a concrete case study, in <a href="https://ai-native-systems-research.github.io/ai-native-systems-research/blog/2026/06/17/can-an-agentic-harness-rediscover-the-insights-in-a-research-paper/">this blog</a>.</li>
+<li><strong>Validation:</strong> The validation component establishes the metrics and benchmarks a change is judged against, checks that a proposed change actually improves the target outcome without regressing something else, and keeps watch for drift between the assumptions a test harness was built under and the conditions actually present in production. In our work we have been able to automatically identify weaknesses in the evaluation used for evolving an algorithm in multiple published works. We are working towards making validation a reusable software component which we can share with the community.</li>
+<li><strong>The World Model:</strong> A persistent, shared, evolving store of domain knowledge along with experiential knoweldge based upon a given deployment of the system is essential for progress. For instance, in the context of work on accelerator kernels, this could include a knowledge base of static information on the accelerator hardware along with information on what the system has learned in working with the code: what has worked, what has not worked, what are general principles, etc. We have seen the need for such a world model come up both from our use cases and from each of the other three controlling components.</li>
+</ul>
+<h4 id="how-the-pieces-fit-together">How the pieces fit together<a class="headerlink" href="#how-the-pieces-fit-together" title="Permanent link">&para;</a></h4>
+<p>The architecture is easiest to understand end-to-end with a single walk-through. Take a concrete, representative case: a large language model serving system with a KV-cache that's evicting entries under either a least-recently-used or an adaptive replacement cache policy. The details of the example aren't important. What is important is given an objective such as reduce latency for serving system, how do we identify KV-cache evicition as an opportunity area; how do we improve the algorithm based on a princilped approach (explainable, efficient, safe); how do we ensure we have not gone too far in specializing the system; and how does the AI-native system "learn" from this effort.</p>
+<ol>
+<li><strong>Discovery.</strong> We point the oportunity discovery component at the whole repository with a general objective, reduce latency, with no indication about where to look. In the context of the codebase, it fuses two signals: a telemetry anomaly (the cache's hit rate under memory pressure is far below a healthy baseline) and an academic literature finding (a cache-eviction technique not present in codebase and unrelated to this project, that addresses exactly this kind of skew). Where both signals agree, it proposes a ranked, evidence-linked target: replace the eviction policy at this specific location, a possible approach to take, and a reasoned hypothesis on why it should work.</li>
+<li><strong>Experimentation.</strong> That proposal is hoisted, unmodified, to Nous. Nous turns "replace the eviction policy" into a testable hypothesis along with a series of sub-hypothesis, termed arms.  It then runs a series of experiments implementing the change, exercising it against representative workloads and tracking the outcome with a confidence score rather than a single pass/fail.  It uses the results of these experiments to build knowledge about the system and curate a set of principles.</li>
+<li><strong>Validation.</strong> Before anything is trusted, it has to survive more than the metric it was optimized against. Does the change actually improve the target outcome without quietly breaking something else: throughput, tail latency, a different workload shape than the one it was tuned on? Would the same metric reward a change that technically scores well but behaves badly? For instance, a policy that scores great in a simulator but crashes the real system, or a policy that games a benchmark without actually helping the thing the benchmark was a proxy for? This is where a change earns (or fails to earn) the right to matter.</li>
+<li><strong>Persistence.</strong> Whatever happened — a validated win, a regression, a metric that turned out to be gameable — is written back to the World Model. The next time Discovery or Experimentation touches this system, it starts from that accumulated understanding instead of from zero.</li>
+</ol>
+<p>This is, deliberately, an idealized pass. Some of these elements are live and integrated today; others are still partial.  We're describing the target shape of the loop, not claiming it's fully closed.  We have internally shown how we can identify the opportunity we describe above and hand off to Nous to generate a code change.  In our evaluation environment this led to a 30% improvement in overall latency. We still have work to in integrating automated validation and providing a unified world model but we have made much progress and learned much since we started out journey. This brings us to the next section: What have we learned in this journey? </p>
+<hr />
+<h3 id="lessons-learned">Lessons Learned<a class="headerlink" href="#lessons-learned" title="Permanent link">&para;</a></h3>
+<p>Pointing this loop at real systems has taught us way more than any architecture diagram could ever teach. A few things stood out enough to be worth sharing:</p>
+<ul>
+<li><strong>Search needs guardrails, or it goes looking in the wrong place.</strong>  Left unconstrained, automated exploration is prone to a kind of wild-goose chase, chasing configurations or code paths that are technically valid to explore but practically irrelevant. </li>
+<li><strong>Models have a bias against non-typical solutions.</strong> This surprised us. When the internet's dominant advice for a problem is one particular architecture, models default to it even when a less-discussed but faster approach exists and is well-documented, just less popular. We saw this directly in storage work: the internet is full of GPUDirect-capable storage systems advertising bounce-buffer designs, and models defaulted to that pattern even though a peer-to-peer (P2P) approach — less commonly discussed, but well documented — is sometimes faster.</li>
+<li><strong>A cost-efficient evaluation testbed, a simulator or equivalent, is often what makes the experimentation phase viable at all.</strong> Standing up and configuring the infrastructure to evaluate changes on a real system is frequently cost-prohibitive: real clusters, real accelerators, real production-like load. This isn't the case for every domain. Optimizing a standalone algorithm like circle packing, a favorite target in papers on LLM-driven evolution, needs nothing more than a laptop, but for the systems we care about, a fast, cheap stand-in for the real thing is often the difference between running thousands of experiments and running a handful.  This is why we built <a href="https://llm-d.ai/blog/blis-evolving-llm-d-at-simulation-speed">BLIS</a> for use with our distributed inference use case.  But in general, this will lead to the question of where does the simulator come from?</li>
+<li><strong>The sim-to-real gap is real, and it's usually the thing that actually limits you.</strong> A change that looks good in a simulator or against a proxy metric doesn't automatically survive contact with the real system. Evolved policies eventually have to pass a real, wall-clock test on real infrastructure, and simulator error, particularly around saturation behavior, is often the limiting factor. Infrastructure flakiness (GPU/device and driver issues, especially in disaggregated or auto-scaled setups) makes this worse: it undermines the repeatability that both experimentation and validation depend on.</li>
+<li><strong>Specs as ground truth, and clear component boundaries, keep the system (and the humans) from losing the plot.</strong> Even with careful iterative development between domain experts and AI, it's surprisingly easy to lose the mental model of a system's architecture as change accelerates. Treating specifications as the actual source of truth — and using AI itself to derive architectural artifacts like flow charts and component diagrams from that ground truth — helps considerably. So does a component-based architecture with clear interface boundaries: it limits blast radius and keeps the scope of any change small enough to reason about.  Until we get to the vision of fully autonomous evolution at machine speed, human understandability is critical.</li>
+<li><strong>Harnesses matter.</strong> In particular, we showed that a structured compound hypothesis, whose constituent arms systematically explore ablations and isolate the load-bearing mechanism, together with a structured evaluation that measures both the magnitude and direction of observed changes, improves not only explainability but also the quality of AI reasoning, leading to more efficient and targeted exploration of the iterative search space.</li>
+</ul>
+<hr />
+<h3 id="where-this-is-headed">Where This Is Headed<a class="headerlink" href="#where-this-is-headed" title="Permanent link">&para;</a></h3>
+<p>This post is the connective update, the architecture and some of what we have learned, not the deep technical detail. More posts and deeper technical papers are coming that go deep on the pieces we've only sketched here: the team is writing a dedicated post and paper on Opportunity Discovery, and we'll follow with more on how we're approaching validation and the shared world model as this loop matures.</p>
+<p>A few months ago this was our vision: AI as the primary agent of a system's evolution, with humans focused on goals, constraints, and trust. It's still that. What's changed is that we're no longer describing a loop we intend to build.  We are describing our progress against real systems, and reporting back what happened when we did. The next posts will go deeper into each piece as well as other use cases.</p>
 
 
 
@@ -1364,7 +1392,7 @@ for llm-d. The rest of this post is how we get there, and where it still falls s
       <nav class="md-footer__inner md-grid" aria-label="Footer" >
         
           
-          <a href="../ai-native-systems-for-portable-kernels-across-hardware-architectures/" class="md-footer__link md-footer__link--prev" aria-label="Previous: AI-Native Systems for Portable Kernels Across Hardware Architectures">
+          <a href="../../06/what-weve-learned-about-modeling-llm-latency/" class="md-footer__link md-footer__link--prev" aria-label="Previous: What We&#39;ve Learned About Modeling LLM Latency">
             <div class="md-footer__button md-icon">
               
               <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
@@ -1374,27 +1402,11 @@ for llm-d. The rest of this post is how we get there, and where it still falls s
                 Previous
               </span>
               <div class="md-ellipsis">
-                AI-Native Systems for Portable Kernels Across Hardware Architectures
+                What We've Learned About Modeling LLM Latency
               </div>
             </div>
           </a>
         
-        
-          
-          <a href="../../27/ai-native-systems-six-months-in-what-weve-learned-building-the-loop/" class="md-footer__link md-footer__link--next" aria-label="Next: AI-Native Systems, Six Months In: What We&#39;ve Learned Building the Loop">
-            <div class="md-footer__title">
-              <span class="md-footer__direction">
-                Next
-              </span>
-              <div class="md-ellipsis">
-                AI-Native Systems, Six Months In: What We've Learned Building the Loop
-              </div>
-            </div>
-            <div class="md-footer__button md-icon">
-              
-              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M4 11v2h12l-5.5 5.5 1.42 1.42L19.84 12l-7.92-7.92L10.5 5.5 16 11z"/></svg>
-            </div>
-          </a>
         
       </nav>
     

@@ -1087,6 +1087,58 @@
       <nav class="md-post__authors md-typeset">
         
           <span class="md-author">
+            <img src="https://github.com/eilamt.png" alt="Tamar Eilam">
+          </span>
+        
+      </nav>
+    
+    <div class="md-post__meta md-meta">
+      <ul class="md-meta__list">
+        <li class="md-meta__item">
+          <time datetime="2026-08-27 00:00:00+00:00">August 27, 2026</time></li>
+        
+          <li class="md-meta__item">
+            in
+            
+              <a href="category/vision/" class="md-meta__link">Vision</a></li>
+        
+        
+          
+          <li class="md-meta__item">
+            
+              10 min read
+            
+          </li>
+        
+        
+      </ul>
+      
+    </div>
+  </header>
+  <div class="md-post__content md-typeset">
+    <h2 id="ai-native-systems-six-months-in-what-weve-learned-building-the-loop"><a class="toclink" href="2026/08/27/ai-native-systems-six-months-in-what-weve-learned-building-the-loop/">AI-Native Systems, Six Months In: What We've Learned Building the Loop</a></h2>
+<p><em>Tamar Eilam, Michael Factor, Shila Ofek-Koifman, Fabio Oliveira</em></p>
+<p>In April, we <a href="https://ai-native-systems-research.github.io/ai-native-systems-research/blog/2026/04/21/ai-native-systems-autonomous-evolution-at-machine-speed/">introduced AI-Native Systems</a> as a bet: that a system's evolution, the whole loop from observing a problem to deploying a fix, could be driven primarily by AI, continuously, at machine speed, rather than mediated step-by-step by humans. We described that loop in terms of a <strong>Reasoner</strong> that observes and hypothesizes, and a <strong>Changer</strong> that plans and implements, operating over a <strong>System Under Control</strong>.</p>
+<p>Since then we've built and run pieces of that loop against real systems: a distributed inference platform, a hyperspecialized storage engine, and compute kernels for accelerators. Based on that experience, we now have a better understanding of the principles behind building an AI-native system and what's actually required in practice to build such a system. This post is an update, not a reboot: we'll walk through a sharper, more concrete architecture, show with a concrete example how its pieces fit together, and share what we've learned over the past several months of work, including the parts that didn't work the first time.</p>
+<p>If you read the April post, this picks up where it left off. If you didn't, this should stand on its own.</p>
+
+    
+      <nav class="md-post__action">
+        <a href="2026/08/27/ai-native-systems-six-months-in-what-weve-learned-building-the-loop/">
+          Continue reading
+        </a>
+      </nav>
+    
+    
+  </div>
+</article>
+      
+        <article class="md-post md-post--excerpt">
+  <header class="md-post__header">
+    
+      <nav class="md-post__authors md-typeset">
+        
+          <span class="md-author">
             <img src="https://github.com/susiejojo.png" alt="Dipanwita Guhathakurta">
           </span>
         
@@ -1571,56 +1623,6 @@ single YAML change.</p>
     
       <nav class="md-post__action">
         <a href="2026/04/21/ai-native-systems-autonomous-evolution-at-machine-speed/">
-          Continue reading
-        </a>
-      </nav>
-    
-    
-  </div>
-</article>
-      
-        <article class="md-post md-post--excerpt">
-  <header class="md-post__header">
-    
-      <nav class="md-post__authors md-typeset">
-        
-          <span class="md-author">
-            <img src="https://github.com/susiejojo.png" alt="Dipanwita Guhathakurta">
-          </span>
-        
-      </nav>
-    
-    <div class="md-post__meta md-meta">
-      <ul class="md-meta__list">
-        <li class="md-meta__item">
-          <time datetime="2026-04-09 00:00:00+00:00">April 9, 2026</time></li>
-        
-          <li class="md-meta__item">
-            in
-            
-              <a href="category/blis/" class="md-meta__link">BLIS</a>, 
-              <a href="category/llm-d/" class="md-meta__link">llm-d</a></li>
-        
-        
-          
-          <li class="md-meta__item">
-            
-              1 min read
-            
-          </li>
-        
-        
-      </ul>
-      
-    </div>
-  </header>
-  <div class="md-post__content md-typeset">
-    <h2 id="the-physics-of-high-fidelity-distributed-inference-platform-simulation"><a class="toclink" href="2026/04/09/the-physics-of-high-fidelity-distributed-inference-platform-simulation/">The Physics of High-Fidelity Distributed Inference Platform Simulation</a></h2>
-<p>Production LLM inference platforms are distributed systems where routing policies, admission control, autoscaling, and engine-level scheduling all interact to determine latencies and throughput. How do you explore how different policies and configurations affect these KPIs before deploying to production? Testing a new routing policy or autoscaling threshold on live traffic risks cascading bugs across the fleet, while building separate test environments burns GPU-hours and still cannot predict interactions between cluster-level policies and engine-level batch dynamics.</p>
-
-    
-      <nav class="md-post__action">
-        <a href="2026/04/09/the-physics-of-high-fidelity-distributed-inference-platform-simulation/">
           Continue reading
         </a>
       </nav>
