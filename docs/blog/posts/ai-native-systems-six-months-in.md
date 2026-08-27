@@ -5,8 +5,8 @@ categories:
 authors:
   - eilam
   - factor
-  - oliveira
   - ofek-koifman
+  - oliveira
 description: >
   Six months after introducing AI-Native Systems, an update on the architecture,
   a concrete walk-through of the loop, and the lessons learned from running it
