@@ -1,0 +1,1594 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+        <meta name="description" content="Closing the loop — AI as the primary agent of continuous system evolution. Research and practice across inference platforms, GPU kernels, and storage systems.">
+      
+      
+      
+        <link rel="canonical" href="https://ai-native-systems-research.github.io/ai-native-systems-research/blog/2026/09/08/holding-on-to-the-wild-elephant/">
+      
+      
+        <link rel="prev" href="../../../08/27/ai-native-systems-six-months-in-what-weve-learned-building-the-loop/">
+      
+      
+      
+        
+      
+      
+      <link rel="icon" href="../../../../../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.6">
+    
+    
+      
+        <title>Holding on to the Wild Elephant - AI-native Systems Research</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../../../../assets/stylesheets/main.484c7ddc.min.css">
+      
+        
+        <link rel="stylesheet" href="../../../../../assets/stylesheets/palette.ab4e12ef.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+      <link rel="stylesheet" href="../../../../../stylesheets/extra.css">
+    
+    <script>__md_scope=new URL("../../../../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+  
+
+
+    
+    
+  
+  
+  <script>
+    (function() {
+      if (location.hostname === 'localhost' || location.hostname === '127.0.0.1') {
+        return;
+      }
+      var s = document.createElement('script');
+      s.async = true;
+      s.src = 'https://www.googletagmanager.com/gtag/js?id=G-83Z819J0CL';
+      document.head.appendChild(s);
+
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){ dataLayer.push(arguments); }
+      window.gtag = gtag;
+      gtag('js', new Date());
+      gtag('config', 'G-83Z819J0CL', {
+        client_storage: 'none',
+        anonymize_ip: true,
+        allow_google_signals: false,
+        allow_ad_personalization_signals: false,
+        ads_data_redaction: true,
+        page_location: location.origin + location.pathname,
+        send_page_view: true
+      });
+    })();
+  </script>
+  
+  <style>
+    .ga-notice {
+      position: fixed;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      background: var(--md-default-bg-color);
+      border-top: 1px solid var(--md-default-fg-color--lightest);
+      padding: 0.8rem 1rem;
+      z-index: 1000;
+      display: none;
+      box-shadow: 0 -2px 8px rgba(0, 0, 0, 0.05);
+      font-family: var(--md-text-font);
+    }
+    .ga-notice__inner {
+      max-width: 1200px;
+      margin: 0 auto;
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      flex-wrap: wrap;
+    }
+    .ga-notice__text {
+      flex: 1;
+      font-size: 0.8rem;
+      color: var(--md-default-fg-color);
+      min-width: 280px;
+      line-height: 1.4;
+    }
+    .ga-notice__text a {
+      color: var(--md-typeset-a-color);
+      text-decoration: underline;
+    }
+    .ga-notice__btn {
+      background: var(--md-primary-fg-color);
+      color: var(--md-primary-bg-color);
+      border: none;
+      padding: 0.5rem 1.2rem;
+      border-radius: 0.2rem;
+      cursor: pointer;
+      font-size: 0.8rem;
+      font-weight: 600;
+      font-family: inherit;
+    }
+    .ga-notice__btn:hover {
+      opacity: 0.9;
+    }
+  </style>
+
+  </head>
+  
+  
+    
+    
+      
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="indigo">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#holding-on-to-the-wild-elephant" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+      <div data-md-color-scheme="default" data-md-component="outdated" hidden>
+        
+      </div>
+    
+    
+      
+
+<header class="md-header" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href="../../../../.." title="AI-native Systems Research" class="md-header__button md-logo" aria-label="AI-native Systems Research" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M21.33 12.91c.09 1.55-.62 3.04-1.89 3.95l.77 1.49c.23.45.26.98.06 1.45-.19.47-.58.84-1.06 1l-.79.25a1.687 1.687 0 0 1-1.86-.55L14.44 18c-.89-.15-1.73-.53-2.44-1.1-.5.15-1 .23-1.5.23-.88 0-1.76-.27-2.5-.79-.53.16-1.07.23-1.62.22-.79.01-1.57-.15-2.3-.45a4.1 4.1 0 0 1-2.43-3.61c-.08-.72.04-1.45.35-2.11-.29-.75-.32-1.57-.07-2.33C2.3 7.11 3 6.32 3.87 5.82c.58-1.69 2.21-2.82 4-2.7 1.6-1.5 4.05-1.66 5.83-.37.42-.11.86-.17 1.3-.17 1.36-.03 2.65.57 3.5 1.64 2.04.53 3.5 2.35 3.58 4.47.05 1.11-.25 2.2-.86 3.13.07.36.11.72.11 1.09m-5-1.41c.57.07 1.02.5 1.02 1.07a1 1 0 0 1-1 1h-.63c-.32.9-.88 1.69-1.62 2.29.25.09.51.14.77.21 5.13-.07 4.53-3.2 4.53-3.25a2.59 2.59 0 0 0-2.69-2.49 1 1 0 0 1-1-1 1 1 0 0 1 1-1c1.23.03 2.41.49 3.33 1.3.05-.29.08-.59.08-.89-.06-1.24-.62-2.32-2.87-2.53-1.25-2.96-4.4-1.32-4.4-.4-.03.23.21.72.25.75a1 1 0 0 1 1 1c0 .55-.45 1-1 1-.53-.02-1.03-.22-1.43-.56-.48.31-1.03.5-1.6.56-.57.05-1.04-.35-1.07-.9a.97.97 0 0 1 .88-1.1c.16-.02.94-.14.94-.77 0-.66.25-1.29.68-1.79-.92-.25-1.91.08-2.91 1.29C6.75 5 6 5.25 5.45 7.2 4.5 7.67 4 8 3.78 9c1.08-.22 2.19-.13 3.22.25.5.19.78.75.59 1.29-.19.52-.77.78-1.29.59-.73-.32-1.55-.34-2.3-.06-.32.27-.32.83-.32 1.27 0 .74.37 1.43 1 1.83.53.27 1.12.41 1.71.4q-.225-.39-.39-.81a1.038 1.038 0 0 1 1.96-.68c.4 1.14 1.42 1.92 2.62 2.05 1.37-.07 2.59-.88 3.19-2.13.23-1.38 1.34-1.5 2.56-1.5m2 7.47-.62-1.3-.71.16 1 1.25zm-4.65-8.61a1 1 0 0 0-.91-1.03c-.71-.04-1.4.2-1.93.67-.57.58-.87 1.38-.84 2.19a1 1 0 0 0 1 1c.57 0 1-.45 1-1 0-.27.07-.54.23-.76.12-.1.27-.15.43-.15.55.03 1.02-.38 1.02-.92"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            AI-native Systems Research
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              Holding on to the Wild Elephant
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+        <form class="md-header__option" data-md-component="palette">
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="(prefers-color-scheme: light)" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="indigo"  aria-label="Switch to dark mode"  type="radio" name="__palette" id="__palette_0">
+    
+      <label class="md-header__button md-icon" title="Switch to dark mode" for="__palette_1" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a4 4 0 0 0-4 4 4 4 0 0 0 4 4 4 4 0 0 0 4-4 4 4 0 0 0-4-4m0 10a6 6 0 0 1-6-6 6 6 0 0 1 6-6 6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12z"/></svg>
+      </label>
+    
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="(prefers-color-scheme: dark)" data-md-color-scheme="slate" data-md-color-primary="indigo" data-md-color-accent="indigo"  aria-label="Switch to light mode"  type="radio" name="__palette" id="__palette_1">
+    
+      <label class="md-header__button md-icon" title="Switch to light mode" for="__palette_0" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 18c-.89 0-1.74-.2-2.5-.55C11.56 16.5 13 14.42 13 12s-1.44-4.5-3.5-5.45C10.26 6.2 11.11 6 12 6a6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12z"/></svg>
+      </label>
+    
+  
+</form>
+      
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+        <div class="md-search__suggest" data-md-component="search-suggest"></div>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      
+    
+    
+      <div class="md-header__source">
+        <a href="https://github.com/AI-native-Systems-Research/ai-native-systems-research" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M439.6 236.1 244 40.5c-5.4-5.5-12.8-8.5-20.4-8.5s-15 3-20.4 8.4L162.5 81l51.5 51.5c27.1-9.1 52.7 16.8 43.4 43.7l49.7 49.7c34.2-11.8 61.2 31 35.5 56.7-26.5 26.5-70.2-2.9-56-37.3L240.3 199v121.9c25.3 12.5 22.3 41.8 9.1 55-6.4 6.4-15.2 10.1-24.3 10.1s-17.8-3.6-24.3-10.1c-17.6-17.6-11.1-46.9 11.2-56v-123c-20.8-8.5-24.6-30.7-18.6-45L142.6 101 8.5 235.1C3 240.6 0 247.9 0 255.5s3 15 8.5 20.4l195.6 195.7c5.4 5.4 12.7 8.4 20.4 8.4s15-3 20.4-8.4l194.7-194.7c5.4-5.4 8.4-12.8 8.4-20.4s-3-15-8.4-20.4"/></svg>
+  </div>
+  <div class="md-source__repository">
+    AI-native-Systems-Research/ai-native-systems-research
+  </div>
+</a>
+      </div>
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+            
+<nav class="md-tabs" aria-label="Tabs" data-md-component="tabs">
+  <div class="md-grid">
+    <ul class="md-tabs__list">
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../../../../.." class="md-tabs__link">
+        
+  
+  
+    
+  
+  Home
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../../../../technical-domains/" class="md-tabs__link">
+          
+  
+  
+    
+  
+  Technical Domains
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+    
+  
+  
+    
+    
+      <li class="md-tabs__item md-tabs__item--active">
+        <a href="../../../../" class="md-tabs__link">
+          
+  
+  
+    
+  
+  Blog
+
+        </a>
+      </li>
+    
+  
+
+      
+    </ul>
+  </div>
+</nav>
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+                
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" hidden>
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+  
+
+
+<nav class="md-nav md-nav--primary md-nav--lifted" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../../../../.." title="AI-native Systems Research" class="md-nav__button md-logo" aria-label="AI-native Systems Research" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M21.33 12.91c.09 1.55-.62 3.04-1.89 3.95l.77 1.49c.23.45.26.98.06 1.45-.19.47-.58.84-1.06 1l-.79.25a1.687 1.687 0 0 1-1.86-.55L14.44 18c-.89-.15-1.73-.53-2.44-1.1-.5.15-1 .23-1.5.23-.88 0-1.76-.27-2.5-.79-.53.16-1.07.23-1.62.22-.79.01-1.57-.15-2.3-.45a4.1 4.1 0 0 1-2.43-3.61c-.08-.72.04-1.45.35-2.11-.29-.75-.32-1.57-.07-2.33C2.3 7.11 3 6.32 3.87 5.82c.58-1.69 2.21-2.82 4-2.7 1.6-1.5 4.05-1.66 5.83-.37.42-.11.86-.17 1.3-.17 1.36-.03 2.65.57 3.5 1.64 2.04.53 3.5 2.35 3.58 4.47.05 1.11-.25 2.2-.86 3.13.07.36.11.72.11 1.09m-5-1.41c.57.07 1.02.5 1.02 1.07a1 1 0 0 1-1 1h-.63c-.32.9-.88 1.69-1.62 2.29.25.09.51.14.77.21 5.13-.07 4.53-3.2 4.53-3.25a2.59 2.59 0 0 0-2.69-2.49 1 1 0 0 1-1-1 1 1 0 0 1 1-1c1.23.03 2.41.49 3.33 1.3.05-.29.08-.59.08-.89-.06-1.24-.62-2.32-2.87-2.53-1.25-2.96-4.4-1.32-4.4-.4-.03.23.21.72.25.75a1 1 0 0 1 1 1c0 .55-.45 1-1 1-.53-.02-1.03-.22-1.43-.56-.48.31-1.03.5-1.6.56-.57.05-1.04-.35-1.07-.9a.97.97 0 0 1 .88-1.1c.16-.02.94-.14.94-.77 0-.66.25-1.29.68-1.79-.92-.25-1.91.08-2.91 1.29C6.75 5 6 5.25 5.45 7.2 4.5 7.67 4 8 3.78 9c1.08-.22 2.19-.13 3.22.25.5.19.78.75.59 1.29-.19.52-.77.78-1.29.59-.73-.32-1.55-.34-2.3-.06-.32.27-.32.83-.32 1.27 0 .74.37 1.43 1 1.83.53.27 1.12.41 1.71.4q-.225-.39-.39-.81a1.038 1.038 0 0 1 1.96-.68c.4 1.14 1.42 1.92 2.62 2.05 1.37-.07 2.59-.88 3.19-2.13.23-1.38 1.34-1.5 2.56-1.5m2 7.47-.62-1.3-.71.16 1 1.25zm-4.65-8.61a1 1 0 0 0-.91-1.03c-.71-.04-1.4.2-1.93.67-.57.58-.87 1.38-.84 2.19a1 1 0 0 0 1 1c.57 0 1-.45 1-1 0-.27.07-.54.23-.76.12-.1.27-.15.43-.15.55.03 1.02-.38 1.02-.92"/></svg>
+
+    </a>
+    AI-native Systems Research
+  </label>
+  
+    <div class="md-nav__source">
+      <a href="https://github.com/AI-native-Systems-Research/ai-native-systems-research" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M439.6 236.1 244 40.5c-5.4-5.5-12.8-8.5-20.4-8.5s-15 3-20.4 8.4L162.5 81l51.5 51.5c27.1-9.1 52.7 16.8 43.4 43.7l49.7 49.7c34.2-11.8 61.2 31 35.5 56.7-26.5 26.5-70.2-2.9-56-37.3L240.3 199v121.9c25.3 12.5 22.3 41.8 9.1 55-6.4 6.4-15.2 10.1-24.3 10.1s-17.8-3.6-24.3-10.1c-17.6-17.6-11.1-46.9 11.2-56v-123c-20.8-8.5-24.6-30.7-18.6-45L142.6 101 8.5 235.1C3 240.6 0 247.9 0 255.5s3 15 8.5 20.4l195.6 195.7c5.4 5.4 12.7 8.4 20.4 8.4s15-3 20.4-8.4l194.7-194.7c5.4-5.4 8.4-12.8 8.4-20.4s-3-15-8.4-20.4"/></svg>
+  </div>
+  <div class="md-source__repository">
+    AI-native-Systems-Research/ai-native-systems-research
+  </div>
+</a>
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../.." class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Home
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_2" >
+        
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../../../../../technical-domains/" class="md-nav__link ">
+              
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Technical Domains
+  
+
+    
+  </span>
+  
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_2" id="__nav_2_label" tabindex="0">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Technical Domains
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../../technical-domains/llm-d/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    llm-d: Inference Platform
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../../technical-domains/ai-kernels/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    AI-Generated Kernels
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../../technical-domains/storage-systems/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Storage Systems
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+        
+        
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3" checked>
+        
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../../../../" class="md-nav__link ">
+              
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Blog
+  
+
+    
+  </span>
+  
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_3" id="__nav_3_label" tabindex="">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_3">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Blog
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+      
+    
+    
+    
+      
+      
+        
+          
+          
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_3_2" >
+        
+          
+          <label class="md-nav__link" for="__nav_3_2" id="__nav_3_2_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Archive
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_3_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3_2">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Archive
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+    
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../archive/2026/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    2026
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+        
+          
+          
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_3_3" >
+        
+          
+          <label class="md-nav__link" for="__nav_3_3" id="__nav_3_3_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Categories
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_3_3_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3_3">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Categories
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+    
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../category/ai-kernels/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    AI Kernels
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../category/blis/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    BLIS
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../category/deep-dives/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Deep Dives
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../category/storage-systems/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Storage Systems
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../category/vision/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Vision
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../category/llm-d/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    llm-d
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+                
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#introduction" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Introduction
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#what-the-elephant-does-when-its-out-of-control" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        What the elephant does when it's out of control
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#taming-the-elephant" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Taming the elephant
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Taming the elephant">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#apply-spec-driven-development" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Apply spec-driven development
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#integration-with-the-component-architecture" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Integration with the component architecture
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#maintaining-a-mental-model" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Maintaining a mental model
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#extracting-hardware-behaviors-to-set-boundaries" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Extracting hardware behaviors to set boundaries
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#addressing-bias-in-models" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Addressing bias in models
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#assuring-behavior-through-formal-verification" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Assuring behavior through formal verification
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Assuring behavior through formal verification">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#the-formal-verification-gotcha" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        The formal verification gotcha!
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#summary" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Summary
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#references" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        References
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+  <div class="md-content md-content--post" data-md-component="content">
+    <div class="md-sidebar md-sidebar--post" data-md-component="sidebar" data-md-type="navigation">
+      <div class="md-sidebar__scrollwrap">
+        <div class="md-sidebar__inner md-post">
+          <nav class="md-nav md-nav--primary">
+            <div class="md-post__back">
+              <div class="md-nav__title md-nav__container">
+                <a href="../../../../" class="md-nav__link">
+                  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+                  <span class="md-ellipsis">
+                    Back to index
+                  </span>
+                </a>
+              </div>
+            </div>
+            
+              <div class="md-post__authors md-typeset">
+                
+                  <div class="md-profile md-post__profile">
+                    <span class="md-author md-author--long">
+                      <img src="https://github.com/dwaddington.png" alt="Daniel Waddington">
+                    </span>
+                    <span class="md-profile__description">
+                      <strong>
+                        
+                          Daniel Waddington
+                        
+                      </strong>
+                      <br>
+                      AI-native Systems Principal Researcher
+                    </span>
+                  </div>
+                
+                  <div class="md-profile md-post__profile">
+                    <span class="md-author md-author--long">
+                      <img src="https://github.com/eilamt.png" alt="Tamar Eilam">
+                    </span>
+                    <span class="md-profile__description">
+                      <strong>
+                        
+                          Tamar Eilam
+                        
+                      </strong>
+                      <br>
+                      IBM Fellow
+                    </span>
+                  </div>
+                
+                  <div class="md-profile md-post__profile">
+                    <span class="md-author md-author--long">
+                      <img src="https://github.com/Narangerelt.png" alt="Nara Batsoyol">
+                    </span>
+                    <span class="md-profile__description">
+                      <strong>
+                        
+                          Nara Batsoyol
+                        
+                      </strong>
+                      <br>
+                      AI-native Systems Researcher
+                    </span>
+                  </div>
+                
+              </div>
+            
+            <ul class="md-post__meta md-nav__list">
+              <li class="md-nav__item md-nav__item--section">
+                <div class="md-post__title">
+                  <span class="md-ellipsis">
+                    Metadata
+                  </span>
+                </div>
+                <nav class="md-nav">
+                  <ul class="md-nav__list">
+                    <li class="md-nav__item">
+                      <div class="md-nav__link">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 19H5V8h14m-3-7v2H8V1H6v2H5c-1.11 0-2 .89-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V5a2 2 0 0 0-2-2h-1V1m-1 11h-5v5h5z"/></svg>
+                        <time datetime="2026-09-08 00:00:00+00:00" class="md-ellipsis">September 8, 2026</time>
+                      </div>
+                    </li>
+                    
+                    
+                      <li class="md-nav__item">
+                        <div class="md-nav__link">
+                          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9 3v15h3V3zm3 2 4 13 3-1-4-13zM5 5v13h3V5zM3 19v2h18v-2z"/></svg>
+                          <span class="md-ellipsis">
+                            in
+                            
+                              <a href="../../../../category/storage-systems/">Storage Systems</a>, 
+                              <a href="../../../../category/deep-dives/">Deep Dives</a></span>
+                        </div>
+                      </li>
+                    
+                    
+                      
+                      <li class="md-nav__item">
+                        <div class="md-nav__link">
+                          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 20a8 8 0 0 0 8-8 8 8 0 0 0-8-8 8 8 0 0 0-8 8 8 8 0 0 0 8 8m0-18a10 10 0 0 1 10 10 10 10 0 0 1-10 10C6.47 22 2 17.5 2 12A10 10 0 0 1 12 2m.5 5v5.25l4.5 2.67-.75 1.23L11 13V7z"/></svg>
+                          <span class="md-ellipsis">
+                            
+                              18 min read
+                            
+                          </span>
+                        </div>
+                      </li>
+                    
+                  </ul>
+                </nav>
+              </li>
+            </ul>
+            
+          </nav>
+          
+        </div>
+      </div>
+    </div>
+    <article class="md-content__inner md-typeset">
+      
+        
+  
+
+
+
+  
+  
+
+
+<h1 id="holding-on-to-the-wild-elephant">Holding on to the Wild Elephant<a class="headerlink" href="#holding-on-to-the-wild-elephant" title="Permanent link">&para;</a></h1>
+<figure>
+<p><img alt="" src="../../../../../assets/wild-elephant-out-of-control.png" /></p>
+</figure>
+<h2 id="introduction">Introduction<a class="headerlink" href="#introduction" title="Permanent link">&para;</a></h2>
+<p>Imagine you are the lead developer on a storage system that has been in production for three years. A bug report arrives: under high concurrency, writes are occasionally silently dropped. You open the codebase — 80,000 lines of Rust, hundreds of components, a dozen contributors. You know this system. You wrote parts of it. But scrolling through the concurrency logic, you feel it: the niggling feeling of not quite trusting your own understanding. Rebuilding the mental model takes days<sup>[<a href="#ref-1">1</a>]</sup>. The bug, it turns out, was introduced six months ago in a refactor nobody fully remembers designing.</p>
+<!-- more -->
+
+<p>This is not a story about bad engineering. It is a story about the fundamental tension in building complex software: code grows faster than understanding. The mental model a developer holds — the living map of how a system works, what invariants must hold, why it was built this way — is the most valuable and most fragile artifact in software development. It erodes constantly: through time, through team turnover, through the reasonable decision to document it later.</p>
+<p>For decades the industry's answer was discipline and tooling. Modular design, typed interfaces, code review, unit tests, architecture documents — all attempts to externalize the mental model and keep it legible. They worked, imperfectly. The developer was always the primary agent; understanding and code were produced by the same human mind, and that coupling, however imperfect, kept them tethered.</p>
+<p>Then something changed.</p>
+<p>LLM-based agentic coding did not just make developers faster. It severed the coupling entirely. For the first time in the history of software, code can exist without anyone having engineered it. The gap between the code and the developer's mental model of it, which used to grow at the pace of a team's capacity to absorb complexity, can now grow arbitrarily wide, arbitrarily fast.</p>
+<p>For simple tasks, this is extraordinary. But for systems where correctness is not a matter of degree, the consequences of naive AI use can be severe. A storage system must be correct under every possible interleaving of concurrent operations, every failure mode, every boundary condition — forever. An LLM generating components one at a time, without a theory of the whole system, will produce code that looks right and fails in ways that only surface at 3am under production load. This is not a criticism of the technology. It is a description of what correctness at this level requires: global reasoning that no local generation step can supply.</p>
+<p>We discovered this directly in building Certus, our AI-synthesized domain-specific storage system for KV cache and inferencing workloads (see our earlier blog, <em>Certus: The End of One-Size-Fits-All Storage</em><sup>[<a href="#ref-2">2</a>]</sup>). The agent generated individual components that were locally coherent and passed component-level tests. What the agent could not do was guarantee correct composition, system-level concurrency properties, cross-component consistency or that the invariants we cared about were the invariants being maintained.</p>
+<p>The question became: <em>how do we build a shared understanding between developer and AI that is precise enough to trust what is generated?</em></p>
+<p>There is a concept in cognitive science called Theory of Mind: the capacity to model another person's beliefs, knowledge, and intentions — what makes high-bandwidth collaboration possible. Without it, even two highly capable people working on the same problem talk past each other, each reasoning from a model the other cannot see.  The same principle applies to human-AI collaboration. When a developer prompts an agent, without a shared representational layer, neither party can verify their understanding aligns. The developer has intent; the agent has capability; but there is no mutual mind connecting them. The result is code that satisfies the literal request while violating the unstated assumptions the developer would have recognized as obvious.</p>
+<p>The rest of this post describes the broader issues arising from a lack of mutual mind, and how we overcame them. While Certus is our initial use case, our ambition is a general methodology: using AI to build complex systems with confidence, marrying human understanding with AI's speed.</p>
+<h2 id="what-the-elephant-does-when-its-out-of-control">What the elephant does when it's out of control<a class="headerlink" href="#what-the-elephant-does-when-its-out-of-control" title="Permanent link">&para;</a></h2>
+<p>In building Certus, we found that unguided LLM-based synthesis is far from perfect. Without additional control, we repeatedly ran into the following problem areas:</p>
+<ul>
+<li><strong>Breaking software design principles that aid human understanding and maintenance</strong> - component based design with low coupling and high cohesion are well understood software engineering principles. They are two sides of the same goal: making software easy to change safely. High cohesion means each module is built around a single, well-defined responsibility, so its purpose is easy to understand, test, and reuse, and changes to that responsibility stay contained within it. Low coupling means modules interact through stable, minimal interfaces rather than depending on each other's internals, so a change or failure in one module doesn't cascade through the rest of the system. Together, they minimize the ripple effect of change: a system with both properties can be understood one piece at a time, tested in isolation, modified locally, and evolved incrementally — which is what keeps a codebase maintainable as it grows, rather than becoming more fragile and expensive to touch with every addition. In our experience, Claude does not always adhere to these principles. Making broad changes (a high blast radius) and leaking functions and state outside of well-defined interfaces are often acceptable strategies for Claude: the agent wants to get the job done, with little concern for how.</li>
+<li><strong>Defying physical hardware limitations</strong> - a particular strength of agentic coding is building extensive correctness and performance regression test functions. These functions are inherently used to drive functional and run-time behavioral characteristics of the system. However, in our experience, the measurements that the agent deems to be correct can be in fact wrong. We know this because the test results reported can simply not be achieved with the underlying hardware. For example, we can take the maximum throughput of a single NVMe SSD with certain parameters (e.g., random read, 128K blocks, PCIe 4.0, max throughput 6 GB/s) and extrapolate what bandwidth is possible from an eight SSD array assuming perfect scaling and sufficient PCIe bandwidth - i.e., 48 GB/s. This is actually a scenario we ran into, where Claude suggested that we have performance of hundreds of GB/s on this hardware. The problem is a combination of hallucination about the correctness of some measurement methodology and the agent "reward hacking" to get a good result as soon as possible.</li>
+<li><strong>Bias in models</strong> - LLMs are trained on massive amounts of public code and text, which means popular, well-documented patterns are overrepresented relative to niche-but-superior ones. The LLM is statistically more likely to reach for the former — not because it's better for your problem, but because it's more heavily represented in what it learned from. In Certus, we came across this problem with the integration of peer-to-peer (P2P) DMA that moves data directly between SSD and GPU devices, versus bounce-buffer back-to-back DMAs that move data via CPU DRAM. From Claude's perspective, P2P would be the best choice to maximize performance. However, because Claude was not considering the underlying h/w architecture and broader s/w architecture (i.e., the incorporation of a DRAM memory tier and the possibility of pipelining transfers) - it made a bad choice of using P2P. Bounce-buffer is better for the given deployment architecture (plenty of PCIe bandwidth to root complex and the need to promote data into memory tier anyway).  We believe this is likely because GPU Direct (NVIDIA's term for PCIe P2P support) is heavily advertised as a storage system "must have" product capability and sold as a performance differentiator.</li>
+<li><strong>Overfitting for workload and deployment scenario</strong> - by default, bug fixing and re-factoring are guided by running unit, integration tests and performance tests. In our experience, while this is generally a good approach, changes can be easily over-fitted to the tests. For example, a solution that works successfully for a single-client, single-threaded test is likely not going to be successful for multiple clients since the necessary locking and atomicity is not in place.</li>
+</ul>
+<h2 id="taming-the-elephant">Taming the elephant<a class="headerlink" href="#taming-the-elephant" title="Permanent link">&para;</a></h2>
+<p>Let's now take a look at what measures we took in Certus to address the problem areas discussed - that is, our process to "curb the enthusiasm" of our wild beast!</p>
+<p>Each measure below targets one of the problem areas we just described. A component-based architecture — and the design artifacts we derive from it — counters the erosion of sound engineering principles and keeps the system understandable one piece at a time. A hardware knowledge base holds the agent to what the physics of the machine actually permits. Deliberate context and curated knowledge bases pull it away from its statistical defaults toward the design the problem really needs. And formal verification, layered on top of the specifications, guards against correctness that is only skin-deep: code over-fitted to the tests it happened to be handed rather than correct in general. Taken together, these measures are less about constraining the agent than about building the shared, verifiable understanding — the mutual mind — that lets us trust what it produces.</p>
+<h3 id="apply-spec-driven-development">Apply spec-driven development<a class="headerlink" href="#apply-spec-driven-development" title="Permanent link">&para;</a></h3>
+<p>The flow starts with defining what the system is supposed to do. We use Spec Kit <a href="https://github.com/github/spec-kit">^1</a> to control the workflow for Spec-Driven Development (SDD). The initial specification is given to the system, by a human architect, as a high-level, unstructured natural-language description. We don't sit down for hours on end writing in-depth software requirements; we start with a simple description, and Spec Kit then iteratively clarifies what we have written, filling in the gaps as it interacts with the developer. When the clarification process is complete, Spec Kit generates detailed specifications for user stories, functional requirements, assumptions, research and alternatives, and success criteria. Once all this is in place, Claude generates the tests and synthesizes the code.  </p>
+<p>The initial component architecture is designed by the human developer. From the synthesized components a system is composed accordingly. This completes the first phase of creating a functional prototype that can then be refined through interactive optimization. <a href="#fig-ains-flow">Figure 1</a> shows the overall development flow. Typically, the optimization loop is modifying code rather than specifications, which means that the specifications need to be back-filled from code changes.  Note that after back-filling, the impacted components do not need to be re-synthesized.</p>
+<figure id="fig-ains-flow">
+<p><img alt="AI-Native-Systems Development Flow" src="../../../../../assets/certus_dev_flow.svg" />
+  </p>
+<figcaption>Figure 1: AI-Native-Systems Development Flow</figcaption>
+</figure>
+<h3 id="integration-with-the-component-architecture">Integration with the component architecture<a class="headerlink" href="#integration-with-the-component-architecture" title="Permanent link">&para;</a></h3>
+<p>In software engineering, cohesion measures how closely related the internal parts of a single component are to each other, while coupling measures how dependent different components are on one another. Good software design always aims for high cohesion and low coupling.</p>
+<p>Certus uses a COM-like component based architecture that allows us to promote good engineering practice (e.g., preventing exposure of state outside of the component interfaces) and also to manage the scope, or "blast radius", of changes being made to the system. Even though many of today's agentic models can support context sizes in the millions of tokens, narrowing the scope of agent interactions also leads to less token burning. Component interfaces and receptacles are syntactic contracts that define how to interact with the component and what dependencies exist. The function definitions of the interface are coupled with natural language properties that shed some light on how the component operates internally and what its semantic behavior is.</p>
+<p>The component architecture also allows reasoning and exploration of different potential high-level compositions. For example, an application's composition may vary depending on the availability of hardware (e.g., number of GPUs). Furthermore, the agents building a Certus composition, may want to explore optimizing or replacing/specializing components.</p>
+<h3 id="maintaining-a-mental-model">Maintaining a mental model<a class="headerlink" href="#maintaining-a-mental-model" title="Permanent link">&para;</a></h3>
+<p>As previously discussed, Certus is based on Spec-Driven Development (SDD) that captures system properties, requirements and use-cases in a set of human-readable specifications. Use of SDD goes a long way toward maintaining a mental model — and, crucially, one that the developer and the agent share, rather than a model locked inside a single human head.</p>
+<p>Use of a component architecture also helps to maintain a mental model of how the system is constructed at a high-level. In Certus, we use Claude to generate component diagrams (e.g., UML deployment diagrams) from the specifications and the code in order to help gain a deeper understanding of the concrete implementation. Component diagrams are one form of <em>architectural design artifact</em> that exist solely to aid human understanding. Other artifacts that we generate from specifications and code include data flow charts, sequence and protocol diagrams, entity relationship diagrams, and performance data reports (e.g., plots of how performance changes in response to changing a specific parameter).</p>
+<h3 id="extracting-hardware-behaviors-to-set-boundaries">Extracting hardware behaviors to set boundaries<a class="headerlink" href="#extracting-hardware-behaviors-to-set-boundaries" title="Permanent link">&para;</a></h3>
+<p>Recall the second problem area: the agent will confidently report performance numbers that the underlying hardware simply cannot produce. The root cause is that the agent reasons about software in a vacuum. It has a rich model of code and no model at all of the physical machine that code runs on — how fast an SSD actually is, how much bandwidth a PCIe link can carry, how long a DMA transfer really takes. Left to its own devices, it will happily extrapolate a benchmark result to hundreds of gigabytes per second on an array that tops out at tens.</p>
+<p>Our answer is to give the agent that missing model, measured rather than imagined. Before any design or optimization agent runs, an <em>inspection agent</em> characterizes the target hardware and records what it finds in a knowledge base. It collects the properties that bound real storage performance: NVMe SSD throughput and IOPS at representative block sizes (e.g., 128 KiB random reads - using fio), PCIe link bandwidth (lspci), network bandwidth and latency (<code>ib_perf</code>), DRAM bandwidth (Intel mlc), and DMA throughput along the paths that matter — GPU-to-CPU (<code>gdrcopy_copybw</code>) and GPU-to-SSD (custom tool). Alternatively to running a microbenchmark, one could envisage scraping the internet for detail specifications - but this is costly from a token perspective and is limited by a lack of understanding of the deployment h/w capabilities.</p>
+<p>The measured properties are injected into every design and optimization context as hard boundaries. When an agent proposes an architecture or reports a result, its numbers are checked against the physical ceilings the inspection agent established. The earlier example — Claude claiming hundreds of gigabytes per second from an eight-SSD array — is caught immediately, because the knowledge base records that a single device delivers roughly 6 GB/s and that eight of them, even under perfect scaling and with ample PCIe bandwidth, cannot exceed about 48 GB/s. Just as importantly, the same bounds inform design in the forward direction: knowing the real per-device and per-link limits tells the agent how many SSDs are needed to saturate a network interface, or whether a proposed data path will be starved by the slowest link in the chain. The knowledge base turns the physics of the machine into another part of the shared model, so the agent's enthusiasm is tethered to what the hardware can actually deliver.</p>
+<h3 id="addressing-bias-in-models">Addressing bias in models<a class="headerlink" href="#addressing-bias-in-models" title="Permanent link">&para;</a></h3>
+<p>The third problem area is subtler than the first two, because a biased choice looks like a reasoned one. As we saw with the peer-to-peer versus bounce-buffer DMA decision, the agent doesn't pick a heavily-advertised pattern because it has weighed the alternatives and lost; it picks it because that pattern is simply more present in what the model learned from. The bias is statistical, and it is invisible in the output — the code compiles, the rationale reads plausibly, and only a developer who understands the broader architecture would notice that the “obvious” choice is the wrong one.</p>
+<p>The key observation is that this bias surfaces only in the absence of overriding context. Given nothing else to go on, the model falls back on its priors; given a strong, specific signal about <em>this</em> system and <em>this</em> hardware, it will reason from that signal instead. So the fix is not to fight the model's training but to supply the context that outweighs it, through two complementary channels: prompts, for context specific to the task at hand, and knowledge bases, for context that should persist and apply across many agent invocations.</p>
+<p>The hardware knowledge base from the previous section is one such source, and the P2P example shows why it matters. In isolation, P2P DMA between SSD and GPU looks strictly superior, and GPU Direct is marketed as an enterprise storage-system “must have.” But once the agent's context includes the facts that Certus incorporates a DRAM memory tier and can pipeline transfers through it, the bounce-buffer path is no longer obviously worse — and the biased default no longer goes unchallenged. Alongside hardware facts, we curate a domain <em>knowledge base</em> that captures exactly these kinds of architecture-dependent trade-offs, so that the design agent inherits the reasoning a domain expert would apply rather than the reasoning the corpus happens to favor. </p>
+<p>In Certus, the knowledge base contains four kinds of entries: design patterns curated from existing literature and reference implementations that capture the design space for each KV cache storage concern; component specs that record each module's interfaces, data flows, and invariants; verified properties that the formal verification pipeline (<a href="#sec-fv">Section 1</a>) has established; and third-party library and API documentation (SPDK, libibverbs, vLLM) needed for integration code. Entries are authored by the developer or drafted by a knowledge-curator agent and reviewed before use, kept current as the architecture evolves, and selected into a working agent's context by task scope. That focused, system-specific evidence gives the model a concrete alternative to its learned default.</p>
+<p><span id="sec-fv"></span></p>
+<h3 id="assuring-behavior-through-formal-verification">Assuring behavior through formal verification<a class="headerlink" href="#assuring-behavior-through-formal-verification" title="Permanent link">&para;</a></h3>
+<p>Formal verification is able to test properties based on some mathematical model of the system. Historically, it has been reserved for mission-critical systems where failure could lead to catastrophe such as loss of life.  However, for LLM-based agentic coding, formal verification has another role (<a href="#fig-fv_trans">Figure 2</a>) – ensuring that the specification is aligned with the synthesized code and also, by abstraction of different properties into comprehendible models, helping the human build her own mental model of the system.</p>
+<figure id="fig-fv_trans">
+<p><img alt="Applying formal verification is key to providing transparency of code and assurance of what is implemented" src="../../../../../assets/fv_for_transparency.png" />
+  </p>
+<figcaption>Figure 2: Applying formal verification is key to providing transparency of code and assurance of what is implemented</figcaption>
+</figure>
+<p>Historically, the burden of writing verifiable models and ensuring that they are aligned with the code is significant and only possible with expert knowledge. LLM coding agents change this equation – translation is one of their key strengths. In the context of Certus, and its use of spec-driven development, the code synthesis takes the detailed specifications and generates Rust code. After this, the specifications and code are used in the following four verification pipelines (see <a href="#fig-formal">Figure 3</a>): </p>
+<ol>
+<li>Generate <em>abstract code</em> that can be model checked for functional and logic correctness (e.g., Creusot <sup>[<a href="#ref-3">3</a>]</sup> - deductive prover via SMT).  The abstract code uses the same programming language as the concrete code.</li>
+<li>Instrument the concrete code with <em>function wrappers</em> and <em>test harnesses</em> that check for low-level issues such as out-of-bounds accesses or integer overflow (e.g., Kani <sup>[<a href="#ref-4">4</a>]</sup>, Loom <sup>[<a href="#ref-5">5</a>]</sup>).</li>
+<li>Generate an <em>abstract model</em> that represents the checkable properties (e.g. Promela <sup>[<a href="#ref-6">6</a>]</sup> for Spin <sup>[<a href="#ref-7">7</a>]</sup>). Abstract models are not written in program code.</li>
+<li>Convert remaining properties to run-time tests that are specifically focused on testing the properties in question.</li>
+</ol>
+<p>So how do these translations operate? The details are technical, but the shape is the same in each case: read the code, distill the properties that actually matter, and re-express them in a form a checker can reason about. For abstract code, such as is necessary for the Creusot checker, the coding agent first reads the implementation to understand its logic and extracts the key correctness properties rather than transliterating the code. Next, everything that can't be reasoned about is stripped out (e.g., HashMap, Arc can't be handled). Everything is reduced to pure functions (i.e., a function whose output depends only on its input, and which has no observable side-effects). From here, the agent converts the stripped and simplified code to specifications in Creusot's dialect that can be readily model checked.</p>
+<p>For Kani and Loom, the specs and code are used to create test harnesses and to extract functions into those harnesses. This process begins by again first reading the source to understand the logic. The first step is to replace unsafe/FFI with safe stubs (e.g., replacing a pointer-based array to a Vec<u8>, Drop becomes no-op) and looking for code that are likely "hot-spots" of checkable properties (e.g., list manipulation). Next, the agent writes the test harnesses replacing parameter assignments with the <code>kani::any()</code> and inserting <code>kani::assume()</code> for pre- and post-conditions. Finally, the test harnesses can be run to audit the checkable properties.</p>
+<figure id="fig-formal">
+<p><img alt="Formal verification flow" src="../../../../../assets/certus_verification_channels.svg" />
+  </p>
+<figcaption>Figure 3: Formal verification flow</figcaption>
+</figure>
+<h4 id="the-formal-verification-gotcha">The formal verification gotcha!<a class="headerlink" href="#the-formal-verification-gotcha" title="Permanent link">&para;</a></h4>
+<p>The soundness of formal verification is dependent on the ability to <em>correctly</em> transform specifications and code to checkable models and tests. What happens if the agent adds code that is not required or is even dangerous from a security or stability perspective? What happens if the algorithm is mis-translated? What happens if a critical operation is removed through abstraction? Without assurance of translation, the model checkers are verifying code that does not exist! Worse still, we can't ask an agent to check itself and expect it to have newly found levels of oversight or correctness (well, we can, but only so far).</p>
+<p>To address this problem, Certus employs different coding agents (e.g., Codex) to independently cross-check the translation source and target forms. To validate this approach we created a systematic method of "poisoning" code and specifications that create mismatches between source and target. We then perform the cross-checking and ensure that all of the poison items have been correctly identified.</p>
+<h2 id="summary">Summary<a class="headerlink" href="#summary" title="Permanent link">&para;</a></h2>
+<p>We began with a familiar scene: a developer, three years into a production system, no longer quite trusting their own understanding of it. That erosion of the mental model — the living map of how a system works and why — is an age-old problem in software engineering. What is new is that LLM-based agentic coding has severed the coupling between code and understanding. Code can now be produced faster than any human, or team of humans, can absorb it. For simple tasks this is liberating. For systems where correctness is not negotiable — storage, kernels, compilers — it is a liability, because a wild agent will happily generate code that looks right, passes its own tests, and fails silently at 3am under a concurrency interleaving no one reasoned about.</p>
+<p>Certus is our attempt to hold on to the elephant without breaking its stride. Rather than choosing between the speed of the agent and the confidence of the human, we built a <em>mutual mind</em>: a shared, precise, continuously verifiable representation that both developer and AI reason from. That mutual mind is not a single artifact but a discipline woven through the whole process. Spec-driven development makes intent explicit and keeps the developer's understanding durable as the code grows. A COM-like component architecture enforces high cohesion and low coupling, bounding the blast radius of change and keeping the system understandable one piece at a time. A hardware knowledge base grounds the agent in physical reality, so it can no longer promise hundreds of gigabytes per second from an array that can deliver tens. Explicit context and knowledge bases pull the agent away from its statistical defaults toward the design that actually fits the problem. And formal verification — with independent agents cross-checking every translation from code to checkable model — turns the specification into a source of proof, not just a source of code, with targeted runtime tests filling the gaps where proof is out of reach.</p>
+<p>The result is a development process in which neither party is flying blind. The agent supplies speed and breadth; the developer supplies intent and judgment; and the shared, verifiable model between them ensures that what gets built is what was meant — and that the invariants we care about are the invariants being maintained. The elephant is still powerful, still fast. It is simply no longer out of control.</p>
+<p>Certus is our first use case, and much of what we describe here is still evolving. But our ambition is broader than a single storage system: a general methodology for using AI to build complex, correctness-critical software with confidence — marrying human understanding with the AI's speed, so that the mental model, that most valuable and most fragile artifact, is no longer the thing we lose.</p>
+<p>Certus is an open-source project which can be found at:</p>
+<p><a href="https://github.com/AI-native-Systems-Research/ai-native-storage-certus">https://github.com/AI-native-Systems-Research/ai-native-storage-certus</a></p>
+<p><em>Feedback and collaboration are welcome.</em></p>
+<p>Please contact us at <a href="&#109;&#97;&#105;&#108;&#116;&#111;&#58;&#97;&#105;&#45;&#110;&#97;&#116;&#105;&#118;&#101;&#45;&#115;&#116;&#111;&#114;&#97;&#103;&#101;&#64;&#105;&#98;&#109;&#46;&#99;&#111;&#109;">&#97;&#105;&#45;&#110;&#97;&#116;&#105;&#118;&#101;&#45;&#115;&#116;&#111;&#114;&#97;&#103;&#101;&#64;&#105;&#98;&#109;&#46;&#99;&#111;&#109;</a></p>
+<figure>
+<p><img alt="" src="../../../../../assets/wild-elephant-in-control.png" /></p>
+</figure>
+<hr />
+<h2 id="references">References<a class="headerlink" href="#references" title="Permanent link">&para;</a></h2>
+<p><span id="ref-1">[1] Osborn, J.
+ AI didn't make programming easier. It just made it differently difficult.
+ <em>Communications of the ACM</em>, 2026.
+ <a href="https://doi.org/10.1145/3795534">https://doi.org/10.1145/3795534</a></span></p>
+<p><span id="ref-2">[2] Waddington, D., Factor, M., Batsoyol, N.
+ Certus: The End of One-Size-Fits-All Storage.
+ <a href="https://ai-native-systems-research.github.io/ai-native-systems-research/blog/2026/06/17/certus-the-end-of-one-size-fits-all-storage/">https://ai-native-systems-research.github.io/ai-native-systems-research/blog/2026/06/17/certus-the-end-of-one-size-fits-all-storage/</a></span></p>
+<p><span id="ref-3">[3] Denis, X., Jourdan, J.-H., and Marché, C.
+ Creusot: A Foundry for the Deductive Verification of Rust Programs.
+ In <em>Formal Methods and Software Engineering (ICFEM 2022)</em>, LNCS 13478, Springer, 2022, pp. 90–105.
+ <a href="https://doi.org/10.1007/978-3-031-17244-1_6">https://doi.org/10.1007/978-3-031-17244-1_6</a></span></p>
+<p><span id="ref-4">[4] Delmas, R., Hassan, Z., Hu, Q., Kumar, R., Monteiro, F. R., Nguyen, T., Palacios, A., Val, C., Tautschnig, M., Adam, J., Schwartz-Narbonne, D., and Zech, C.
+ Kani: A Model Checker for Rust.
+ In <em>39th IEEE/ACM International Conference on Automated Software Engineering (ASE 2026), Industry Showcase Track</em>, 2026.
+ <a href="https://arxiv.org/abs/2607.01504">https://arxiv.org/abs/2607.01504</a></span></p>
+<p><span id="ref-5">[5] Tokio.
+ Loom: Concurrency permutation testing tool for Rust.
+ <a href="https://docs.rs/loom/latest/loom/">https://docs.rs/loom/latest/loom/</a></span></p>
+<p><span id="ref-6">[6] Holzmann, G. J.
+ <em>The SPIN Model Checker: Primer and Reference Manual</em>.
+ Addison-Wesley, 2004.</span></p>
+<p><span id="ref-7">[7] Holzmann, G. J.
+ The Model Checker SPIN.
+ <em>IEEE Transactions on Software Engineering</em>, 23(5):279–295, 1997.
+ <a href="https://doi.org/10.1109/32.588521">https://doi.org/10.1109/32.588521</a></span></p>
+
+
+
+
+
+
+
+  
+  
+
+
+
+  
+
+
+  
+
+
+
+      
+    </article>
+  </div>
+
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+          <button type="button" class="md-top md-icon" data-md-component="top" hidden>
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8z"/></svg>
+  Back to top
+</button>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+    
+      
+        
+      
+      <nav class="md-footer__inner md-grid" aria-label="Footer" >
+        
+          
+          <a href="../../../08/27/ai-native-systems-six-months-in-what-weve-learned-building-the-loop/" class="md-footer__link md-footer__link--prev" aria-label="Previous: AI-Native Systems, Six Months In: What We&#39;ve Learned Building the Loop">
+            <div class="md-footer__button md-icon">
+              
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+            </div>
+            <div class="md-footer__title">
+              <span class="md-footer__direction">
+                Previous
+              </span>
+              <div class="md-ellipsis">
+                AI-Native Systems, Six Months In: What We've Learned Building the Loop
+              </div>
+            </div>
+          </a>
+        
+        
+      </nav>
+    
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      
+      <script id="__config" type="application/json">{"annotate": null, "base": "../../../../..", "features": ["navigation.tabs", "navigation.indexes", "navigation.sections", "navigation.expand", "navigation.footer", "navigation.top", "search.highlight", "search.suggest", "content.code.copy", "toc.follow"], "search": "../../../../../assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": {"default": "latest", "provider": "mike"}}</script>
+    
+    
+  
+      <script src="../../../../../assets/javascripts/bundle.79ae519e.min.js"></script>
+      
+    
+  <div class="ga-notice" id="ga-notice" role="region" aria-label="Analytics notice">
+    <div class="ga-notice__inner">
+      <span class="ga-notice__text">
+        We use cookieless Google Analytics to count how many readers each post gets &mdash;
+        no cookies, no tracking across sites. Your page URL (without query parameters), browser,
+        and approximate location may be processed.
+        <a href="../../../../../privacy/">Read what's collected &rarr;</a>
+      </span>
+      <button class="ga-notice__btn" id="ga-notice-dismiss" type="button">Got it</button>
+    </div>
+  </div>
+  <script>
+    (function() {
+      var notice = document.getElementById('ga-notice');
+      var btn = document.getElementById('ga-notice-dismiss');
+      if (!notice || !btn) return;
+      try {
+        if (!localStorage.getItem('analytics-notice-dismissed')) {
+          notice.style.display = 'block';
+        }
+      } catch (e) { /* localStorage unavailable; just don't show */ }
+      btn.addEventListener('click', function() {
+        try { localStorage.setItem('analytics-notice-dismissed', '1'); } catch (e) {}
+        notice.style.display = 'none';
+      });
+    })();
+  </script>
+
+  </body>
+</html>
