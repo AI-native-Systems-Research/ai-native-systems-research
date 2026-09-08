@@ -42,6 +42,16 @@
   color: var(--md-primary-fg-color);
 }
 
+/* Blog post / article headings in theme blue */
+.md-content .md-typeset h1,
+.md-content .md-typeset h2,
+.md-content .md-typeset h3,
+.md-content .md-typeset h4,
+.md-content .md-typeset h5,
+.md-content .md-typeset h6 {
+  color: var(--md-primary-fg-color);
+}
+
 /* Feature grid */
 .md-typeset .feature-grid {
   display: grid;
