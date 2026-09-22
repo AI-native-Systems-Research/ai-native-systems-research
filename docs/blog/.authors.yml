@@ -7,6 +7,10 @@ authors:
     name: Fabio A. Oliveira
     description: AI-native Systems Senior Research Manager
     avatar: https://github.com/fabolive.png
+  chcost:
+    name: Carlos Costa
+    description: AI-native Systems Distinguished Engineer
+    avatar: https://github.com/chcost.png
   factor:
     name: Michael Factor
     description: IBM Fellow
