@@ -17,11 +17,6 @@ tags:
 
 # Holding on to the Wild Elephant
 
-<figure markdown>
-  ![](../../assets/wild-elephant-out-of-control.png)
-</figure>
-
-
 ## Introduction
 
 Imagine you are the lead developer on a storage system that has been in production for three years. A bug report arrives: under high concurrency, writes are occasionally silently dropped. You open the codebase — 80,000 lines of Rust, hundreds of components, a dozen contributors. You know this system. You wrote parts of it. But scrolling through the concurrency logic, you feel it: the niggling feeling of not quite trusting your own understanding. Rebuilding the mental model takes days<sup>[<a href="#ref-1">1</a>]</sup>. The bug, it turns out, was introduced six months ago in a refactor nobody fully remembers designing.
