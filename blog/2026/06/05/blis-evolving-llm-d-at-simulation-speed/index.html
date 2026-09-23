@@ -6,18 +6,18 @@
       <meta charset="utf-8">
       <meta name="viewport" content="width=device-width,initial-scale=1">
       
-        <meta name="description" content="We pointed Nous, an agentic research harness, at a streaming GNN inference pipeline on Apache Flink and let it run autonomously. It independently recovered all seven of our paper's major findings — then refined, extended, and explained several of them in directions we had not followed.
+        <meta name="description" content="Deploying llm-d means choosing among coupled routing, admission, batching, and autoscaling policies whose tradeoffs are hard to predict. BLIS is the faster inner loop: a calibrated simulator for evaluating those choices before cluster validation.
 ">
       
       
       
-        <link rel="canonical" href="https://ai-native-systems-research.github.io/ai-native-systems-research/blog/2026/06/17/can-an-agentic-harness-rediscover-the-insights-in-a-research-paper/">
+        <link rel="canonical" href="https://ai-native-systems-research.github.io/ai-native-systems-research/blog/2026/06/05/blis-evolving-llm-d-at-simulation-speed/">
       
       
-        <link rel="prev" href="../../05/blis-evolving-llm-d-at-simulation-speed/">
+        <link rel="prev" href="../../../05/13/from-simulation-to-production-how-an-ai-native-pipeline-discovered-a-better-admission-controller-for-llm-d/">
       
       
-        <link rel="next" href="../certus-the-end-of-one-size-fits-all-storage/">
+        <link rel="next" href="../../17/can-an-agentic-harness-rediscover-the-insights-in-a-research-paper/">
       
       
         
@@ -28,7 +28,7 @@
     
     
       
-        <title>Can an Agentic Harness Rediscover the Insights in a Research Paper? - AI-native Systems Research</title>
+        <title>BLIS: Evolving llm-d at Simulation Speed - AI-native Systems Research</title>
       
     
     
@@ -160,7 +160,7 @@
     <div data-md-component="skip">
       
         
-        <a href="#can-an-agentic-harness-rediscover-the-insights-in-a-research-paper" class="md-skip">
+        <a href="#blis-evolving-llm-d-at-simulation-speed" class="md-skip">
           Skip to content
         </a>
       
@@ -198,7 +198,7 @@
         <div class="md-header__topic" data-md-component="header-topic">
           <span class="md-ellipsis">
             
-              Can an Agentic Harness Rediscover the Insights in a Research Paper?
+              BLIS: Evolving llm-d at Simulation Speed
             
           </span>
         </div>
@@ -1073,69 +1073,6 @@
     
   
   
-    <label class="md-nav__title" for="__toc">
-      <span class="md-nav__icon md-icon"></span>
-      Table of contents
-    </label>
-    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
-      
-        <li class="md-nav__item">
-  <a href="#the-target-system-streaming-gnn-inference-on-flink" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        The Target System: Streaming GNN Inference on Flink
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#how-does-nous-investigate-a-system-on-its-own" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        How does Nous investigate a system on its own?
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#what-did-the-harness-validate-and-uncover" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        What did the harness validate and uncover?
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#what-does-this-tell-us-about-agentic-research-harnesses" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        What does this tell us about agentic research harnesses?
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#references" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        References
-      
-    </span>
-  </a>
-  
-</li>
-      
-    </ul>
-  
 </nav>
                   </div>
                 </div>
@@ -1163,27 +1100,27 @@
                 
                   <div class="md-profile md-post__profile">
                     <span class="md-author md-author--long">
-                      <img src="https://github.com/Naima2002.png" alt="Naima Abrar Shami">
-                    </span>
-                    <span class="md-profile__description">
-                      <strong>
-                        
-                          Naima Abrar Shami
-                        
-                      </strong>
-                      <br>
-                      
-                    </span>
-                  </div>
-                
-                  <div class="md-profile md-post__profile">
-                    <span class="md-author md-author--long">
                       <img src="https://github.com/toslali-ibm.png" alt="Mert Toslali">
                     </span>
                     <span class="md-profile__description">
                       <strong>
                         
                           Mert Toslali
+                        
+                      </strong>
+                      <br>
+                      AI-native Systems Researcher
+                    </span>
+                  </div>
+                
+                  <div class="md-profile md-post__profile">
+                    <span class="md-author md-author--long">
+                      <img src="https://github.com/susiejojo.png" alt="Dipanwita Guhathakurta">
+                    </span>
+                    <span class="md-profile__description">
+                      <strong>
+                        
+                          Dipanwita Guhathakurta
                         
                       </strong>
                       <br>
@@ -1208,16 +1145,76 @@
                 
                   <div class="md-profile md-post__profile">
                     <span class="md-author md-author--long">
-                      <img src="https://github.com/vasia.png" alt="Vasiliki Kalavri">
+                      <img src="https://github.com/jgchn.png" alt="Jing Chen">
                     </span>
                     <span class="md-profile__description">
                       <strong>
                         
-                          Vasiliki Kalavri
+                          Jing Chen
                         
                       </strong>
                       <br>
-                      Assistant Professor, Boston University
+                      AI-native Systems Researcher
+                    </span>
+                  </div>
+                
+                  <div class="md-profile md-post__profile">
+                    <span class="md-author md-author--long">
+                      <img src="https://github.com/namasl.png" alt="Nick Masluk">
+                    </span>
+                    <span class="md-profile__description">
+                      <strong>
+                        
+                          Nick Masluk
+                        
+                      </strong>
+                      <br>
+                      AI-native Systems Researcher
+                    </span>
+                  </div>
+                
+                  <div class="md-profile md-post__profile">
+                    <span class="md-author md-author--long">
+                      <img src="https://github.com/vishakha-r.png" alt="Vishakha Ramani">
+                    </span>
+                    <span class="md-profile__description">
+                      <strong>
+                        
+                          Vishakha Ramani
+                        
+                      </strong>
+                      <br>
+                      AI-native Systems Researcher
+                    </span>
+                  </div>
+                
+                  <div class="md-profile md-post__profile">
+                    <span class="md-author md-author--long">
+                      <img src="https://github.com/kalantar.png" alt="Michael Kalantar">
+                    </span>
+                    <span class="md-profile__description">
+                      <strong>
+                        
+                          Michael Kalantar
+                        
+                      </strong>
+                      <br>
+                      AI-native Systems Researcher
+                    </span>
+                  </div>
+                
+                  <div class="md-profile md-post__profile">
+                    <span class="md-author md-author--long">
+                      <img src="https://github.com/atantawi.png" alt="Asser Tantawi">
+                    </span>
+                    <span class="md-profile__description">
+                      <strong>
+                        
+                          Asser Tantawi
+                        
+                      </strong>
+                      <br>
+                      AI-native Systems Researcher
                     </span>
                   </div>
                 
@@ -1236,6 +1233,21 @@
                     </span>
                   </div>
                 
+                  <div class="md-profile md-post__profile">
+                    <span class="md-author md-author--long">
+                      <img src="https://github.com/chcost.png" alt="Carlos Costa">
+                    </span>
+                    <span class="md-profile__description">
+                      <strong>
+                        
+                          Carlos Costa
+                        
+                      </strong>
+                      <br>
+                      IBM Distinguished Engineer
+                    </span>
+                  </div>
+                
               </div>
             
             <ul class="md-post__meta md-nav__list">
@@ -1250,7 +1262,7 @@
                     <li class="md-nav__item">
                       <div class="md-nav__link">
                         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 19H5V8h14m-3-7v2H8V1H6v2H5c-1.11 0-2 .89-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V5a2 2 0 0 0-2-2h-1V1m-1 11h-5v5h5z"/></svg>
-                        <time datetime="2026-06-17 00:00:00+00:00" class="md-ellipsis">June 17, 2026</time>
+                        <time datetime="2026-06-05 00:00:00+00:00" class="md-ellipsis">June 5, 2026</time>
                       </div>
                     </li>
                     
@@ -1261,7 +1273,8 @@
                           <span class="md-ellipsis">
                             in
                             
-                              <a href="../../../../category/deep-dives/">Deep Dives</a></span>
+                              <a href="../../../../category/blis/">BLIS</a>, 
+                              <a href="../../../../category/llm-d/">llm-d</a></span>
                         </div>
                       </li>
                     
@@ -1272,7 +1285,7 @@
                           <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 20a8 8 0 0 0 8-8 8 8 0 0 0-8-8 8 8 0 0 0-8 8 8 8 0 0 0 8 8m0-18a10 10 0 0 1 10 10 10 10 0 0 1-10 10C6.47 22 2 17.5 2 12A10 10 0 0 1 12 2m.5 5v5.25l4.5 2.67-.75 1.23L11 13V7z"/></svg>
                           <span class="md-ellipsis">
                             
-                              7 min read
+                              1 min read
                             
                           </span>
                         </div>
@@ -1299,48 +1312,18 @@
   
 
 
-<h1 id="can-an-agentic-harness-rediscover-the-insights-in-a-research-paper">Can an Agentic Harness Rediscover the Insights in a Research Paper?<a class="headerlink" href="#can-an-agentic-harness-rediscover-the-insights-in-a-research-paper" title="Permanent link">&para;</a></h1>
-<p><em>A case study characterizing a streaming GNN inference engine with Nous.</em></p>
-<p><strong>Try Nous yourself: <a href="https://github.com/AI-native-Systems-Research/agentic-strategy-evolution">github.com/AI-native-Systems-Research/agentic-strategy-evolution</a></strong></p>
-<p><strong>Can an agentic research harness independently arrive at the same conclusions as a human researcher on a real systems problem?</strong> To test this, we pointed <a href="https://github.com/AI-native-Systems-Research/agentic-strategy-evolution">Nous</a>, an agentic research harness, at the streaming GNN inference pipeline we had built and characterized in a recent paper. We gave it a research question and access to the target system, then let it run. The goal was twofold: to test whether the harness could reproduce the findings we had published, and to see whether it would surface anything we had missed.</p>
+<h1 id="blis-evolving-llm-d-at-simulation-speed">BLIS: Evolving llm-d at Simulation Speed<a class="headerlink" href="#blis-evolving-llm-d-at-simulation-speed" title="Permanent link">&para;</a></h1>
+<p>Deploying llm-d is not just a question of choosing a model server and adding GPUs. In a production inference deployment, operators have to choose routing policies, admission behavior, batching settings, KV-cache reuse strategies, prefill/decode placement, and autoscaling rules under concrete TTFT, ITL, throughput, and cost constraints.</p>
+<p>These choices are coupled. A routing change that improves cache locality can concentrate load. A prefill/decode threshold that helps one workload can hurt another. An admission policy that protects critical traffic can reduce total served volume. A change in any one policy can shift TTFT, inter-token latency, throughput, SLO compliance, and accelerator cost in ways that are difficult to predict analytically.</p>
+<p>The only reliable way to confirm those tradeoffs is to measure them in a GPU-backed llm-d cluster. But using cluster runs as the first step in every policy or capacity-planning experiment is too slow and expensive. BLIS provides a faster inner loop: a calibrated discrete-event simulator for distributed inference systems like llm-d. Developers can evaluate candidate policies and deployment configurations locally, then reserve cluster validation for the candidates most likely to matter.</p>
 <!-- more -->
 
-<h2 id="the-target-system-streaming-gnn-inference-on-flink">The Target System: Streaming GNN Inference on Flink<a class="headerlink" href="#the-target-system-streaming-gnn-inference-on-flink" title="Permanent link">&para;</a></h2>
-<p>GNN inference computes a prediction for an entity by reading its <em>neighborhood</em> in a graph — its 1-hop neighbors, their neighbors, and so on. It powers fraud detection (the suspicious transaction's network of accounts), recommender systems (similar users and related items), and traffic forecasting. For real-time use, those neighborhoods need to be assembled and scored in milliseconds, against a graph that may be too large to fit on one machine.</p>
-<p>Our <a href="https://dl.acm.org/doi/10.1145/3735546.3735856">pipeline</a> runs on <strong>Apache Flink</strong>, a distributed stream processor designed for large-scale real-time event streams. Flink stores the graph as keyed state inside its workers — each node's neighbor list and feature vector is partitioned and sharded across machines. As inference requests arrive (each request is a node ID for which we want a prediction), the pipeline retrieves that node's 2-hop neighborhood from Flink state, assembles the local subgraph as JSON, sends it to a GraphSAGE model hosted in <strong>TorchServe</strong>, and emits the embedding.</p>
-<p><img alt="End-to-end pipeline for streaming GNN inference" src="../../../../../assets/streaming-gnn-pipeline.png" /></p>
-<p><em>End-to-end pipeline for streaming GNN inference. A DataLoader job initializes graph state in Flink; the Inference job processes streamed node IDs through FirstHop / SecondHop sampling, feature retrieval, and subgraph construction, then issues an inference request to TorchServe.</em></p>
-<p>The paper evaluated this architecture on the Reddit dataset (233K nodes, 115M edges, 602-dim features) and reported how throughput and latency vary across worker counts, neighborhood sizes, and synchronous vs. asynchronous inference paths.</p>
-<h2 id="how-does-nous-investigate-a-system-on-its-own">How does Nous investigate a system on its own?<a class="headerlink" href="#how-does-nous-investigate-a-system-on-its-own" title="Permanent link">&para;</a></h2>
-<p>Nous is an agentic research harness built on top of state-of-the-art AI agents (e.g., Claude Code) and a structured scientific methodology for automated system experimentation. AI agents drive the research process; the harness provides the structure that guides hypothesis generation, experiment execution, evidence tracking, and iterative refinement. Internally, it runs an iterative loop: a planning agent proposes hypotheses with falsifiable predictions and candidate mechanisms, an execution agent runs experiments and records findings, and a principle store accumulates durable claims with evidence and confidence scores. Each iteration builds on what has been confirmed or refuted; predictions made in one iteration become tests for the next. This lets the harness systematically sweep configuration spaces, evaluate competing explanations in parallel, and characterize system behavior at a finer granularity than a time-constrained human researcher could realistically explore.</p>
-<p>We ran three Nous campaigns on the streaming GNN pipeline, each targeting a different question: (a) could the harness reproduce the paper's main directional findings on its own, (b) could it surface configurations and edge cases we had not thought to test, and (c) could it instrument and characterize the TorchServe inference path at finer granularity than the paper reported. Each campaign ran five iterations, fully autonomous after launch — no hints, no intermediate corrections, no experiment designs from us. Total cost across the three: \~$110 in LLM calls, \~32 hours of wallclock. Campaign artifacts (configurations, ledgers, principles, and reports) are available at <a href="https://github.com/Naima2002/flink-gnn-nous-artifacts">Naima2002/flink-gnn-nous-artifacts</a>.</p>
-<h2 id="what-did-the-harness-validate-and-uncover">What did the harness validate and uncover?<a class="headerlink" href="#what-did-the-harness-validate-and-uncover" title="Permanent link">&para;</a></h2>
-<p><strong>The most important result is that the harness independently recovered all 7 of the paper's major directional conclusions.</strong> Specifically:</p>
-<ul>
-<li>the number of TorchServe workers improves throughput up to a saturation point, after which adding more workers stops helping;  </li>
-<li>end-to-end median latency drops sharply as TorchServe workers are added, up to the same saturation point;  </li>
-<li>smaller 2-hop fanouts produce higher throughput than larger ones;  </li>
-<li>larger fanouts produce wider latency distributions, with more tail variance;  </li>
-<li>under sustained load, end-to-end latency stays bounded;  </li>
-<li>asynchronous inference outperforms synchronous inference;  </li>
-<li>as TorchServe worker count grows past the saturation point, the bottleneck shifts from TorchServe inference itself to Flink-side subgraph construction.</li>
-</ul>
-<p>Numbers themselves shifted by 5–10× because the laptop has no GPU, but every shape, ordering, and threshold reproduced.</p>
-<p><strong>Nous mapped where the result holds.</strong></p>
-<p>The harness didn't just reproduce the paper's claim that async inference outperforms sync by \~35%; it asked when that advantage held. Sweeping across parallelism settings, it found that the gap is not constant. At parallelism 1, async outperformed sync by 25.7%, but at parallelism 2 or higher the advantage largely disappeared. The mechanism is intuitive in hindsight: multiple parallel synchronous operators collectively saturate TorchServe in much the same way as a single asynchronous operator. Rather than treating the async advantage as a single aggregate result, the harness mapped the regime in which that advantage exists.</p>
-<p><strong>Nous found a failure mode we had never tested.</strong></p>
-<p>The same sweep also surfaced a regime where async, the supposedly-faster path, collapses below sync. With both ASYNC_CAPACITY (in-flight requests per operator) and operator parallelism pinned to 1, async throughput dropped to \~90 records/s while sync mode at the same parallelism sustained \~510. The async path does not degrade gracefully as its in-flight budget shrinks; below a threshold it stalls. We had not probed this corner ourselves; it is the kind of finding that comes from sweeping the configuration space rather than reasoning from priors.</p>
-<p><strong>Nous went from a black-box metric to a mechanistic explanation.</strong></p>
-<p>The campaigns then went a layer deeper into the inference path. Each request to TorchServe goes through three stages inside the model handler: preprocess (JSON → PyTorch tensors), inference (the GNN forward pass), and postprocess. The paper had reported per-request inference time as a single number; the harness instrumented the handler to log per-stage timing and correlated it against subgraph node count. Preprocessing dominated; scaling at \~0.011 ms/node versus 0.0076 ms/node for inference, and approaching <strong>61%</strong> of total handler time as subgraphs grow. JSON-to-tensor parsing, not the GNN forward pass, is the larger contributor and one that could be cut by replacing JSON with a binary encoding upstream.</p>
-<p><strong>Nous connected the observation to its cause.</strong></p>
-<p>It also re-ran a null result from the paper; that increasing TorchServe's request batch size does not improve throughput and confirmed it. More usefully, it went a step further and explained why: preprocessing dominates handler time and runs per-request, so batching cannot amortize it, and on CPU the inference step itself scales close to linearly with batch size, leaving little for batching to recover. The paper had stated the result; the harness restated it with a mechanism.</p>
-<p><strong>Nous independently rediscovered a costly bottleneck.</strong></p>
-<p>The same per-stage instrumentation also led the harness back to something we had hit during the original build. A single PyTorch threading parameter (TORCH_INTRA_THREADS) had cost us roughly two weeks of debugging. PyTorch's default of 64 caused thread thrashing on every per-request inference call: the per-call thread-pool barrier overhead far exceeded the small amount of actual compute. The cause was not visible from system-level metrics, and we had never explicitly set the value. Setting it to 1 was the fix. The harness rediscovered the same anti-pattern — bumping the value from 1 to 4 dropped end-to-end throughput by <strong>13–37%</strong> with no improvement in per-request inference time and named the mechanism correctly: intra-op threads contending for cores on a 16-core machine, with thread-pool barrier overhead dominating the \~0.2 ms of actual compute.</p>
-<h2 id="what-does-this-tell-us-about-agentic-research-harnesses">What does this tell us about agentic research harnesses?<a class="headerlink" href="#what-does-this-tell-us-about-agentic-research-harnesses" title="Permanent link">&para;</a></h2>
-<p>The most interesting outcome was not that the harness found something entirely different from the paper. It was that, starting from only a campaign description, it independently recovered all of the paper's major conclusions and then explored parts of the configuration space we had not characterized in detail. The harness reproduced the directional shape of every quantitative claim, refined one of those claims (the async-vs-sync result) with a sharper threshold, and identified a configuration combination that we had not thought to test ourselves.</p>
-<p>That suggests a possible role for agentic research harnesses: not as a replacement for the researchers who design and build the system in the first place, but as a way to extend what any single researcher with limited time can practically characterize — sweeping combinations a human would skip, refining results that were reported at coarser granularity in the original work, and pointing back at specific lines of the implementation where the next fix or follow-up belongs.</p>
-<h2 id="references">References<a class="headerlink" href="#references" title="Permanent link">&para;</a></h2>
-<p>Naima Abrar Shami and Vasiliki Kalavri. 2025. Bridging GNN Inference and Dataflow Stream Processing: Challenges and Opportunities. In Proceedings of the 8th Joint Workshop on Graph Data Management Experiences &amp; Systems (GRADES) and Network Data Analytics (NDA) (GRADES-NDA '25). Association for Computing Machinery, New York, NY, USA, Article 7, 1–10. https://doi.org/10.1145/3735546.3735856</p>
+<div class="admonition info">
+<p class="admonition-title">Cross-posted from the llm-d blog</p>
+<p>This post was originally published on the
+<a href="https://llm-d.ai/">llm-d</a> blog.</p>
+<p><a class="md-button md-button--primary" href="https://llm-d.ai/blog/blis-evolving-llm-d-at-simulation-speed">Continue reading on llm-d →</a></p>
+</div>
 
 
 
@@ -1385,7 +1368,7 @@
       <nav class="md-footer__inner md-grid" aria-label="Footer" >
         
           
-          <a href="../../05/blis-evolving-llm-d-at-simulation-speed/" class="md-footer__link md-footer__link--prev" aria-label="Previous: BLIS: Evolving llm-d at Simulation Speed">
+          <a href="../../../05/13/from-simulation-to-production-how-an-ai-native-pipeline-discovered-a-better-admission-controller-for-llm-d/" class="md-footer__link md-footer__link--prev" aria-label="Previous: From Simulation to Production: How an AI-Native Pipeline Discovered a Better Admission Controller for llm-d">
             <div class="md-footer__button md-icon">
               
               <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
@@ -1395,20 +1378,20 @@
                 Previous
               </span>
               <div class="md-ellipsis">
-                BLIS: Evolving llm-d at Simulation Speed
+                From Simulation to Production: How an AI-Native Pipeline Discovered a Better Admission Controller for llm-d
               </div>
             </div>
           </a>
         
         
           
-          <a href="../certus-the-end-of-one-size-fits-all-storage/" class="md-footer__link md-footer__link--next" aria-label="Next: Certus: The End of One-Size-Fits-All Storage">
+          <a href="../../17/can-an-agentic-harness-rediscover-the-insights-in-a-research-paper/" class="md-footer__link md-footer__link--next" aria-label="Next: Can an Agentic Harness Rediscover the Insights in a Research Paper?">
             <div class="md-footer__title">
               <span class="md-footer__direction">
                 Next
               </span>
               <div class="md-ellipsis">
-                Certus: The End of One-Size-Fits-All Storage
+                Can an Agentic Harness Rediscover the Insights in a Research Paper?
               </div>
             </div>
             <div class="md-footer__button md-icon">

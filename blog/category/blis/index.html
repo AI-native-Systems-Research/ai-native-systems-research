@@ -1162,6 +1162,58 @@ for llm-d. The rest of this post is how we get there, and where it still falls s
       <nav class="md-post__authors md-typeset">
         
           <span class="md-author">
+            <img src="https://github.com/toslali-ibm.png" alt="Mert Toslali">
+          </span>
+        
+      </nav>
+    
+    <div class="md-post__meta md-meta">
+      <ul class="md-meta__list">
+        <li class="md-meta__item">
+          <time datetime="2026-06-05 00:00:00+00:00">June 5, 2026</time></li>
+        
+          <li class="md-meta__item">
+            in
+            
+              <a href="./" class="md-meta__link">BLIS</a>, 
+              <a href="../llm-d/" class="md-meta__link">llm-d</a></li>
+        
+        
+          
+          <li class="md-meta__item">
+            
+              1 min read
+            
+          </li>
+        
+        
+      </ul>
+      
+    </div>
+  </header>
+  <div class="md-post__content md-typeset">
+    <h2 id="blis-evolving-llm-d-at-simulation-speed"><a class="toclink" href="../../2026/06/05/blis-evolving-llm-d-at-simulation-speed/">BLIS: Evolving llm-d at Simulation Speed</a></h2>
+<p>Deploying llm-d is not just a question of choosing a model server and adding GPUs. In a production inference deployment, operators have to choose routing policies, admission behavior, batching settings, KV-cache reuse strategies, prefill/decode placement, and autoscaling rules under concrete TTFT, ITL, throughput, and cost constraints.</p>
+<p>These choices are coupled. A routing change that improves cache locality can concentrate load. A prefill/decode threshold that helps one workload can hurt another. An admission policy that protects critical traffic can reduce total served volume. A change in any one policy can shift TTFT, inter-token latency, throughput, SLO compliance, and accelerator cost in ways that are difficult to predict analytically.</p>
+<p>The only reliable way to confirm those tradeoffs is to measure them in a GPU-backed llm-d cluster. But using cluster runs as the first step in every policy or capacity-planning experiment is too slow and expensive. BLIS provides a faster inner loop: a calibrated discrete-event simulator for distributed inference systems like llm-d. Developers can evaluate candidate policies and deployment configurations locally, then reserve cluster validation for the candidates most likely to matter.</p>
+
+    
+      <nav class="md-post__action">
+        <a href="../../2026/06/05/blis-evolving-llm-d-at-simulation-speed/">
+          Continue reading
+        </a>
+      </nav>
+    
+    
+  </div>
+</article>
+      
+        <article class="md-post md-post--excerpt">
+  <header class="md-post__header">
+    
+      <nav class="md-post__authors md-typeset">
+        
+          <span class="md-author">
             <img src="https://github.com/susiejojo.png" alt="Dipanwita Guhathakurta">
           </span>
         
