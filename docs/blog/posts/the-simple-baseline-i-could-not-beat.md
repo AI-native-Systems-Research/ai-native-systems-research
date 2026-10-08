@@ -2,7 +2,7 @@
 title: "The Simple Baseline I Could Not Beat"
 date: 2026-09-30
 authors:
-  - OshriNap
+  - oshri
 categories:
   - Deep Dives
 tags:
