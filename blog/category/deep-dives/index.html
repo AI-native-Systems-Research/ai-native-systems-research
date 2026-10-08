@@ -23,7 +23,7 @@
       
       
       <link rel="icon" href="../../../assets/images/favicon.png">
-      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.6">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.7">
     
     
       
@@ -31,7 +31,7 @@
       
     
     
-      <link rel="stylesheet" href="../../../assets/stylesheets/main.484c7ddc.min.css">
+      <link rel="stylesheet" href="../../../assets/stylesheets/main.ec1eaa64.min.css">
       
         
         <link rel="stylesheet" href="../../../assets/stylesheets/palette.ab4e12ef.min.css">
@@ -1099,6 +1099,106 @@
       <nav class="md-post__authors md-typeset">
         
           <span class="md-author">
+            <img src="https://github.com/OshriNap.png" alt="Oshri Naparstek">
+          </span>
+        
+      </nav>
+    
+    <div class="md-post__meta md-meta">
+      <ul class="md-meta__list">
+        <li class="md-meta__item">
+          <time datetime="2026-09-30 00:00:00+00:00">September 30, 2026</time></li>
+        
+          <li class="md-meta__item">
+            in
+            
+              <a href="./" class="md-meta__link">Deep Dives</a></li>
+        
+        
+          
+          <li class="md-meta__item">
+            
+              9 min read
+            
+          </li>
+        
+        
+      </ul>
+      
+    </div>
+  </header>
+  <div class="md-post__content md-typeset">
+    <h2 id="the-simple-baseline-i-could-not-beat"><a class="toclink" href="../../2026/09/30/the-simple-baseline-i-could-not-beat/">The Simple Baseline I Could Not Beat</a></h2>
+<p>Our <a href="../../2026/08/04/discovery-is-easy-composition-is-hard/">Certus case study</a> examined how LLM-driven optimizers discover and combine code changes. This post asks a complementary question: when does a sequence of improvements outperform independent attempts with the same LLM-call budget?</p>
+
+    
+      <nav class="md-post__action">
+        <a href="../../2026/09/30/the-simple-baseline-i-could-not-beat/">
+          Continue reading
+        </a>
+      </nav>
+    
+    
+  </div>
+</article>
+      
+        <article class="md-post md-post--excerpt">
+  <header class="md-post__header">
+    
+      <nav class="md-post__authors md-typeset">
+        
+          <span class="md-author">
+            <img src="https://github.com/Tal-Oved.png" alt="Tal Oved">
+          </span>
+        
+      </nav>
+    
+    <div class="md-post__meta md-meta">
+      <ul class="md-meta__list">
+        <li class="md-meta__item">
+          <time datetime="2026-09-29 00:00:00+00:00">September 29, 2026</time></li>
+        
+          <li class="md-meta__item">
+            in
+            
+              <a href="./" class="md-meta__link">Deep Dives</a></li>
+        
+        
+          
+          <li class="md-meta__item">
+            
+              1 min read
+            
+          </li>
+        
+        
+      </ul>
+      
+    </div>
+  </header>
+  <div class="md-post__content md-typeset">
+    <h2 id="optimize-cheap-deploy-strong-a-recipe-for-cost-efficient-gepa"><a class="toclink" href="../../2026/09/29/optimize-cheap-deploy-strong-a-recipe-for-cost-efficient-gepa/">Optimize Cheap, Deploy Strong: A Recipe for Cost-Efficient GEPA</a></h2>
+<p>Today we are sharing a simple recipe for running GEPA at a fraction of the cost, without giving up accuracy. In fact, you often get more of it. On HotpotQA, a prompt optimized this way deploys at 59.4% against 50.4% without the recipe. That is a +9.0 point gain while spending about 14x less ($7 vs $102).</p>
+<p>The primary cost driver in GEPA is evaluation. Every iteration, a task LLM runs each candidate prompt across the full validation set, so over a run it is called hundreds or thousands of times. That is what dominates the budget. So we asked a simple question: what happens if we run all of those repeated calls on a very cheap model?</p>
+<p>The surprising part is the direction. The cheaper route is also the better one. We call this positive transfer: a prompt tuned with a cheap task LLM can carry upward to a stronger model at deployment, and reach higher accuracy than that strong model reaches when it optimizes for itself.</p>
+
+    
+      <nav class="md-post__action">
+        <a href="../../2026/09/29/optimize-cheap-deploy-strong-a-recipe-for-cost-efficient-gepa/">
+          Continue reading
+        </a>
+      </nav>
+    
+    
+  </div>
+</article>
+      
+        <article class="md-post md-post--excerpt">
+  <header class="md-post__header">
+    
+      <nav class="md-post__authors md-typeset">
+        
+          <span class="md-author">
             <img src="https://github.com/dwaddington.png" alt="Daniel Waddington">
           </span>
         
@@ -1629,7 +1729,7 @@ single YAML change.</p>
     
     
   
-      <script src="../../../assets/javascripts/bundle.79ae519e.min.js"></script>
+      <script src="../../../assets/javascripts/bundle.d7400e89.min.js"></script>
       
     
   <div class="ga-notice" id="ga-notice" role="region" aria-label="Analytics notice">

@@ -6,18 +6,15 @@
       <meta charset="utf-8">
       <meta name="viewport" content="width=device-width,initial-scale=1">
       
-        <meta name="description" content="Deploying llm-d means choosing among coupled routing, admission, batching, and autoscaling policies whose tradeoffs are hard to predict. BLIS is the faster inner loop: a calibrated simulator for evaluating those choices before cluster validation.
-">
+        <meta name="description" content="Closing the loop — AI as the primary agent of continuous system evolution. Research and practice across inference platforms, GPU kernels, and storage systems.">
       
       
       
-        <link rel="canonical" href="https://ai-native-systems-research.github.io/ai-native-systems-research/blog/2026/06/05/blis-evolving-llm-d-at-simulation-speed/">
+        <link rel="canonical" href="https://ai-native-systems-research.github.io/ai-native-systems-research/blog/2026/09/30/the-simple-baseline-i-could-not-beat/">
       
       
-        <link rel="prev" href="../../../05/13/from-simulation-to-production-how-an-ai-native-pipeline-discovered-a-better-admission-controller-for-llm-d/">
+        <link rel="prev" href="../../29/optimize-cheap-deploy-strong-a-recipe-for-cost-efficient-gepa/">
       
-      
-        <link rel="next" href="../../17/can-an-agentic-harness-rediscover-the-insights-in-a-research-paper/">
       
       
         
@@ -28,7 +25,7 @@
     
     
       
-        <title>BLIS: Evolving llm-d at Simulation Speed - AI-native Systems Research</title>
+        <title>The Simple Baseline I Could Not Beat - AI-native Systems Research</title>
       
     
     
@@ -160,7 +157,7 @@
     <div data-md-component="skip">
       
         
-        <a href="#blis-evolving-llm-d-at-simulation-speed" class="md-skip">
+        <a href="#the-simple-baseline-i-could-not-beat" class="md-skip">
           Skip to content
         </a>
       
@@ -198,7 +195,7 @@
         <div class="md-header__topic" data-md-component="header-topic">
           <span class="md-ellipsis">
             
-              BLIS: Evolving llm-d at Simulation Speed
+              The Simple Baseline I Could Not Beat
             
           </span>
         </div>
@@ -1073,6 +1070,157 @@
     
   
   
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#building-bilevel" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Building Bilevel
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#the-simple-baseline" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        The simple baseline
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#what-the-papers-reported" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        What the papers reported
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#the-six-benchmarks" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        The six benchmarks
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#how-bilevel-performed" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        How Bilevel performed
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#a-prompt-difference-i-had-missed" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        A prompt difference I had missed
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#where-sequential-search-helped" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Where sequential search helped
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#how-many-independent-attempts-matched-one-sequential-run" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        How many independent attempts matched one sequential run
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#a-narrower-explanation" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        A narrower explanation
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#testing-published-systems" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Testing published systems
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#calls-and-usable-programs" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Calls and usable programs
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#what-i-would-do-next" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        What I would do next
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#references" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        References
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
 </nav>
                   </div>
                 </div>
@@ -1100,151 +1248,16 @@
                 
                   <div class="md-profile md-post__profile">
                     <span class="md-author md-author--long">
-                      <img src="https://github.com/toslali-ibm.png" alt="Mert Toslali">
+                      <img src="https://github.com/OshriNap.png" alt="Oshri Naparstek">
                     </span>
                     <span class="md-profile__description">
                       <strong>
                         
-                          Mert Toslali
+                          Oshri Naparstek
                         
                       </strong>
                       <br>
                       AI-native Systems Researcher
-                    </span>
-                  </div>
-                
-                  <div class="md-profile md-post__profile">
-                    <span class="md-author md-author--long">
-                      <img src="https://github.com/susiejojo.png" alt="Dipanwita Guhathakurta">
-                    </span>
-                    <span class="md-profile__description">
-                      <strong>
-                        
-                          Dipanwita Guhathakurta
-                        
-                      </strong>
-                      <br>
-                      AI-native Systems Researcher
-                    </span>
-                  </div>
-                
-                  <div class="md-profile md-post__profile">
-                    <span class="md-author md-author--long">
-                      <img src="https://github.com/sriumcp.png" alt="Srinivasan Parthasarathy">
-                    </span>
-                    <span class="md-profile__description">
-                      <strong>
-                        
-                          Srinivasan Parthasarathy
-                        
-                      </strong>
-                      <br>
-                      AI-native Systems Researcher
-                    </span>
-                  </div>
-                
-                  <div class="md-profile md-post__profile">
-                    <span class="md-author md-author--long">
-                      <img src="https://github.com/jgchn.png" alt="Jing Chen">
-                    </span>
-                    <span class="md-profile__description">
-                      <strong>
-                        
-                          Jing Chen
-                        
-                      </strong>
-                      <br>
-                      AI-native Systems Researcher
-                    </span>
-                  </div>
-                
-                  <div class="md-profile md-post__profile">
-                    <span class="md-author md-author--long">
-                      <img src="https://github.com/namasl.png" alt="Nick Masluk">
-                    </span>
-                    <span class="md-profile__description">
-                      <strong>
-                        
-                          Nick Masluk
-                        
-                      </strong>
-                      <br>
-                      AI-native Systems Researcher
-                    </span>
-                  </div>
-                
-                  <div class="md-profile md-post__profile">
-                    <span class="md-author md-author--long">
-                      <img src="https://github.com/vishakha-r.png" alt="Vishakha Ramani">
-                    </span>
-                    <span class="md-profile__description">
-                      <strong>
-                        
-                          Vishakha Ramani
-                        
-                      </strong>
-                      <br>
-                      AI-native Systems Researcher
-                    </span>
-                  </div>
-                
-                  <div class="md-profile md-post__profile">
-                    <span class="md-author md-author--long">
-                      <img src="https://github.com/kalantar.png" alt="Michael Kalantar">
-                    </span>
-                    <span class="md-profile__description">
-                      <strong>
-                        
-                          Michael Kalantar
-                        
-                      </strong>
-                      <br>
-                      AI-native Systems Researcher
-                    </span>
-                  </div>
-                
-                  <div class="md-profile md-post__profile">
-                    <span class="md-author md-author--long">
-                      <img src="https://github.com/atantawi.png" alt="Asser Tantawi">
-                    </span>
-                    <span class="md-profile__description">
-                      <strong>
-                        
-                          Asser Tantawi
-                        
-                      </strong>
-                      <br>
-                      AI-native Systems Researcher
-                    </span>
-                  </div>
-                
-                  <div class="md-profile md-post__profile">
-                    <span class="md-author md-author--long">
-                      <img src="https://github.com/fabolive.png" alt="Fabio A. Oliveira">
-                    </span>
-                    <span class="md-profile__description">
-                      <strong>
-                        
-                          Fabio A. Oliveira
-                        
-                      </strong>
-                      <br>
-                      AI-native Systems Senior Research Manager
-                    </span>
-                  </div>
-                
-                  <div class="md-profile md-post__profile">
-                    <span class="md-author md-author--long">
-                      <img src="https://github.com/chcost.png" alt="Carlos Costa">
-                    </span>
-                    <span class="md-profile__description">
-                      <strong>
-                        
-                          Carlos Costa
-                        
-                      </strong>
-                      <br>
-                      IBM Distinguished Engineer
                     </span>
                   </div>
                 
@@ -1262,7 +1275,7 @@
                     <li class="md-nav__item">
                       <div class="md-nav__link">
                         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 19H5V8h14m-3-7v2H8V1H6v2H5c-1.11 0-2 .89-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V5a2 2 0 0 0-2-2h-1V1m-1 11h-5v5h5z"/></svg>
-                        <time datetime="2026-06-05 00:00:00+00:00" class="md-ellipsis">June 5, 2026</time>
+                        <time datetime="2026-09-30 00:00:00+00:00" class="md-ellipsis">September 30, 2026</time>
                       </div>
                     </li>
                     
@@ -1273,8 +1286,7 @@
                           <span class="md-ellipsis">
                             in
                             
-                              <a href="../../../../category/blis/">BLIS</a>, 
-                              <a href="../../../../category/llm-d/">llm-d</a></span>
+                              <a href="../../../../category/deep-dives/">Deep Dives</a></span>
                         </div>
                       </li>
                     
@@ -1285,7 +1297,7 @@
                           <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 20a8 8 0 0 0 8-8 8 8 0 0 0-8-8 8 8 0 0 0-8 8 8 8 0 0 0 8 8m0-18a10 10 0 0 1 10 10 10 10 0 0 1-10 10C6.47 22 2 17.5 2 12A10 10 0 0 1 12 2m.5 5v5.25l4.5 2.67-.75 1.23L11 13V7z"/></svg>
                           <span class="md-ellipsis">
                             
-                              1 min read
+                              9 min read
                             
                           </span>
                         </div>
@@ -1312,18 +1324,129 @@
   
 
 
-<h1 id="blis-evolving-llm-d-at-simulation-speed">BLIS: Evolving llm-d at Simulation Speed<a class="headerlink" href="#blis-evolving-llm-d-at-simulation-speed" title="Permanent link">&para;</a></h1>
-<p>Deploying llm-d is not just a question of choosing a model server and adding GPUs. In a production inference deployment, operators have to choose routing policies, admission behavior, batching settings, KV-cache reuse strategies, prefill/decode placement, and autoscaling rules under concrete TTFT, ITL, throughput, and cost constraints.</p>
-<p>These choices are coupled. A routing change that improves cache locality can concentrate load. A prefill/decode threshold that helps one workload can hurt another. An admission policy that protects critical traffic can reduce total served volume. A change in any one policy can shift TTFT, inter-token latency, throughput, SLO compliance, and accelerator cost in ways that are difficult to predict analytically.</p>
-<p>The only reliable way to confirm those tradeoffs is to measure them in a GPU-backed llm-d cluster. But using cluster runs as the first step in every policy or capacity-planning experiment is too slow and expensive. BLIS provides a faster inner loop: a calibrated discrete-event simulator for distributed inference systems like llm-d. Developers can evaluate candidate policies and deployment configurations locally, then reserve cluster validation for the candidates most likely to matter.</p>
+<h1 id="the-simple-baseline-i-could-not-beat">The Simple Baseline I Could Not Beat<a class="headerlink" href="#the-simple-baseline-i-could-not-beat" title="Permanent link">&para;</a></h1>
+<p>Our <a href="../../../08/04/discovery-is-easy-composition-is-hard/">Certus case study</a> examined how LLM-driven optimizers discover and combine code changes. This post asks a complementary question: when does a sequence of improvements outperform independent attempts with the same LLM-call budget?</p>
 <!-- more -->
 
-<div class="admonition info">
-<p class="admonition-title">Cross-posted from the llm-d blog</p>
-<p>This post was originally published on the
-<a href="https://llm-d.ai/">llm-d</a> blog.</p>
-<p><a class="md-button md-button--primary" href="https://llm-d.ai/blog/blis-evolving-llm-d-at-simulation-speed">Continue reading on llm-d →</a></p>
-</div>
+<h2 id="building-bilevel">Building Bilevel<a class="headerlink" href="#building-bilevel" title="Permanent link">&para;</a></h2>
+<p>I set out to build a better system for improving programs with an LLM.</p>
+<p>Systems such as AlphaEvolve, OpenEvolve, FunSearch, AdaEvolve, and EvoX repeatedly ask an LLM to change the best program found so far. The same model may replace an algorithm, reorganize a data structure, or adjust a number such as a threshold or coefficient.</p>
+<p>I thought those were two different jobs. An LLM is useful for changing the structure of code. A numerical optimizer should be better at tuning numbers.</p>
+<p>So I built <strong>Bilevel</strong>. The LLM proposes structural changes and identifies numbers worth tuning. A Bayesian optimizer tunes those numbers separately. I liked the design. It gave each part of the system a clear job.</p>
+<p>After a month of disappointing results, I began to wonder how much the evolutionary loop itself was helping. For the experiments in this post, I turned off the numerical optimizer and tested the loop on its own.</p>
+<h2 id="the-simple-baseline">The simple baseline<a class="headerlink" href="#the-simple-baseline" title="Permanent link">&para;</a></h2>
+<p>Suppose you have a budget of 25 LLM calls. You can spend it in two ways.</p>
+<p>The <strong>starting program</strong> is the code the LLM is asked to improve. An <strong>attempt</strong> is one LLM call that returns a candidate program.</p>
+<ul>
+<li><strong>Sequential:</strong> The 25 calls form one chain. The first sees the starting program. Each later call sees the current program, its score, and a short summary of earlier steps.</li>
+<li><strong>Independent or best of 25:</strong> The 25 calls are separate. Each sees only the starting program. I keep the candidate with the best score.</li>
+</ul>
+<p><img alt="Sequential calls build on earlier results, while independent calls all start from the same program." src="../../../../../assets/simple-baseline/blog-fig1-two-approaches.png" /></p>
+<p>Both setups use the same model, benchmark, scoring code, and call budget. Bilevel's numerical optimizer is off in both. The only difference is whether later calls can see earlier results.</p>
+<p>I expected the sequential approach to win. It had memory and could build on previous improvements. The independent baseline threw that information away and started over on every call.</p>
+<p>Instead, the independent baseline kept matching or beating my loop. I first suspected a bug. I tuned the setup, reran the experiments, and checked the scoring code. The pattern remained.</p>
+<h2 id="what-the-papers-reported">What the papers reported<a class="headerlink" href="#what-the-papers-reported" title="Permanent link">&para;</a></h2>
+<p>The result made me wonder whether I had rediscovered a standard baseline. I went back to the papers and looked for the same comparison.</p>
+<p>Many papers report some form of no-evolution test, but I could not find this exact baseline in most of the work I checked. Eureka samples several candidates in one call and calls that its no-evolution baseline.<sup>[<a href="#ref-1">1</a>]</sup> AlphaEvolve and FunSearch remove parts of their evolutionary machinery. Most of these comparisons still let later calls use a current best program or otherwise retain information from earlier attempts.</p>
+<p>My baseline removes that memory completely. Every attempt starts from the same program, none can see the other attempts, and only the best result is kept.</p>
+<p>Two recent studies made the comparison especially relevant. In July 2026, Gupta et al. compared 30 systems across 12 model-problem pairs using more than <strong>3.1 million LLM calls</strong>.<sup>[<a href="#ref-2">2</a>]</sup> No system won everywhere, and the full OpenEvolve system often lost to simpler methods. Gideoni et al. found that random sampling could match or approach AlphaEvolve on several of its own benchmarks.<sup>[<a href="#ref-3">3</a>]</sup></p>
+<p>That gap changed the direction of my study. I decided to test published code-evolution systems against the same independent baseline.</p>
+<h2 id="the-six-benchmarks">The six benchmarks<a class="headerlink" href="#the-six-benchmarks" title="Permanent link">&para;</a></h2>
+<p>I used six benchmarks from the AlphaEvolve, FunSearch, and ReEvo papers. They differ from the benchmarks used by Gupta et al.</p>
+<table>
+<thead>
+<tr>
+<th>benchmark</th>
+<th>task</th>
+<th>reference result from prior work</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>circle packing (n=32)</td>
+<td>Pack 32 non-overlapping circles in the unit square; maximize the sum of their radii.</td>
+<td>2.937 (AlphaEvolve B.12)</td>
+</tr>
+<tr>
+<td>hexagon (n=11)</td>
+<td>Pack 11 unit hexagons inside a larger hexagon; minimize its side length.</td>
+<td>3.931 (AlphaEvolve B.7)</td>
+</tr>
+<tr>
+<td>Heilbronn (n=13)</td>
+<td>Place 13 points inside a convex region that the program also designs; maximize the smallest triangle area.</td>
+<td>0.0309 (AlphaEvolve B.10)</td>
+</tr>
+<tr>
+<td>cap-set (F3^8)</td>
+<td>Find the largest subset of {0,1,2}^8 with no three distinct elements summing to 0 modulo 3.</td>
+<td>512 (FunSearch / Tyrrell 2022)</td>
+</tr>
+<tr>
+<td>TSP (n=100)</td>
+<td>Find a short tour through 100 cities, measured against a nearest-neighbour tour.</td>
+<td>ratio 1.15 (ReEvo, ICML 2024)</td>
+</tr>
+<tr>
+<td>mmmd (d=3, n=14)</td>
+<td>Place 14 points in 3D; maximize (minimum pairwise distance / maximum pairwise distance)^2.</td>
+<td>1/4.166 (AlphaEvolve B.8)</td>
+</tr>
+</tbody>
+</table>
+<p>I normalize each result against the published reference in the rightmost column, so 1.0 means matching it. Several geometry benchmarks start close to 1.0 and leave little room to improve. The TSP starting program must improve by about 13% to reach 1.0.</p>
+<h2 id="how-bilevel-performed">How Bilevel performed<a class="headerlink" href="#how-bilevel-performed" title="Permanent link">&para;</a></h2>
+<p>I ran each comparison with five random seeds, meaning five reproducible runs of the same setup. Best of 25 won or tied the sequential approach on <strong>five of the six benchmarks</strong>. TSP was the only clear sequential win.</p>
+<p><img alt="Independent attempts matched or beat the sequential approach on five of six benchmarks; TSP was the clear exception." src="../../../../../assets/simple-baseline/blog-fig2-six-benchmarks.png" /></p>
+<p>This result applies only to this budget and setup. It does not show that earlier results can never help.</p>
+<p>The hexagon result needs one qualification. Its mean difference is <strong>-0.32</strong>, but most of that gap comes from one sequential run in which all 25 attempts produced invalid programs and the run received a score of zero. If I score that run using its last working program, the apparent collapse disappears. Best of 25 still wins every paired comparison, so I trust the direction of the result more than its size.</p>
+<h2 id="a-prompt-difference-i-had-missed">A prompt difference I had missed<a class="headerlink" href="#a-prompt-difference-i-had-missed" title="Permanent link">&para;</a></h2>
+<p>I then read the prompts sent to the two setups and found a flaw. The setups differed in two ways. Sequential calls could see earlier results, while independent calls could not. They also received different instructions: the independent prompt asked for the strongest standalone solution, while the sequential prompt asked for a novel idea that did not repeat earlier attempts. If their scores differed, I could not tell how much came from access to history and how much came from the wording.</p>
+<p>I reran TSP with identical wording. Both setups start from the same nearest-neighbour program, which scores 0.8696. Higher scores are better, and 1.0 means a tour 13% shorter than nearest-neighbour. The chart shows averages across five runs.</p>
+<p><img alt="Matching the TSP prompt reduced invalid sequential attempts and narrowed the score gap." src="../../../../../assets/simple-baseline/blog-fig3-tsp-prompt.png" /></p>
+<p>Matching the wording did not change the sequential score, but it improved best of 25. The gap fell from <strong>+0.0272 to +0.0200</strong>, so about one quarter of the original difference came from the prompt. The remaining gap was still statistically clear under an exact rank test (p = 0.0040).</p>
+<p>The prompt also affected reliability. Asking for novelty raised the sequential failure rate from 6% to 21% without improving the final score. About four of every 25 calls produced broken code because of that wording.</p>
+<h2 id="where-sequential-search-helped">Where sequential search helped<a class="headerlink" href="#where-sequential-search-helped" title="Permanent link">&para;</a></h2>
+<p>TSP was the only benchmark with a clear sequential win. I ran five sequential runs and five independent runs, each with 25 LLM calls. Pooling the independent runs gave <strong>5 x 25 = 125 attempts</strong>. Every one of the five sequential runs scored higher than the best candidate in that pool.</p>
+<p>Across the five runs, the sequential approach produced tours 22.6% shorter than nearest-neighbour, compared with 21.2% for best of 25.</p>
+<p>I tested one additional diversity prompt only on TSP. It asked the independent attempts to try different strategies. The sequential result still held, but the prompt barely increased diversity among valid programs, so it was not a strong test.</p>
+<h2 id="how-many-independent-attempts-matched-one-sequential-run">How many independent attempts matched one sequential run<a class="headerlink" href="#how-many-independent-attempts-matched-one-sequential-run" title="Permanent link">&para;</a></h2>
+<p>I then used the five runs for each benchmark to estimate how many independent attempts were needed to match one 25-call sequential run:</p>
+<ul>
+<li><strong>Circle packing:</strong> About 3.3 independent attempts, with a wide 95% interval from 2.3 to 23.</li>
+<li><strong>TSP:</strong> More than 125 independent attempts, the largest pool I tested.</li>
+</ul>
+<p>The estimate is rough. A self-check on pools of 25 independent attempts returned values from 12.5 to 51 across the six benchmarks. The numbers show the order of magnitude, not an exact exchange rate.</p>
+<h2 id="a-narrower-explanation">A narrower explanation<a class="headerlink" href="#a-narrower-explanation" title="Permanent link">&para;</a></h2>
+<p>I first thought geometry favored independent sampling while combinatorial problems favored sequential search. The data cannot separate problem type from the quality of the starting program. The geometry benchmarks start between 0.93 and 0.999, while TSP and cap-set leave much more room to improve.</p>
+<p>My current hypothesis is that sequential search helps when one attempt usually stops short and later attempts can build on its progress. If one attempt already gets close to the best reachable result, history adds little. If independent attempts keep returning the same algorithm, later steps may help the model switch methods.</p>
+<p>This is a hypothesis, not a general rule. The result may change with the model, system, benchmark, starting program, or evaluator.</p>
+<p>Cap-set illustrates the uncertainty. Its average difference of +0.04 is not significant under an exact rank test (p = 0.571), so the main result is a tie. Yet none of the 125 independent attempts scored above 329/512, while 4 of 10 sequential runs scored between 381 and 400. The 400-point result uses the known optimal construction in F3^4, where 20^2 = 400. Sequential search sometimes found a stronger type of solution, but the sample is too small to tell how often that happens.</p>
+<h2 id="testing-published-systems">Testing published systems<a class="headerlink" href="#testing-published-systems" title="Permanent link">&para;</a></h2>
+<p>I repeated the comparison with <strong>OpenEvolve</strong>, <strong>AdaEvolve</strong>, and <strong>EvoX</strong>. For the independent baseline, I ran each system for one iteration from the starting program 25 separate times and kept the best result. No run could see another run's result.</p>
+<p><img alt="Across four systems, TSP was the only benchmark that favored the sequential approach every time." src="../../../../../assets/simple-baseline/blog-fig4-four-systems.png" /></p>
+<p>My loop's TSP value uses matched prompts. Two OpenEvolve cells have four random seeds rather than five, and the other systems use their usual prompts. The hexagon gap also depends on how a completely failed run is scored. Most differences are small enough to treat as ties.</p>
+<p>The same two patterns appeared in all four implementations. TSP favored sequential search. Outside TSP, no system showed a consistent advantage.</p>
+<p>The TSP differences also suggest why. Independent AdaEvolve and EvoX attempts changed the code but kept the nearest-neighbour algorithm. Their sequential runs eventually switched algorithms. OpenEvolve sometimes made that switch in one attempt, so its independent baseline started stronger.</p>
+<p>The comparison has limits. AdaEvolve used 28 to 33 calls in runs configured for 25 because it creates extra candidates when progress stalls. EvoX makes higher-level LLM calls outside the main budget. I also disabled some recommended features to keep the setups comparable. These tests do not represent the strongest versions of either system.</p>
+<h2 id="calls-and-usable-programs">Calls and usable programs<a class="headerlink" href="#calls-and-usable-programs" title="Permanent link">&para;</a></h2>
+<p>Twenty-five LLM calls do not always produce 25 valid candidates. Across these benchmarks, invalid attempts ranged from <strong>5% on TSP to 84% on hexagon</strong>. A 25-call budget therefore produced about 24 usable candidates in one case and only about 4 in the other.</p>
+<p>Systems that repair invalid candidates or retry failed calls get more usable programs from the same stated budget. Experiments should report the number of LLM calls, the number of valid candidates scored, and token cost or elapsed time when available. Otherwise, two methods described as budget matched may have done very different amounts of useful work.</p>
+<h2 id="what-i-would-do-next">What I would do next<a class="headerlink" href="#what-i-would-do-next" title="Permanent link">&para;</a></h2>
+<ol>
+<li><strong>Report a fully independent best of N baseline.</strong> Every attempt should start from the same program and remain hidden from the others.</li>
+<li><strong>Report calls and valid candidates.</strong> Failure rates are too different to summarize with one budget number.</li>
+<li><strong>Estimate whether a sequence justifies its cost.</strong> Compare it with the full range of independent results, not only with a single best of 25 score.</li>
+<li><strong>Do not put the full budget into one chain by default.</strong> Start several shorter chains, stop weak ones, and move the remaining budget to the promising ones.</li>
+</ol>
+<p>These conclusions come from five random seeds per comparison, six benchmarks, and one generator model. With five seeds, the exact rank tests cannot produce a p-value below 0.004. The evidence rejects the claim that an evolutionary loop is always better, but it does not show that independent attempts are always better.</p>
+<h2 id="references">References<a class="headerlink" href="#references" title="Permanent link">&para;</a></h2>
+<p><span id="ref-1"></span></p>
+<p><strong>[1]</strong> Ma, Liang, Wang, Huang, Bastani, Jayaraman, Zhu, Fan, and Anandkumar, "Eureka: Human-Level Reward Design via Coding Large Language Models," <a href="https://arxiv.org/abs/2310.12931">arXiv:2310.12931</a>, ICLR 2024.</p>
+<p><span id="ref-2"></span></p>
+<p><strong>[2]</strong> Gupta, Lei, Lu, Anumanchipalli, and Choshen, "Automated Discovery Has No Universally Superior Harness," <a href="https://arxiv.org/abs/2607.18235">arXiv:2607.18235</a>, 20 July 2026.</p>
+<p><span id="ref-3"></span></p>
+<p><strong>[3]</strong> Gideoni, Risi, and Gal, "Simple Baselines are Competitive with Code Evolution," <a href="https://arxiv.org/abs/2602.16805">arXiv:2602.16805</a>, 18 February 2026.</p>
 
 
 
@@ -1368,7 +1491,7 @@
       <nav class="md-footer__inner md-grid" aria-label="Footer" >
         
           
-          <a href="../../../05/13/from-simulation-to-production-how-an-ai-native-pipeline-discovered-a-better-admission-controller-for-llm-d/" class="md-footer__link md-footer__link--prev" aria-label="Previous: From Simulation to Production: How an AI-Native Pipeline Discovered a Better Admission Controller for llm-d">
+          <a href="../../29/optimize-cheap-deploy-strong-a-recipe-for-cost-efficient-gepa/" class="md-footer__link md-footer__link--prev" aria-label="Previous: Optimize Cheap, Deploy Strong: A Recipe for Cost-Efficient GEPA">
             <div class="md-footer__button md-icon">
               
               <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
@@ -1378,27 +1501,11 @@
                 Previous
               </span>
               <div class="md-ellipsis">
-                From Simulation to Production: How an AI-Native Pipeline Discovered a Better Admission Controller for llm-d
+                Optimize Cheap, Deploy Strong: A Recipe for Cost-Efficient GEPA
               </div>
             </div>
           </a>
         
-        
-          
-          <a href="../../17/can-an-agentic-harness-rediscover-the-insights-in-a-research-paper/" class="md-footer__link md-footer__link--next" aria-label="Next: Can an Agentic Harness Rediscover the Insights in a Research Paper?">
-            <div class="md-footer__title">
-              <span class="md-footer__direction">
-                Next
-              </span>
-              <div class="md-ellipsis">
-                Can an Agentic Harness Rediscover the Insights in a Research Paper?
-              </div>
-            </div>
-            <div class="md-footer__button md-icon">
-              
-              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M4 11v2h12l-5.5 5.5 1.42 1.42L19.84 12l-7.92-7.92L10.5 5.5 16 11z"/></svg>
-            </div>
-          </a>
         
       </nav>
     

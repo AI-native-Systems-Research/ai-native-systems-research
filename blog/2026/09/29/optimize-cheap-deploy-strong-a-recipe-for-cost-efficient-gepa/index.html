@@ -6,35 +6,36 @@
       <meta charset="utf-8">
       <meta name="viewport" content="width=device-width,initial-scale=1">
       
-        <meta name="description" content="Closing the loop — AI as the primary agent of continuous system evolution. Research and practice across inference platforms, GPU kernels, and storage systems.">
+        <meta name="description" content="GEPA's cost is dominated by the task model that scores every candidate. Put that role on the cheapest model, keep a strong reflector for the rare edits, and deploy the evolved prompt zero-shot on a stronger model: cheaper to optimize and more accurate.
+">
       
       
       
-        <link rel="canonical" href="https://ai-native-systems-research.github.io/ai-native-systems-research/blog/category/ai-kernels/">
+        <link rel="canonical" href="https://ai-native-systems-research.github.io/ai-native-systems-research/blog/2026/09/29/optimize-cheap-deploy-strong-a-recipe-for-cost-efficient-gepa/">
       
       
-        <link rel="prev" href="../../">
+        <link rel="prev" href="../../08/holding-on-to-the-wild-elephant/">
       
       
-        <link rel="next" href="../blis/">
+        <link rel="next" href="../../30/the-simple-baseline-i-could-not-beat/">
       
       
         
       
       
-      <link rel="icon" href="../../../assets/images/favicon.png">
+      <link rel="icon" href="../../../../../assets/images/favicon.png">
       <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.7">
     
     
       
-        <title>AI Kernels - AI-native Systems Research</title>
+        <title>Optimize Cheap, Deploy Strong: A Recipe for Cost-Efficient GEPA - AI-native Systems Research</title>
       
     
     
-      <link rel="stylesheet" href="../../../assets/stylesheets/main.ec1eaa64.min.css">
+      <link rel="stylesheet" href="../../../../../assets/stylesheets/main.ec1eaa64.min.css">
       
         
-        <link rel="stylesheet" href="../../../assets/stylesheets/palette.ab4e12ef.min.css">
+        <link rel="stylesheet" href="../../../../../assets/stylesheets/palette.ab4e12ef.min.css">
       
       
 
@@ -53,9 +54,9 @@
       
     
     
-      <link rel="stylesheet" href="../../../stylesheets/extra.css">
+      <link rel="stylesheet" href="../../../../../stylesheets/extra.css">
     
-    <script>__md_scope=new URL("../../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    <script>__md_scope=new URL("../../../../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
     
       
   
@@ -159,7 +160,7 @@
     <div data-md-component="skip">
       
         
-        <a href="#ai-kernels" class="md-skip">
+        <a href="#optimize-cheap-deploy-strong-a-recipe-for-cost-efficient-gepa" class="md-skip">
           Skip to content
         </a>
       
@@ -177,7 +178,7 @@
 
 <header class="md-header" data-md-component="header">
   <nav class="md-header__inner md-grid" aria-label="Header">
-    <a href="../../.." title="AI-native Systems Research" class="md-header__button md-logo" aria-label="AI-native Systems Research" data-md-component="logo">
+    <a href="../../../../.." title="AI-native Systems Research" class="md-header__button md-logo" aria-label="AI-native Systems Research" data-md-component="logo">
       
   
   <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M21.33 12.91c.09 1.55-.62 3.04-1.89 3.95l.77 1.49c.23.45.26.98.06 1.45-.19.47-.58.84-1.06 1l-.79.25a1.687 1.687 0 0 1-1.86-.55L14.44 18c-.89-.15-1.73-.53-2.44-1.1-.5.15-1 .23-1.5.23-.88 0-1.76-.27-2.5-.79-.53.16-1.07.23-1.62.22-.79.01-1.57-.15-2.3-.45a4.1 4.1 0 0 1-2.43-3.61c-.08-.72.04-1.45.35-2.11-.29-.75-.32-1.57-.07-2.33C2.3 7.11 3 6.32 3.87 5.82c.58-1.69 2.21-2.82 4-2.7 1.6-1.5 4.05-1.66 5.83-.37.42-.11.86-.17 1.3-.17 1.36-.03 2.65.57 3.5 1.64 2.04.53 3.5 2.35 3.58 4.47.05 1.11-.25 2.2-.86 3.13.07.36.11.72.11 1.09m-5-1.41c.57.07 1.02.5 1.02 1.07a1 1 0 0 1-1 1h-.63c-.32.9-.88 1.69-1.62 2.29.25.09.51.14.77.21 5.13-.07 4.53-3.2 4.53-3.25a2.59 2.59 0 0 0-2.69-2.49 1 1 0 0 1-1-1 1 1 0 0 1 1-1c1.23.03 2.41.49 3.33 1.3.05-.29.08-.59.08-.89-.06-1.24-.62-2.32-2.87-2.53-1.25-2.96-4.4-1.32-4.4-.4-.03.23.21.72.25.75a1 1 0 0 1 1 1c0 .55-.45 1-1 1-.53-.02-1.03-.22-1.43-.56-.48.31-1.03.5-1.6.56-.57.05-1.04-.35-1.07-.9a.97.97 0 0 1 .88-1.1c.16-.02.94-.14.94-.77 0-.66.25-1.29.68-1.79-.92-.25-1.91.08-2.91 1.29C6.75 5 6 5.25 5.45 7.2 4.5 7.67 4 8 3.78 9c1.08-.22 2.19-.13 3.22.25.5.19.78.75.59 1.29-.19.52-.77.78-1.29.59-.73-.32-1.55-.34-2.3-.06-.32.27-.32.83-.32 1.27 0 .74.37 1.43 1 1.83.53.27 1.12.41 1.71.4q-.225-.39-.39-.81a1.038 1.038 0 0 1 1.96-.68c.4 1.14 1.42 1.92 2.62 2.05 1.37-.07 2.59-.88 3.19-2.13.23-1.38 1.34-1.5 2.56-1.5m2 7.47-.62-1.3-.71.16 1 1.25zm-4.65-8.61a1 1 0 0 0-.91-1.03c-.71-.04-1.4.2-1.93.67-.57.58-.87 1.38-.84 2.19a1 1 0 0 0 1 1c.57 0 1-.45 1-1 0-.27.07-.54.23-.76.12-.1.27-.15.43-.15.55.03 1.02-.38 1.02-.92"/></svg>
@@ -197,7 +198,7 @@
         <div class="md-header__topic" data-md-component="header-topic">
           <span class="md-ellipsis">
             
-              AI Kernels
+              Optimize Cheap, Deploy Strong: A Recipe for Cost-Efficient GEPA
             
           </span>
         </div>
@@ -310,7 +311,7 @@
   
   
     <li class="md-tabs__item">
-      <a href="../../.." class="md-tabs__link">
+      <a href="../../../../.." class="md-tabs__link">
         
   
   
@@ -331,7 +332,7 @@
     
     
       <li class="md-tabs__item">
-        <a href="../../../technical-domains/" class="md-tabs__link">
+        <a href="../../../../../technical-domains/" class="md-tabs__link">
           
   
   
@@ -355,7 +356,7 @@
     
     
       <li class="md-tabs__item md-tabs__item--active">
-        <a href="../../" class="md-tabs__link">
+        <a href="../../../../" class="md-tabs__link">
           
   
   
@@ -380,7 +381,9 @@
           
             
               
-              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" hidden>
                 <div class="md-sidebar__scrollwrap">
                   <div class="md-sidebar__inner">
                     
@@ -391,7 +394,7 @@
 
 <nav class="md-nav md-nav--primary md-nav--lifted" aria-label="Navigation" data-md-level="0">
   <label class="md-nav__title" for="__drawer">
-    <a href="../../.." title="AI-native Systems Research" class="md-nav__button md-logo" aria-label="AI-native Systems Research" data-md-component="logo">
+    <a href="../../../../.." title="AI-native Systems Research" class="md-nav__button md-logo" aria-label="AI-native Systems Research" data-md-component="logo">
       
   
   <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M21.33 12.91c.09 1.55-.62 3.04-1.89 3.95l.77 1.49c.23.45.26.98.06 1.45-.19.47-.58.84-1.06 1l-.79.25a1.687 1.687 0 0 1-1.86-.55L14.44 18c-.89-.15-1.73-.53-2.44-1.1-.5.15-1 .23-1.5.23-.88 0-1.76-.27-2.5-.79-.53.16-1.07.23-1.62.22-.79.01-1.57-.15-2.3-.45a4.1 4.1 0 0 1-2.43-3.61c-.08-.72.04-1.45.35-2.11-.29-.75-.32-1.57-.07-2.33C2.3 7.11 3 6.32 3.87 5.82c.58-1.69 2.21-2.82 4-2.7 1.6-1.5 4.05-1.66 5.83-.37.42-.11.86-.17 1.3-.17 1.36-.03 2.65.57 3.5 1.64 2.04.53 3.5 2.35 3.58 4.47.05 1.11-.25 2.2-.86 3.13.07.36.11.72.11 1.09m-5-1.41c.57.07 1.02.5 1.02 1.07a1 1 0 0 1-1 1h-.63c-.32.9-.88 1.69-1.62 2.29.25.09.51.14.77.21 5.13-.07 4.53-3.2 4.53-3.25a2.59 2.59 0 0 0-2.69-2.49 1 1 0 0 1-1-1 1 1 0 0 1 1-1c1.23.03 2.41.49 3.33 1.3.05-.29.08-.59.08-.89-.06-1.24-.62-2.32-2.87-2.53-1.25-2.96-4.4-1.32-4.4-.4-.03.23.21.72.25.75a1 1 0 0 1 1 1c0 .55-.45 1-1 1-.53-.02-1.03-.22-1.43-.56-.48.31-1.03.5-1.6.56-.57.05-1.04-.35-1.07-.9a.97.97 0 0 1 .88-1.1c.16-.02.94-.14.94-.77 0-.66.25-1.29.68-1.79-.92-.25-1.91.08-2.91 1.29C6.75 5 6 5.25 5.45 7.2 4.5 7.67 4 8 3.78 9c1.08-.22 2.19-.13 3.22.25.5.19.78.75.59 1.29-.19.52-.77.78-1.29.59-.73-.32-1.55-.34-2.3-.06-.32.27-.32.83-.32 1.27 0 .74.37 1.43 1 1.83.53.27 1.12.41 1.71.4q-.225-.39-.39-.81a1.038 1.038 0 0 1 1.96-.68c.4 1.14 1.42 1.92 2.62 2.05 1.37-.07 2.59-.88 3.19-2.13.23-1.38 1.34-1.5 2.56-1.5m2 7.47-.62-1.3-.71.16 1 1.25zm-4.65-8.61a1 1 0 0 0-.91-1.03c-.71-.04-1.4.2-1.93.67-.57.58-.87 1.38-.84 2.19a1 1 0 0 0 1 1c.57 0 1-.45 1-1 0-.27.07-.54.23-.76.12-.1.27-.15.43-.15.55.03 1.02-.38 1.02-.92"/></svg>
@@ -421,7 +424,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../.." class="md-nav__link">
+      <a href="../../../../.." class="md-nav__link">
         
   
   
@@ -479,7 +482,7 @@
         
           
           <div class="md-nav__link md-nav__container">
-            <a href="../../../technical-domains/" class="md-nav__link ">
+            <a href="../../../../../technical-domains/" class="md-nav__link ">
               
   
   
@@ -523,7 +526,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../technical-domains/llm-d/" class="md-nav__link">
+      <a href="../../../../../technical-domains/llm-d/" class="md-nav__link">
         
   
   
@@ -551,7 +554,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../technical-domains/ai-kernels/" class="md-nav__link">
+      <a href="../../../../../technical-domains/ai-kernels/" class="md-nav__link">
         
   
   
@@ -579,7 +582,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../technical-domains/storage-systems/" class="md-nav__link">
+      <a href="../../../../../technical-domains/storage-systems/" class="md-nav__link">
         
   
   
@@ -646,7 +649,7 @@
         
           
           <div class="md-nav__link md-nav__container">
-            <a href="../../" class="md-nav__link ">
+            <a href="../../../../" class="md-nav__link ">
               
   
   
@@ -753,7 +756,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../archive/2026/" class="md-nav__link">
+      <a href="../../../../archive/2026/" class="md-nav__link">
         
   
   
@@ -786,8 +789,6 @@
                 
   
   
-    
-  
   
   
     
@@ -817,11 +818,13 @@
       
     
     
-    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
       
         
         
-        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3_3" checked>
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_3_3" >
         
           
           <label class="md-nav__link" for="__nav_3_3" id="__nav_3_3_label" tabindex="">
@@ -842,7 +845,7 @@
             <span class="md-nav__icon md-icon"></span>
           </label>
         
-        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_3_3_label" aria-expanded="true">
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_3_3_label" aria-expanded="false">
           <label class="md-nav__title" for="__nav_3_3">
             <span class="md-nav__icon md-icon"></span>
             
@@ -857,23 +860,12 @@
                 
   
   
-    
-  
   
     
-      
-    
   
   
-    <li class="md-nav__item md-nav__item--active">
-      
-      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
-      
-      
-        
-      
-      
-      <a href="./" class="md-nav__link md-nav__link--active">
+    <li class="md-nav__item">
+      <a href="../../../../category/ai-kernels/" class="md-nav__link">
         
   
   
@@ -889,7 +881,6 @@
   
 
       </a>
-      
     </li>
   
 
@@ -904,7 +895,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../blis/" class="md-nav__link">
+      <a href="../../../../category/blis/" class="md-nav__link">
         
   
   
@@ -934,7 +925,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../deep-dives/" class="md-nav__link">
+      <a href="../../../../category/deep-dives/" class="md-nav__link">
         
   
   
@@ -964,7 +955,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../storage-systems/" class="md-nav__link">
+      <a href="../../../../category/storage-systems/" class="md-nav__link">
         
   
   
@@ -994,7 +985,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../vision/" class="md-nav__link">
+      <a href="../../../../category/vision/" class="md-nav__link">
         
   
   
@@ -1024,7 +1015,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../llm-d/" class="md-nav__link">
+      <a href="../../../../category/llm-d/" class="md-nav__link">
         
   
   
@@ -1068,6 +1059,8 @@
             
             
               
+                
+              
               <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
                 <div class="md-sidebar__scrollwrap">
                   <div class="md-sidebar__inner">
@@ -1087,78 +1080,195 @@
             
           
           
-  <div class="md-content" data-md-component="content">
-    <div class="md-content__inner">
-      <header class="md-typeset">
-        <h1 id="ai-kernels">AI Kernels<a class="headerlink" href="#ai-kernels" title="Permanent link">&para;</a></h1>
-      </header>
-      
-        <article class="md-post md-post--excerpt">
-  <header class="md-post__header">
-    
-      <nav class="md-post__authors md-typeset">
-        
-          <span class="md-author">
-            <img src="https://github.com/caoshiyi.png" alt="Shiyi Cao">
-          </span>
-        
-      </nav>
-    
-    <div class="md-post__meta md-meta">
-      <ul class="md-meta__list">
-        <li class="md-meta__item">
-          <time datetime="2026-08-06 00:00:00+00:00">August 6, 2026</time></li>
-        
-          <li class="md-meta__item">
-            in
+  <div class="md-content md-content--post" data-md-component="content">
+    <div class="md-sidebar md-sidebar--post" data-md-component="sidebar" data-md-type="navigation">
+      <div class="md-sidebar__scrollwrap">
+        <div class="md-sidebar__inner md-post">
+          <nav class="md-nav md-nav--primary">
+            <div class="md-post__back">
+              <div class="md-nav__title md-nav__container">
+                <a href="../../../../" class="md-nav__link">
+                  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+                  <span class="md-ellipsis">
+                    Back to index
+                  </span>
+                </a>
+              </div>
+            </div>
             
-              <a href="./" class="md-meta__link">AI Kernels</a></li>
-        
-        
+              <div class="md-post__authors md-typeset">
+                
+                  <div class="md-profile md-post__profile">
+                    <span class="md-author md-author--long">
+                      <img src="https://github.com/Tal-Oved.png" alt="Tal Oved">
+                    </span>
+                    <span class="md-profile__description">
+                      <strong>
+                        
+                          Tal Oved
+                        
+                      </strong>
+                      <br>
+                      AI-native Systems Researcher
+                    </span>
+                  </div>
+                
+                  <div class="md-profile md-post__profile">
+                    <span class="md-author md-author--long">
+                      <img src="https://github.com/roipony.png" alt="Roi Pony">
+                    </span>
+                    <span class="md-profile__description">
+                      <strong>
+                        
+                          Roi Pony
+                        
+                      </strong>
+                      <br>
+                      AI-native Systems Researcher
+                    </span>
+                  </div>
+                
+                  <div class="md-profile md-post__profile">
+                    <span class="md-author md-author--long">
+                      <img src="https://github.com/OshriNap.png" alt="Oshri Naparstek">
+                    </span>
+                    <span class="md-profile__description">
+                      <strong>
+                        
+                          Oshri Naparstek
+                        
+                      </strong>
+                      <br>
+                      AI-native Systems Researcher
+                    </span>
+                  </div>
+                
+                  <div class="md-profile md-post__profile">
+                    <span class="md-author md-author--long">
+                      <img src="https://github.com/udibarzi.png" alt="Udi Barzelay">
+                    </span>
+                    <span class="md-profile__description">
+                      <strong>
+                        
+                          Udi Barzelay
+                        
+                      </strong>
+                      <br>
+                      AI-native Systems Researcher
+                    </span>
+                  </div>
+                
+                  <div class="md-profile md-post__profile">
+                    <span class="md-author md-author--long">
+                      <img src="https://github.com/LakshyAAAgrawal.png" alt="Lakshya A Agrawal">
+                    </span>
+                    <span class="md-profile__description">
+                      <strong>
+                        
+                          Lakshya A Agrawal
+                        
+                      </strong>
+                      <br>
+                      UC Berkeley Sky Lab
+                    </span>
+                  </div>
+                
+              </div>
+            
+            <ul class="md-post__meta md-nav__list">
+              <li class="md-nav__item md-nav__item--section">
+                <div class="md-post__title">
+                  <span class="md-ellipsis">
+                    Metadata
+                  </span>
+                </div>
+                <nav class="md-nav">
+                  <ul class="md-nav__list">
+                    <li class="md-nav__item">
+                      <div class="md-nav__link">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 19H5V8h14m-3-7v2H8V1H6v2H5c-1.11 0-2 .89-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V5a2 2 0 0 0-2-2h-1V1m-1 11h-5v5h5z"/></svg>
+                        <time datetime="2026-09-29 00:00:00+00:00" class="md-ellipsis">September 29, 2026</time>
+                      </div>
+                    </li>
+                    
+                    
+                      <li class="md-nav__item">
+                        <div class="md-nav__link">
+                          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9 3v15h3V3zm3 2 4 13 3-1-4-13zM5 5v13h3V5zM3 19v2h18v-2z"/></svg>
+                          <span class="md-ellipsis">
+                            in
+                            
+                              <a href="../../../../category/deep-dives/">Deep Dives</a></span>
+                        </div>
+                      </li>
+                    
+                    
+                      
+                      <li class="md-nav__item">
+                        <div class="md-nav__link">
+                          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 20a8 8 0 0 0 8-8 8 8 0 0 0-8-8 8 8 0 0 0-8 8 8 8 0 0 0 8 8m0-18a10 10 0 0 1 10 10 10 10 0 0 1-10 10C6.47 22 2 17.5 2 12A10 10 0 0 1 12 2m.5 5v5.25l4.5 2.67-.75 1.23L11 13V7z"/></svg>
+                          <span class="md-ellipsis">
+                            
+                              1 min read
+                            
+                          </span>
+                        </div>
+                      </li>
+                    
+                  </ul>
+                </nav>
+              </li>
+            </ul>
+            
+          </nav>
           
-          <li class="md-meta__item">
-            
-              1 min read
-            
-          </li>
-        
-        
-      </ul>
-      
+        </div>
+      </div>
     </div>
-  </header>
-  <div class="md-post__content md-typeset">
-    <h2 id="ai-native-systems-for-portable-kernels-across-hardware-architectures"><a class="toclink" href="../../2026/08/06/ai-native-systems-for-portable-kernels-across-hardware-architectures/">AI-Native Systems for Portable Kernels Across Hardware Architectures</a></h2>
-<p>Modern AI kernels are overwhelmingly written for CUDA, making it difficult to
-bring state-of-the-art optimizations to emerging hardware backends. In this
-post, we show how IBM Research collaborated with the K-Search team to
-automatically translate CUDA kernels to MLX, demonstrating that evolutionary
-kernel optimization can dramatically reduce the engineering effort required to
-port high-performance kernels while maintaining competitive performance.</p>
-
-    
-      <nav class="md-post__action">
-        <a href="../../2026/08/06/ai-native-systems-for-portable-kernels-across-hardware-architectures/">
-          Continue reading
-        </a>
-      </nav>
-    
-    
-  </div>
-</article>
-      
+    <article class="md-content__inner md-typeset">
       
         
-          
-
-
-
-<nav class="md-pagination">
   
-</nav>
-        
+
+
+
+  
+  
+
+
+<h1 id="optimize-cheap-deploy-strong-a-recipe-for-cost-efficient-gepa">Optimize Cheap, Deploy Strong: A Recipe for Cost-Efficient GEPA<a class="headerlink" href="#optimize-cheap-deploy-strong-a-recipe-for-cost-efficient-gepa" title="Permanent link">&para;</a></h1>
+<p>Today we are sharing a simple recipe for running GEPA at a fraction of the cost, without giving up accuracy. In fact, you often get more of it. On HotpotQA, a prompt optimized this way deploys at 59.4% against 50.4% without the recipe. That is a +9.0 point gain while spending about 14x less ($7 vs $102).</p>
+<p>The primary cost driver in GEPA is evaluation. Every iteration, a task LLM runs each candidate prompt across the full validation set, so over a run it is called hundreds or thousands of times. That is what dominates the budget. So we asked a simple question: what happens if we run all of those repeated calls on a very cheap model?</p>
+<p>The surprising part is the direction. The cheaper route is also the better one. We call this positive transfer: a prompt tuned with a cheap task LLM can carry upward to a stronger model at deployment, and reach higher accuracy than that strong model reaches when it optimizes for itself.</p>
+<!-- more -->
+
+<div class="admonition info">
+<p class="admonition-title">Cross-posted from the GEPA blog</p>
+<p>This post was originally published on the
+<a href="https://gepa-ai.github.io/gepa/">GEPA</a> blog.</p>
+<p><a class="md-button md-button--primary" href="https://gepa-ai.github.io/gepa/blog/2026/09/29/optimize-cheap-deploy-strong/">Continue reading on GEPA →</a></p>
+</div>
+
+
+
+
+
+
+
+  
+  
+
+
+
+  
+
+
+  
+
+
+
       
-    </div>
+    </article>
   </div>
 
           
@@ -1177,10 +1287,12 @@ port high-performance kernels while maintaining competitive performance.</p>
   
     
       
+        
+      
       <nav class="md-footer__inner md-grid" aria-label="Footer" >
         
           
-          <a href="../../" class="md-footer__link md-footer__link--prev" aria-label="Previous: Blog">
+          <a href="../../08/holding-on-to-the-wild-elephant/" class="md-footer__link md-footer__link--prev" aria-label="Previous: Holding on to the Wild Elephant">
             <div class="md-footer__button md-icon">
               
               <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
@@ -1190,20 +1302,20 @@ port high-performance kernels while maintaining competitive performance.</p>
                 Previous
               </span>
               <div class="md-ellipsis">
-                Blog
+                Holding on to the Wild Elephant
               </div>
             </div>
           </a>
         
         
           
-          <a href="../blis/" class="md-footer__link md-footer__link--next" aria-label="Next: BLIS">
+          <a href="../../30/the-simple-baseline-i-could-not-beat/" class="md-footer__link md-footer__link--next" aria-label="Next: The Simple Baseline I Could Not Beat">
             <div class="md-footer__title">
               <span class="md-footer__direction">
                 Next
               </span>
               <div class="md-ellipsis">
-                BLIS
+                The Simple Baseline I Could Not Beat
               </div>
             </div>
             <div class="md-footer__button md-icon">
@@ -1235,11 +1347,11 @@ port high-performance kernels while maintaining competitive performance.</p>
     
       
       
-      <script id="__config" type="application/json">{"annotate": null, "base": "../../..", "features": ["navigation.tabs", "navigation.indexes", "navigation.sections", "navigation.expand", "navigation.footer", "navigation.top", "search.highlight", "search.suggest", "content.code.copy", "toc.follow"], "search": "../../../assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": {"default": "latest", "provider": "mike"}}</script>
+      <script id="__config" type="application/json">{"annotate": null, "base": "../../../../..", "features": ["navigation.tabs", "navigation.indexes", "navigation.sections", "navigation.expand", "navigation.footer", "navigation.top", "search.highlight", "search.suggest", "content.code.copy", "toc.follow"], "search": "../../../../../assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": {"default": "latest", "provider": "mike"}}</script>
     
     
   
-      <script src="../../../assets/javascripts/bundle.d7400e89.min.js"></script>
+      <script src="../../../../../assets/javascripts/bundle.d7400e89.min.js"></script>
       
     
   <div class="ga-notice" id="ga-notice" role="region" aria-label="Analytics notice">
@@ -1248,7 +1360,7 @@ port high-performance kernels while maintaining competitive performance.</p>
         We use cookieless Google Analytics to count how many readers each post gets &mdash;
         no cookies, no tracking across sites. Your page URL (without query parameters), browser,
         and approximate location may be processed.
-        <a href="../../../privacy/">Read what's collected &rarr;</a>
+        <a href="../../../../../privacy/">Read what's collected &rarr;</a>
       </span>
       <button class="ga-notice__btn" id="ga-notice-dismiss" type="button">Got it</button>
     </div>

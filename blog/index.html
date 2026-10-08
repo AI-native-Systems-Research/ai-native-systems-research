@@ -23,7 +23,7 @@
       
       
       <link rel="icon" href="../assets/images/favicon.png">
-      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.6">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.7">
     
     
       
@@ -31,7 +31,7 @@
       
     
     
-      <link rel="stylesheet" href="../assets/stylesheets/main.484c7ddc.min.css">
+      <link rel="stylesheet" href="../assets/stylesheets/main.ec1eaa64.min.css">
       
         
         <link rel="stylesheet" href="../assets/stylesheets/palette.ab4e12ef.min.css">
@@ -1087,6 +1087,106 @@
       <nav class="md-post__authors md-typeset">
         
           <span class="md-author">
+            <img src="https://github.com/OshriNap.png" alt="Oshri Naparstek">
+          </span>
+        
+      </nav>
+    
+    <div class="md-post__meta md-meta">
+      <ul class="md-meta__list">
+        <li class="md-meta__item">
+          <time datetime="2026-09-30 00:00:00+00:00">September 30, 2026</time></li>
+        
+          <li class="md-meta__item">
+            in
+            
+              <a href="category/deep-dives/" class="md-meta__link">Deep Dives</a></li>
+        
+        
+          
+          <li class="md-meta__item">
+            
+              9 min read
+            
+          </li>
+        
+        
+      </ul>
+      
+    </div>
+  </header>
+  <div class="md-post__content md-typeset">
+    <h2 id="the-simple-baseline-i-could-not-beat"><a class="toclink" href="2026/09/30/the-simple-baseline-i-could-not-beat/">The Simple Baseline I Could Not Beat</a></h2>
+<p>Our <a href="2026/08/04/discovery-is-easy-composition-is-hard/">Certus case study</a> examined how LLM-driven optimizers discover and combine code changes. This post asks a complementary question: when does a sequence of improvements outperform independent attempts with the same LLM-call budget?</p>
+
+    
+      <nav class="md-post__action">
+        <a href="2026/09/30/the-simple-baseline-i-could-not-beat/">
+          Continue reading
+        </a>
+      </nav>
+    
+    
+  </div>
+</article>
+      
+        <article class="md-post md-post--excerpt">
+  <header class="md-post__header">
+    
+      <nav class="md-post__authors md-typeset">
+        
+          <span class="md-author">
+            <img src="https://github.com/Tal-Oved.png" alt="Tal Oved">
+          </span>
+        
+      </nav>
+    
+    <div class="md-post__meta md-meta">
+      <ul class="md-meta__list">
+        <li class="md-meta__item">
+          <time datetime="2026-09-29 00:00:00+00:00">September 29, 2026</time></li>
+        
+          <li class="md-meta__item">
+            in
+            
+              <a href="category/deep-dives/" class="md-meta__link">Deep Dives</a></li>
+        
+        
+          
+          <li class="md-meta__item">
+            
+              1 min read
+            
+          </li>
+        
+        
+      </ul>
+      
+    </div>
+  </header>
+  <div class="md-post__content md-typeset">
+    <h2 id="optimize-cheap-deploy-strong-a-recipe-for-cost-efficient-gepa"><a class="toclink" href="2026/09/29/optimize-cheap-deploy-strong-a-recipe-for-cost-efficient-gepa/">Optimize Cheap, Deploy Strong: A Recipe for Cost-Efficient GEPA</a></h2>
+<p>Today we are sharing a simple recipe for running GEPA at a fraction of the cost, without giving up accuracy. In fact, you often get more of it. On HotpotQA, a prompt optimized this way deploys at 59.4% against 50.4% without the recipe. That is a +9.0 point gain while spending about 14x less ($7 vs $102).</p>
+<p>The primary cost driver in GEPA is evaluation. Every iteration, a task LLM runs each candidate prompt across the full validation set, so over a run it is called hundreds or thousands of times. That is what dominates the budget. So we asked a simple question: what happens if we run all of those repeated calls on a very cheap model?</p>
+<p>The surprising part is the direction. The cheaper route is also the better one. We call this positive transfer: a prompt tuned with a cheap task LLM can carry upward to a stronger model at deployment, and reach higher accuracy than that strong model reaches when it optimizes for itself.</p>
+
+    
+      <nav class="md-post__action">
+        <a href="2026/09/29/optimize-cheap-deploy-strong-a-recipe-for-cost-efficient-gepa/">
+          Continue reading
+        </a>
+      </nav>
+    
+    
+  </div>
+</article>
+      
+        <article class="md-post md-post--excerpt">
+  <header class="md-post__header">
+    
+      <nav class="md-post__authors md-typeset">
+        
+          <span class="md-author">
             <img src="https://github.com/dwaddington.png" alt="Daniel Waddington">
           </span>
         
@@ -1528,109 +1628,6 @@ single YAML change.</p>
   </div>
 </article>
       
-        <article class="md-post md-post--excerpt">
-  <header class="md-post__header">
-    
-      <nav class="md-post__authors md-typeset">
-        
-          <span class="md-author">
-            <img src="https://github.com/Naima2002.png" alt="Naima Abrar Shami">
-          </span>
-        
-      </nav>
-    
-    <div class="md-post__meta md-meta">
-      <ul class="md-meta__list">
-        <li class="md-meta__item">
-          <time datetime="2026-06-17 00:00:00+00:00">June 17, 2026</time></li>
-        
-          <li class="md-meta__item">
-            in
-            
-              <a href="category/deep-dives/" class="md-meta__link">Deep Dives</a></li>
-        
-        
-          
-          <li class="md-meta__item">
-            
-              7 min read
-            
-          </li>
-        
-        
-      </ul>
-      
-    </div>
-  </header>
-  <div class="md-post__content md-typeset">
-    <h2 id="can-an-agentic-harness-rediscover-the-insights-in-a-research-paper"><a class="toclink" href="2026/06/17/can-an-agentic-harness-rediscover-the-insights-in-a-research-paper/">Can an Agentic Harness Rediscover the Insights in a Research Paper?</a></h2>
-<p><em>A case study characterizing a streaming GNN inference engine with Nous.</em></p>
-<p><strong>Try Nous yourself: <a href="https://github.com/AI-native-Systems-Research/agentic-strategy-evolution">github.com/AI-native-Systems-Research/agentic-strategy-evolution</a></strong></p>
-<p><strong>Can an agentic research harness independently arrive at the same conclusions as a human researcher on a real systems problem?</strong> To test this, we pointed <a href="https://github.com/AI-native-Systems-Research/agentic-strategy-evolution">Nous</a>, an agentic research harness, at the streaming GNN inference pipeline we had built and characterized in a recent paper. We gave it a research question and access to the target system, then let it run. The goal was twofold: to test whether the harness could reproduce the findings we had published, and to see whether it would surface anything we had missed.</p>
-
-    
-      <nav class="md-post__action">
-        <a href="2026/06/17/can-an-agentic-harness-rediscover-the-insights-in-a-research-paper/">
-          Continue reading
-        </a>
-      </nav>
-    
-    
-  </div>
-</article>
-      
-        <article class="md-post md-post--excerpt">
-  <header class="md-post__header">
-    
-      <nav class="md-post__authors md-typeset">
-        
-          <span class="md-author">
-            <img src="https://github.com/toslali-ibm.png" alt="Mert Toslali">
-          </span>
-        
-      </nav>
-    
-    <div class="md-post__meta md-meta">
-      <ul class="md-meta__list">
-        <li class="md-meta__item">
-          <time datetime="2026-06-05 00:00:00+00:00">June 5, 2026</time></li>
-        
-          <li class="md-meta__item">
-            in
-            
-              <a href="category/blis/" class="md-meta__link">BLIS</a>, 
-              <a href="category/llm-d/" class="md-meta__link">llm-d</a></li>
-        
-        
-          
-          <li class="md-meta__item">
-            
-              1 min read
-            
-          </li>
-        
-        
-      </ul>
-      
-    </div>
-  </header>
-  <div class="md-post__content md-typeset">
-    <h2 id="blis-evolving-llm-d-at-simulation-speed"><a class="toclink" href="2026/06/05/blis-evolving-llm-d-at-simulation-speed/">BLIS: Evolving llm-d at Simulation Speed</a></h2>
-<p>Deploying llm-d is not just a question of choosing a model server and adding GPUs. In a production inference deployment, operators have to choose routing policies, admission behavior, batching settings, KV-cache reuse strategies, prefill/decode placement, and autoscaling rules under concrete TTFT, ITL, throughput, and cost constraints.</p>
-<p>These choices are coupled. A routing change that improves cache locality can concentrate load. A prefill/decode threshold that helps one workload can hurt another. An admission policy that protects critical traffic can reduce total served volume. A change in any one policy can shift TTFT, inter-token latency, throughput, SLO compliance, and accelerator cost in ways that are difficult to predict analytically.</p>
-<p>The only reliable way to confirm those tradeoffs is to measure them in a GPU-backed llm-d cluster. But using cluster runs as the first step in every policy or capacity-planning experiment is too slow and expensive. BLIS provides a faster inner loop: a calibrated discrete-event simulator for distributed inference systems like llm-d. Developers can evaluate candidate policies and deployment configurations locally, then reserve cluster validation for the candidates most likely to matter.</p>
-
-    
-      <nav class="md-post__action">
-        <a href="2026/06/05/blis-evolving-llm-d-at-simulation-speed/">
-          Continue reading
-        </a>
-      </nav>
-    
-    
-  </div>
-</article>
-      
       
         
           
@@ -1723,7 +1720,7 @@ single YAML change.</p>
     
     
   
-      <script src="../assets/javascripts/bundle.79ae519e.min.js"></script>
+      <script src="../assets/javascripts/bundle.d7400e89.min.js"></script>
       
     
   <div class="ga-notice" id="ga-notice" role="region" aria-label="Analytics notice">
