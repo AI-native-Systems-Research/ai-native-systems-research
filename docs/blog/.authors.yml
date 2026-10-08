@@ -87,7 +87,23 @@ authors:
     name: Shila Ofek-Koifman
     description: Director, Language Technologies
     avatar: https://github.com/ShilaOfek.png
-  OshriNap:
+  taloved:
+    name: Tal Oved
+    description: AI-native Systems Researcher
+    avatar: https://github.com/Tal-Oved.png
+  roipony:
+    name: Roi Pony
+    description: AI-native Systems Researcher
+    avatar: https://github.com/roipony.png
+  oshri:
     name: Oshri Naparstek
     description: AI-native Systems Researcher
     avatar: https://github.com/OshriNap.png
+  udi:
+    name: Udi Barzelay
+    description: AI-native Systems Researcher
+    avatar: https://github.com/udibarzi.png
+  lakshya:
+    name: Lakshya A Agrawal
+    description: UC Berkeley Sky Lab
+    avatar: https://github.com/LakshyAAAgrawal.png
