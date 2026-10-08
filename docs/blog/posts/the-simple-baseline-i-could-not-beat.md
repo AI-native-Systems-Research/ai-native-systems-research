@@ -165,8 +165,3 @@ These conclusions come from five random seeds per comparison, six benchmarks, an
 <span id="ref-3"></span>
 
 **[3]** Gideoni, Risi, and Gal, "Simple Baselines are Competitive with Code Evolution," [arXiv:2602.16805](https://arxiv.org/abs/2602.16805), 18 February 2026.
-
-<!-- Before publication: add the public project write-up and code links.
-The source draft names run_openevolve_ablation.py, run_skydiscover_ablation.py,
-tools/analyze_draw_equivalence.py, and tools/analyze_tsp_controls.py.
--->
