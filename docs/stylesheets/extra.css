@@ -98,3 +98,21 @@
 .md-typeset .domain-card h3 {
   margin-top: 0;
 }
+/* "important" admonition, styled like GitHub's IMPORTANT alert (purple, exclamation). */
+:root {
+  --md-admonition-icon--important: url('data:image/svg+xml;charset=utf-8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16"><path d="M0 1.75C0 .784.784 0 1.75 0h12.5C15.216 0 16 .784 16 1.75v9.5A1.75 1.75 0 0 1 14.25 13H8.06l-2.573 2.573A1.458 1.458 0 0 1 3 14.543V13H1.75A1.75 1.75 0 0 1 0 11.25Zm7 2.25v2.5a1 1 0 0 0 2 0V4a1 1 0 0 0-2 0Zm1 7a1 1 0 1 0 0-2 1 1 0 0 0 0 2Z"/></svg>');
+}
+.md-typeset .admonition.important,
+.md-typeset details.important {
+  border-color: #8957e5;
+}
+.md-typeset .important > .admonition-title,
+.md-typeset .important > summary {
+  background-color: rgba(137, 87, 229, 0.1);
+}
+.md-typeset .important > .admonition-title::before,
+.md-typeset .important > summary::before {
+  background-color: #8957e5;
+  -webkit-mask-image: var(--md-admonition-icon--important);
+          mask-image: var(--md-admonition-icon--important);
+}
