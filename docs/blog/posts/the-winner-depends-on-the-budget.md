@@ -62,7 +62,7 @@ PRISM behaves differently. Its score surface is nearly flat, with over 97% of th
 
 ## The ranking changes with the number of seeds
 
-Each strategy at one seed and at forty seeds, both at 200 iterations, with rank in parentheses:
+The table shows each strategy's results using one and forty seeds, both with 200 iterations, with rankings in parentheses.
 
 | Task | Strategy | 1 seed | 40 seeds |
 |---|---|---|---|
