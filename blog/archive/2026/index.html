@@ -1097,6 +1097,57 @@
       <nav class="md-post__authors md-typeset">
         
           <span class="md-author">
+            <img src="https://github.com/Tal-Oved.png" alt="Tal Oved">
+          </span>
+        
+      </nav>
+    
+    <div class="md-post__meta md-meta">
+      <ul class="md-meta__list">
+        <li class="md-meta__item">
+          <time datetime="2026-11-20 00:00:00+00:00">November 20, 2026</time></li>
+        
+          <li class="md-meta__item">
+            in
+            
+              <a href="../../category/deep-dives/" class="md-meta__link">Deep Dives</a></li>
+        
+        
+          
+          <li class="md-meta__item">
+            
+              7 min read
+            
+          </li>
+        
+        
+      </ul>
+      
+    </div>
+  </header>
+  <div class="md-post__content md-typeset">
+    <h2 id="the-winner-depends-on-the-budget-evaluating-llm-evolutionary-search"><a class="toclink" href="../../2026/11/20/the-winner-depends-on-the-budget-evaluating-llm-evolutionary-search/">The Winner Depends on the Budget: Evaluating LLM Evolutionary Search</a></h2>
+<p>LLM evolutionary search is a way to get better programs out of a language model over many attempts. The model writes a candidate program, an evaluator scores it, and the best programs so far go back to the model to be improved. AlphaEvolve and OpenEvolve work this way, and the strategies we compare differ in how they choose which programs to send back. Papers usually compare such strategies with one experiment per strategy and report which one scored highest. In this blog we show why that can mislead: the same strategies on the same tasks rank differently depending on how much compute they get and how it is divided. We end with recommendations for running and reporting these comparisons so the results hold up.</p>
+<p>On Heilbronn, a geometry task, AdaEvolve is the best of the three evolutionary search strategies we tested when each gets a single seed, meaning one independent run of the search, of 200 iterations. Give every strategy forty seeds and EvoX comes out first. The model, the evaluator and the task stay the same; only the budget changes. We count the budget in proposals, the candidate programs the model writes and the evaluator scores. Each iteration of a seed is one proposal, so one seed of 200 iterations costs 200 proposals and forty seeds cost 8,000.</p>
+<p>Most papers on LLM evolutionary search report one budget point, usually one seed (sometimes up to three) run for a fixed number of iterations, and rank methods from that result. In our paper, <a href="https://arxiv.org/abs/2609.19799">Evolution or Illusion? Rethinking Evaluation in LLM Evolutionary Search</a>, we measured what that one point leaves out.</p>
+
+    
+      <nav class="md-post__action">
+        <a href="../../2026/11/20/the-winner-depends-on-the-budget-evaluating-llm-evolutionary-search/">
+          Continue reading
+        </a>
+      </nav>
+    
+    
+  </div>
+</article>
+      
+        <article class="md-post md-post--excerpt">
+  <header class="md-post__header">
+    
+      <nav class="md-post__authors md-typeset">
+        
+          <span class="md-author">
             <img src="https://github.com/OshriNap.png" alt="Oshri Naparstek">
           </span>
         
@@ -1580,56 +1631,6 @@ single YAML change.</p>
     
       <nav class="md-post__action">
         <a href="../../2026/06/24/the-scientific-method-on-code-how-a-hypothesis-driven-ai-learned-what-evolution-couldnt/">
-          Continue reading
-        </a>
-      </nav>
-    
-    
-  </div>
-</article>
-      
-        <article class="md-post md-post--excerpt">
-  <header class="md-post__header">
-    
-      <nav class="md-post__authors md-typeset">
-        
-          <span class="md-author">
-            <img src="https://github.com/dwaddington.png" alt="Daniel Waddington">
-          </span>
-        
-      </nav>
-    
-    <div class="md-post__meta md-meta">
-      <ul class="md-meta__list">
-        <li class="md-meta__item">
-          <time datetime="2026-06-17 00:00:00+00:00">June 17, 2026</time></li>
-        
-          <li class="md-meta__item">
-            in
-            
-              <a href="../../category/storage-systems/" class="md-meta__link">Storage Systems</a>, 
-              <a href="../../category/deep-dives/" class="md-meta__link">Deep Dives</a></li>
-        
-        
-          
-          <li class="md-meta__item">
-            
-              17 min read
-            
-          </li>
-        
-        
-      </ul>
-      
-    </div>
-  </header>
-  <div class="md-post__content md-typeset">
-    <h2 id="certus-the-end-of-one-size-fits-all-storage"><a class="toclink" href="../../2026/06/17/certus-the-end-of-one-size-fits-all-storage/">Certus: The End of One-Size-Fits-All Storage</a></h2>
-<p>What if a storage system tailored to optimize performance based on your exact workload and hardware characteristics could be <em>generated</em> in days rather than hand-built over years? <strong>Certus</strong> explores that question—using AI Native Systems techniques to synthesize hyper-specialized storage engines from requirements specifications.</p>
-
-    
-      <nav class="md-post__action">
-        <a href="../../2026/06/17/certus-the-end-of-one-size-fits-all-storage/">
           Continue reading
         </a>
       </nav>

@@ -1,0 +1,1557 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+        <meta name="description" content="Papers rank LLM evolutionary search strategies from one budget point. Over a grid of 40 seeds by 200 iterations, the best split between seeds and iterations and the ranking of strategies both change with the budget.
+">
+      
+      
+      
+        <link rel="canonical" href="https://ai-native-systems-research.github.io/ai-native-systems-research/blog/2026/11/20/the-winner-depends-on-the-budget-evaluating-llm-evolutionary-search/">
+      
+      
+        <link rel="prev" href="../../../09/30/the-simple-baseline-i-could-not-beat/">
+      
+      
+      
+        
+      
+      
+      <link rel="icon" href="../../../../../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.7">
+    
+    
+      
+        <title>The Winner Depends on the Budget: Evaluating LLM Evolutionary Search - AI-native Systems Research</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../../../../assets/stylesheets/main.ec1eaa64.min.css">
+      
+        
+        <link rel="stylesheet" href="../../../../../assets/stylesheets/palette.ab4e12ef.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+      <link rel="stylesheet" href="../../../../../stylesheets/extra.css">
+    
+    <script>__md_scope=new URL("../../../../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+  
+
+
+    
+    
+  
+  
+  <script>
+    (function() {
+      if (location.hostname === 'localhost' || location.hostname === '127.0.0.1') {
+        return;
+      }
+      var s = document.createElement('script');
+      s.async = true;
+      s.src = 'https://www.googletagmanager.com/gtag/js?id=G-83Z819J0CL';
+      document.head.appendChild(s);
+
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){ dataLayer.push(arguments); }
+      window.gtag = gtag;
+      gtag('js', new Date());
+      gtag('config', 'G-83Z819J0CL', {
+        client_storage: 'none',
+        anonymize_ip: true,
+        allow_google_signals: false,
+        allow_ad_personalization_signals: false,
+        ads_data_redaction: true,
+        page_location: location.origin + location.pathname,
+        send_page_view: true
+      });
+    })();
+  </script>
+  
+  <style>
+    .ga-notice {
+      position: fixed;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      background: var(--md-default-bg-color);
+      border-top: 1px solid var(--md-default-fg-color--lightest);
+      padding: 0.8rem 1rem;
+      z-index: 1000;
+      display: none;
+      box-shadow: 0 -2px 8px rgba(0, 0, 0, 0.05);
+      font-family: var(--md-text-font);
+    }
+    .ga-notice__inner {
+      max-width: 1200px;
+      margin: 0 auto;
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      flex-wrap: wrap;
+    }
+    .ga-notice__text {
+      flex: 1;
+      font-size: 0.8rem;
+      color: var(--md-default-fg-color);
+      min-width: 280px;
+      line-height: 1.4;
+    }
+    .ga-notice__text a {
+      color: var(--md-typeset-a-color);
+      text-decoration: underline;
+    }
+    .ga-notice__btn {
+      background: var(--md-primary-fg-color);
+      color: var(--md-primary-bg-color);
+      border: none;
+      padding: 0.5rem 1.2rem;
+      border-radius: 0.2rem;
+      cursor: pointer;
+      font-size: 0.8rem;
+      font-weight: 600;
+      font-family: inherit;
+    }
+    .ga-notice__btn:hover {
+      opacity: 0.9;
+    }
+  </style>
+
+  </head>
+  
+  
+    
+    
+      
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="indigo">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#the-winner-depends-on-the-budget-evaluating-llm-evolutionary-search" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+      <div data-md-color-scheme="default" data-md-component="outdated" hidden>
+        
+      </div>
+    
+    
+      
+
+<header class="md-header" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href="../../../../.." title="AI-native Systems Research" class="md-header__button md-logo" aria-label="AI-native Systems Research" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M21.33 12.91c.09 1.55-.62 3.04-1.89 3.95l.77 1.49c.23.45.26.98.06 1.45-.19.47-.58.84-1.06 1l-.79.25a1.687 1.687 0 0 1-1.86-.55L14.44 18c-.89-.15-1.73-.53-2.44-1.1-.5.15-1 .23-1.5.23-.88 0-1.76-.27-2.5-.79-.53.16-1.07.23-1.62.22-.79.01-1.57-.15-2.3-.45a4.1 4.1 0 0 1-2.43-3.61c-.08-.72.04-1.45.35-2.11-.29-.75-.32-1.57-.07-2.33C2.3 7.11 3 6.32 3.87 5.82c.58-1.69 2.21-2.82 4-2.7 1.6-1.5 4.05-1.66 5.83-.37.42-.11.86-.17 1.3-.17 1.36-.03 2.65.57 3.5 1.64 2.04.53 3.5 2.35 3.58 4.47.05 1.11-.25 2.2-.86 3.13.07.36.11.72.11 1.09m-5-1.41c.57.07 1.02.5 1.02 1.07a1 1 0 0 1-1 1h-.63c-.32.9-.88 1.69-1.62 2.29.25.09.51.14.77.21 5.13-.07 4.53-3.2 4.53-3.25a2.59 2.59 0 0 0-2.69-2.49 1 1 0 0 1-1-1 1 1 0 0 1 1-1c1.23.03 2.41.49 3.33 1.3.05-.29.08-.59.08-.89-.06-1.24-.62-2.32-2.87-2.53-1.25-2.96-4.4-1.32-4.4-.4-.03.23.21.72.25.75a1 1 0 0 1 1 1c0 .55-.45 1-1 1-.53-.02-1.03-.22-1.43-.56-.48.31-1.03.5-1.6.56-.57.05-1.04-.35-1.07-.9a.97.97 0 0 1 .88-1.1c.16-.02.94-.14.94-.77 0-.66.25-1.29.68-1.79-.92-.25-1.91.08-2.91 1.29C6.75 5 6 5.25 5.45 7.2 4.5 7.67 4 8 3.78 9c1.08-.22 2.19-.13 3.22.25.5.19.78.75.59 1.29-.19.52-.77.78-1.29.59-.73-.32-1.55-.34-2.3-.06-.32.27-.32.83-.32 1.27 0 .74.37 1.43 1 1.83.53.27 1.12.41 1.71.4q-.225-.39-.39-.81a1.038 1.038 0 0 1 1.96-.68c.4 1.14 1.42 1.92 2.62 2.05 1.37-.07 2.59-.88 3.19-2.13.23-1.38 1.34-1.5 2.56-1.5m2 7.47-.62-1.3-.71.16 1 1.25zm-4.65-8.61a1 1 0 0 0-.91-1.03c-.71-.04-1.4.2-1.93.67-.57.58-.87 1.38-.84 2.19a1 1 0 0 0 1 1c.57 0 1-.45 1-1 0-.27.07-.54.23-.76.12-.1.27-.15.43-.15.55.03 1.02-.38 1.02-.92"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            AI-native Systems Research
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              The Winner Depends on the Budget: Evaluating LLM Evolutionary Search
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+        <form class="md-header__option" data-md-component="palette">
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="(prefers-color-scheme: light)" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="indigo"  aria-label="Switch to dark mode"  type="radio" name="__palette" id="__palette_0">
+    
+      <label class="md-header__button md-icon" title="Switch to dark mode" for="__palette_1" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a4 4 0 0 0-4 4 4 4 0 0 0 4 4 4 4 0 0 0 4-4 4 4 0 0 0-4-4m0 10a6 6 0 0 1-6-6 6 6 0 0 1 6-6 6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12z"/></svg>
+      </label>
+    
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="(prefers-color-scheme: dark)" data-md-color-scheme="slate" data-md-color-primary="indigo" data-md-color-accent="indigo"  aria-label="Switch to light mode"  type="radio" name="__palette" id="__palette_1">
+    
+      <label class="md-header__button md-icon" title="Switch to light mode" for="__palette_0" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 18c-.89 0-1.74-.2-2.5-.55C11.56 16.5 13 14.42 13 12s-1.44-4.5-3.5-5.45C10.26 6.2 11.11 6 12 6a6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12z"/></svg>
+      </label>
+    
+  
+</form>
+      
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+        <div class="md-search__suggest" data-md-component="search-suggest"></div>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      
+    
+    
+      <div class="md-header__source">
+        <a href="https://github.com/AI-native-Systems-Research/ai-native-systems-research" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M439.6 236.1 244 40.5c-5.4-5.5-12.8-8.5-20.4-8.5s-15 3-20.4 8.4L162.5 81l51.5 51.5c27.1-9.1 52.7 16.8 43.4 43.7l49.7 49.7c34.2-11.8 61.2 31 35.5 56.7-26.5 26.5-70.2-2.9-56-37.3L240.3 199v121.9c25.3 12.5 22.3 41.8 9.1 55-6.4 6.4-15.2 10.1-24.3 10.1s-17.8-3.6-24.3-10.1c-17.6-17.6-11.1-46.9 11.2-56v-123c-20.8-8.5-24.6-30.7-18.6-45L142.6 101 8.5 235.1C3 240.6 0 247.9 0 255.5s3 15 8.5 20.4l195.6 195.7c5.4 5.4 12.7 8.4 20.4 8.4s15-3 20.4-8.4l194.7-194.7c5.4-5.4 8.4-12.8 8.4-20.4s-3-15-8.4-20.4"/></svg>
+  </div>
+  <div class="md-source__repository">
+    AI-native-Systems-Research/ai-native-systems-research
+  </div>
+</a>
+      </div>
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+            
+<nav class="md-tabs" aria-label="Tabs" data-md-component="tabs">
+  <div class="md-grid">
+    <ul class="md-tabs__list">
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../../../../.." class="md-tabs__link">
+        
+  
+  
+    
+  
+  Home
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../../../../technical-domains/" class="md-tabs__link">
+          
+  
+  
+    
+  
+  Technical Domains
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+    
+  
+  
+    
+    
+      <li class="md-tabs__item md-tabs__item--active">
+        <a href="../../../../" class="md-tabs__link">
+          
+  
+  
+    
+  
+  Blog
+
+        </a>
+      </li>
+    
+  
+
+      
+    </ul>
+  </div>
+</nav>
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+                
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" hidden>
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+  
+
+
+<nav class="md-nav md-nav--primary md-nav--lifted" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../../../../.." title="AI-native Systems Research" class="md-nav__button md-logo" aria-label="AI-native Systems Research" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M21.33 12.91c.09 1.55-.62 3.04-1.89 3.95l.77 1.49c.23.45.26.98.06 1.45-.19.47-.58.84-1.06 1l-.79.25a1.687 1.687 0 0 1-1.86-.55L14.44 18c-.89-.15-1.73-.53-2.44-1.1-.5.15-1 .23-1.5.23-.88 0-1.76-.27-2.5-.79-.53.16-1.07.23-1.62.22-.79.01-1.57-.15-2.3-.45a4.1 4.1 0 0 1-2.43-3.61c-.08-.72.04-1.45.35-2.11-.29-.75-.32-1.57-.07-2.33C2.3 7.11 3 6.32 3.87 5.82c.58-1.69 2.21-2.82 4-2.7 1.6-1.5 4.05-1.66 5.83-.37.42-.11.86-.17 1.3-.17 1.36-.03 2.65.57 3.5 1.64 2.04.53 3.5 2.35 3.58 4.47.05 1.11-.25 2.2-.86 3.13.07.36.11.72.11 1.09m-5-1.41c.57.07 1.02.5 1.02 1.07a1 1 0 0 1-1 1h-.63c-.32.9-.88 1.69-1.62 2.29.25.09.51.14.77.21 5.13-.07 4.53-3.2 4.53-3.25a2.59 2.59 0 0 0-2.69-2.49 1 1 0 0 1-1-1 1 1 0 0 1 1-1c1.23.03 2.41.49 3.33 1.3.05-.29.08-.59.08-.89-.06-1.24-.62-2.32-2.87-2.53-1.25-2.96-4.4-1.32-4.4-.4-.03.23.21.72.25.75a1 1 0 0 1 1 1c0 .55-.45 1-1 1-.53-.02-1.03-.22-1.43-.56-.48.31-1.03.5-1.6.56-.57.05-1.04-.35-1.07-.9a.97.97 0 0 1 .88-1.1c.16-.02.94-.14.94-.77 0-.66.25-1.29.68-1.79-.92-.25-1.91.08-2.91 1.29C6.75 5 6 5.25 5.45 7.2 4.5 7.67 4 8 3.78 9c1.08-.22 2.19-.13 3.22.25.5.19.78.75.59 1.29-.19.52-.77.78-1.29.59-.73-.32-1.55-.34-2.3-.06-.32.27-.32.83-.32 1.27 0 .74.37 1.43 1 1.83.53.27 1.12.41 1.71.4q-.225-.39-.39-.81a1.038 1.038 0 0 1 1.96-.68c.4 1.14 1.42 1.92 2.62 2.05 1.37-.07 2.59-.88 3.19-2.13.23-1.38 1.34-1.5 2.56-1.5m2 7.47-.62-1.3-.71.16 1 1.25zm-4.65-8.61a1 1 0 0 0-.91-1.03c-.71-.04-1.4.2-1.93.67-.57.58-.87 1.38-.84 2.19a1 1 0 0 0 1 1c.57 0 1-.45 1-1 0-.27.07-.54.23-.76.12-.1.27-.15.43-.15.55.03 1.02-.38 1.02-.92"/></svg>
+
+    </a>
+    AI-native Systems Research
+  </label>
+  
+    <div class="md-nav__source">
+      <a href="https://github.com/AI-native-Systems-Research/ai-native-systems-research" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M439.6 236.1 244 40.5c-5.4-5.5-12.8-8.5-20.4-8.5s-15 3-20.4 8.4L162.5 81l51.5 51.5c27.1-9.1 52.7 16.8 43.4 43.7l49.7 49.7c34.2-11.8 61.2 31 35.5 56.7-26.5 26.5-70.2-2.9-56-37.3L240.3 199v121.9c25.3 12.5 22.3 41.8 9.1 55-6.4 6.4-15.2 10.1-24.3 10.1s-17.8-3.6-24.3-10.1c-17.6-17.6-11.1-46.9 11.2-56v-123c-20.8-8.5-24.6-30.7-18.6-45L142.6 101 8.5 235.1C3 240.6 0 247.9 0 255.5s3 15 8.5 20.4l195.6 195.7c5.4 5.4 12.7 8.4 20.4 8.4s15-3 20.4-8.4l194.7-194.7c5.4-5.4 8.4-12.8 8.4-20.4s-3-15-8.4-20.4"/></svg>
+  </div>
+  <div class="md-source__repository">
+    AI-native-Systems-Research/ai-native-systems-research
+  </div>
+</a>
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../.." class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Home
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_2" >
+        
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../../../../../technical-domains/" class="md-nav__link ">
+              
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Technical Domains
+  
+
+    
+  </span>
+  
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_2" id="__nav_2_label" tabindex="0">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Technical Domains
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../../technical-domains/llm-d/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    llm-d: Inference Platform
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../../technical-domains/ai-kernels/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    AI-Generated Kernels
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../../technical-domains/storage-systems/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Storage Systems
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+        
+        
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3" checked>
+        
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../../../../" class="md-nav__link ">
+              
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Blog
+  
+
+    
+  </span>
+  
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_3" id="__nav_3_label" tabindex="">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_3">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Blog
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+      
+    
+    
+    
+      
+      
+        
+          
+          
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_3_2" >
+        
+          
+          <label class="md-nav__link" for="__nav_3_2" id="__nav_3_2_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Archive
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_3_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3_2">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Archive
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+    
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../archive/2026/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    2026
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+        
+          
+          
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_3_3" >
+        
+          
+          <label class="md-nav__link" for="__nav_3_3" id="__nav_3_3_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Categories
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_3_3_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3_3">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Categories
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+    
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../category/ai-kernels/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    AI Kernels
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../category/blis/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    BLIS
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../category/deep-dives/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Deep Dives
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../category/storage-systems/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Storage Systems
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../category/vision/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Vision
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../category/llm-d/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    llm-d
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+                
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#width-and-depth" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Width and depth
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#the-best-split-moves" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        The best split moves
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#the-ranking-changes-with-the-number-of-seeds" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        The ranking changes with the number of seeds
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="The ranking changes with the number of seeds">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#how-much-budget-does-a-reliable-ranking-need" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        How much budget does a reliable ranking need?
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#more-seeds-also-found-broken-evaluators" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        More seeds also found broken evaluators
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#what-we-recommend" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        What we recommend
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+  <div class="md-content md-content--post" data-md-component="content">
+    <div class="md-sidebar md-sidebar--post" data-md-component="sidebar" data-md-type="navigation">
+      <div class="md-sidebar__scrollwrap">
+        <div class="md-sidebar__inner md-post">
+          <nav class="md-nav md-nav--primary">
+            <div class="md-post__back">
+              <div class="md-nav__title md-nav__container">
+                <a href="../../../../" class="md-nav__link">
+                  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+                  <span class="md-ellipsis">
+                    Back to index
+                  </span>
+                </a>
+              </div>
+            </div>
+            
+              <div class="md-post__authors md-typeset">
+                
+                  <div class="md-profile md-post__profile">
+                    <span class="md-author md-author--long">
+                      <img src="https://github.com/Tal-Oved.png" alt="Tal Oved">
+                    </span>
+                    <span class="md-profile__description">
+                      <strong>
+                        
+                          Tal Oved
+                        
+                      </strong>
+                      <br>
+                      AI-native Systems Researcher
+                    </span>
+                  </div>
+                
+                  <div class="md-profile md-post__profile">
+                    <span class="md-author md-author--long">
+                      <img src="https://github.com/roipony.png" alt="Roi Pony">
+                    </span>
+                    <span class="md-profile__description">
+                      <strong>
+                        
+                          Roi Pony
+                        
+                      </strong>
+                      <br>
+                      AI-native Systems Researcher
+                    </span>
+                  </div>
+                
+                  <div class="md-profile md-post__profile">
+                    <span class="md-author md-author--long">
+                      <img src="https://github.com/OshriNap.png" alt="Oshri Naparstek">
+                    </span>
+                    <span class="md-profile__description">
+                      <strong>
+                        
+                          Oshri Naparstek
+                        
+                      </strong>
+                      <br>
+                      AI-native Systems Researcher
+                    </span>
+                  </div>
+                
+                  <div class="md-profile md-post__profile">
+                    <span class="md-author md-author--long">
+                      <img src="https://github.com/udibarzi.png" alt="Udi Barzelay">
+                    </span>
+                    <span class="md-profile__description">
+                      <strong>
+                        
+                          Udi Barzelay
+                        
+                      </strong>
+                      <br>
+                      AI-native Systems Researcher
+                    </span>
+                  </div>
+                
+              </div>
+            
+            <ul class="md-post__meta md-nav__list">
+              <li class="md-nav__item md-nav__item--section">
+                <div class="md-post__title">
+                  <span class="md-ellipsis">
+                    Metadata
+                  </span>
+                </div>
+                <nav class="md-nav">
+                  <ul class="md-nav__list">
+                    <li class="md-nav__item">
+                      <div class="md-nav__link">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 19H5V8h14m-3-7v2H8V1H6v2H5c-1.11 0-2 .89-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V5a2 2 0 0 0-2-2h-1V1m-1 11h-5v5h5z"/></svg>
+                        <time datetime="2026-11-20 00:00:00+00:00" class="md-ellipsis">November 20, 2026</time>
+                      </div>
+                    </li>
+                    
+                    
+                      <li class="md-nav__item">
+                        <div class="md-nav__link">
+                          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9 3v15h3V3zm3 2 4 13 3-1-4-13zM5 5v13h3V5zM3 19v2h18v-2z"/></svg>
+                          <span class="md-ellipsis">
+                            in
+                            
+                              <a href="../../../../category/deep-dives/">Deep Dives</a></span>
+                        </div>
+                      </li>
+                    
+                    
+                      
+                      <li class="md-nav__item">
+                        <div class="md-nav__link">
+                          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 20a8 8 0 0 0 8-8 8 8 0 0 0-8-8 8 8 0 0 0-8 8 8 8 0 0 0 8 8m0-18a10 10 0 0 1 10 10 10 10 0 0 1-10 10C6.47 22 2 17.5 2 12A10 10 0 0 1 12 2m.5 5v5.25l4.5 2.67-.75 1.23L11 13V7z"/></svg>
+                          <span class="md-ellipsis">
+                            
+                              7 min read
+                            
+                          </span>
+                        </div>
+                      </li>
+                    
+                  </ul>
+                </nav>
+              </li>
+            </ul>
+            
+          </nav>
+          
+        </div>
+      </div>
+    </div>
+    <article class="md-content__inner md-typeset">
+      
+        
+  
+
+
+
+  
+  
+
+
+<h1 id="the-winner-depends-on-the-budget-evaluating-llm-evolutionary-search">The Winner Depends on the Budget: Evaluating LLM Evolutionary Search<a class="headerlink" href="#the-winner-depends-on-the-budget-evaluating-llm-evolutionary-search" title="Permanent link">&para;</a></h1>
+<p>LLM evolutionary search is a way to get better programs out of a language model over many attempts. The model writes a candidate program, an evaluator scores it, and the best programs so far go back to the model to be improved. AlphaEvolve and OpenEvolve work this way, and the strategies we compare differ in how they choose which programs to send back. Papers usually compare such strategies with one experiment per strategy and report which one scored highest. In this blog we show why that can mislead: the same strategies on the same tasks rank differently depending on how much compute they get and how it is divided. We end with recommendations for running and reporting these comparisons so the results hold up.</p>
+<p>On Heilbronn, a geometry task, AdaEvolve is the best of the three evolutionary search strategies we tested when each gets a single seed, meaning one independent run of the search, of 200 iterations. Give every strategy forty seeds and EvoX comes out first. The model, the evaluator and the task stay the same; only the budget changes. We count the budget in proposals, the candidate programs the model writes and the evaluator scores. Each iteration of a seed is one proposal, so one seed of 200 iterations costs 200 proposals and forty seeds cost 8,000.</p>
+<p>Most papers on LLM evolutionary search report one budget point, usually one seed (sometimes up to three) run for a fixed number of iterations, and rank methods from that result. In our paper, <a href="https://arxiv.org/abs/2609.19799">Evolution or Illusion? Rethinking Evaluation in LLM Evolutionary Search</a>, we measured what that one point leaves out.</p>
+<!-- more -->
+
+<h2 id="width-and-depth">Width and depth<a class="headerlink" href="#width-and-depth" title="Permanent link">&para;</a></h2>
+<p>In LLM evolutionary search, a model proposes a program, an evaluator scores it, and the best programs go back to the model to be edited. Each seed runs this loop independently of the others, and the reported result is the best program across seeds. Width is the number of seeds (k), and depth is the number of iterations each seed runs (t). A budget of B = k × t proposals can be split in many ways: 800 proposals buy 4 seeds of 200 iterations, or 20 seeds of 40.</p>
+<p>We ran OpenEvolve, EvoX and AdaEvolve for 40 seeds of 200 iterations each, on three systems tasks from ADRS-Bench, a benchmark suite for AI-Driven Research for Systems (PRISM, an LLM-serving scheduler; Cloudcast, a broadcast planner; and transaction scheduling) and two math tasks (circle packing and Heilbronn). The main runs use gpt-5-mini through the same engine, so only the strategy varies. These runs give us a grid of every split from 1 to 40 seeds and 1 to 200 iterations. To score a split (k, t), we take subsets of k of the 40 logged seeds, cut each one at iteration t, and compute the expected best score with exact order statistics. No additional runs are needed.</p>
+<figure>
+  <img alt="Expected best score over the seeds by iterations grid for each strategy on the three systems tasks" src="../../../../../assets/evolution-illusion-split-grid.png" width="100%" />
+<br />
+<figcaption>Expected best score over the grid of seeds (k) by iterations (t), one panel per strategy (rows) and systems task (columns). Each white diagonal connects splits with the same budget k × t, and the star marks the best split. From Figure 2 of the paper.</figcaption>
+</figure>
+<h2 id="the-best-split-moves">The best split moves<a class="headerlink" href="#the-best-split-moves" title="Permanent link">&para;</a></h2>
+<p>The full budget is 8,000 proposals (40 seeds × 200 iterations). The table shows the best split, written as (k seeds, t iterations), at the full budget and at about 10% of it, roughly 800 proposals.</p>
+<table>
+<thead>
+<tr>
+<th>Task</th>
+<th>Strategy</th>
+<th>Full budget</th>
+<th>~10% budget</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Cloudcast</td>
+<td>EvoX</td>
+<td>(40, 67)</td>
+<td>(12, 67)</td>
+</tr>
+<tr>
+<td>Cloudcast</td>
+<td>OpenEvolve</td>
+<td>(40, 158)</td>
+<td>(5, 162)</td>
+</tr>
+<tr>
+<td>Cloudcast</td>
+<td>AdaEvolve</td>
+<td>(40, 43)</td>
+<td>(5, 158)</td>
+</tr>
+<tr>
+<td>Transaction scheduling</td>
+<td>EvoX</td>
+<td>(40, 158)</td>
+<td>(4, 198)</td>
+</tr>
+<tr>
+<td>Transaction scheduling</td>
+<td>OpenEvolve</td>
+<td>(40, 159)</td>
+<td>(13, 60)</td>
+</tr>
+<tr>
+<td>Transaction scheduling</td>
+<td>AdaEvolve</td>
+<td>(38, 40)</td>
+<td>(19, 40)</td>
+</tr>
+</tbody>
+</table>
+<p>At the full budget, the best splits in the table use all or nearly all 40 seeds, but the best depth ranges from 40 iterations (AdaEvolve on transaction scheduling) to 159 (OpenEvolve on the same task). Past that depth the expected best score flattens rather than falls, so extra iterations add little and proposals are better spent on more seeds. The best split can therefore use less than the full budget, since we search over every split with k × t of at most 8,000.</p>
+<p>A flat top also means the reported split is not always the only good one. On Cloudcast with EvoX the top of the surface is a ridge and not a peak: at 40 seeds, every depth from 67 up to 200 scores about the same. We report the shallowest split on that ridge. Where the surface has a single clear peak, as Cloudcast with AdaEvolve does at 43 iterations, the table and the figure agree exactly.</p>
+<p>At 10% of the budget the best splits spread further apart. EvoX on transaction scheduling does best with 4 seeds of 198 iterations, close to the full 200. AdaEvolve on the same task does best with the opposite shape: 19 seeds, each stopped after 40 iterations, because its score peaks around iteration 40.</p>
+<p>PRISM behaves differently. Its score surface is nearly flat, with over 97% of the feasible splits within 1% of the best one, so there the split matters little and budget is better spent on more seeds than on tuning depth.</p>
+<h2 id="the-ranking-changes-with-the-number-of-seeds">The ranking changes with the number of seeds<a class="headerlink" href="#the-ranking-changes-with-the-number-of-seeds" title="Permanent link">&para;</a></h2>
+<p>Each strategy at one seed and at forty seeds, both at 200 iterations, with rank in parentheses:</p>
+<table>
+<thead>
+<tr>
+<th>Task</th>
+<th>Strategy</th>
+<th>1 seed</th>
+<th>40 seeds</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Heilbronn (×10⁻²)</td>
+<td>EvoX</td>
+<td>2.955 (2)</td>
+<td>3.523 (1)</td>
+</tr>
+<tr>
+<td>Heilbronn (×10⁻²)</td>
+<td>OpenEvolve</td>
+<td>2.931 (3)</td>
+<td>3.388 (3)</td>
+</tr>
+<tr>
+<td>Heilbronn (×10⁻²)</td>
+<td>AdaEvolve</td>
+<td>3.039 (1)</td>
+<td>3.498 (2)</td>
+</tr>
+<tr>
+<td>Cloudcast (×10⁻³)</td>
+<td>EvoX</td>
+<td>1.22 (3)</td>
+<td>1.57 (2)</td>
+</tr>
+<tr>
+<td>Cloudcast (×10⁻³)</td>
+<td>OpenEvolve</td>
+<td>1.33 (2)</td>
+<td>1.52 (3)</td>
+</tr>
+<tr>
+<td>Cloudcast (×10⁻³)</td>
+<td>AdaEvolve</td>
+<td>1.52 (1)</td>
+<td>1.58 (1)</td>
+</tr>
+</tbody>
+</table>
+<p>On Heilbronn the winner changes. On Cloudcast and transaction scheduling, AdaEvolve leads at both budgets while EvoX and OpenEvolve swap second and third place. The Cloudcast swap is significant: the probability that EvoX beats OpenEvolve rises from 0.05 at one seed to 1.00 at forty. On PRISM the single-seed scores are within 0.014 of each other, and all three strategies reach the same optimum at forty seeds.</p>
+<h3 id="how-much-budget-does-a-reliable-ranking-need">How much budget does a reliable ranking need?<a class="headerlink" href="#how-much-budget-does-a-reliable-ranking-need" title="Permanent link">&para;</a></h3>
+<p>To answer this, we need a comparison point, so we take the order at the full budget of 40 seeds by 200 iterations as a reference. It is the best estimate our data gives, not a ground truth.</p>
+<p>We then cut the budget two ways: keeping all 40 seeds and stopping each run earlier, or keeping 200 iterations and using fewer seeds. At each smaller budget we resample the 40 recorded seeds with replacement, 2,000 times, and count how often the resulting order differs from the reference. Drawing with replacement is what creates the variation, since a resample of 40 seeds repeats some and omits others.</p>
+<p>Both axes matter, and neither settles early. Cutting depth, the order stays unstable well into the run: on Heilbronn it differs from the reference in over 90% of resamples through iteration 64 of 200, even with all 40 seeds. Cutting width, the disagreement falls steadily as seeds are added, from between about 50% and 90% at one seed, depending on the task.</p>
+<figure>
+  <img alt="Probability that the strategy order at a partial budget differs from the full-budget order, by task" src="../../../../../assets/evolution-illusion-ranking-probability.png" width="100%" />
+<br />
+<figcaption>Probability that the strategy order at a partial budget differs from the order at the full budget, one curve per task. Left: fewer iterations, all 40 seeds. Middle: fewer seeds, 200 iterations each. Right: total budget at its best split. From Figure 3 of the paper.</figcaption>
+</figure>
+<p>The same pattern holds when we repeat the math tasks on Claude Haiku 4.5 and the systems tasks on Gemini 2.5 Flash, although the backbone can change who wins. On Heilbronn with Haiku, AdaEvolve wins at forty seeds and EvoX falls to last.</p>
+<h2 id="more-seeds-also-found-broken-evaluators">More seeds also found broken evaluators<a class="headerlink" href="#more-seeds-also-found-broken-evaluators" title="Permanent link">&para;</a></h2>
+<p>At forty seeds, AdaEvolve scores 21,277 on transaction scheduling, about four times any other result. That comes from a gap in the benchmark's validation code, which checks that the schedule a program returns is a valid ordering of the transactions it lists, but never that it listed every transaction in the workload. AdaEvolve's best program schedules 3 of the 300 transactions. Only two of its forty seeds find this exploit, so a one- or three-seed run would rarely reach it. EvoX's best program, at 4,386, is the only one that schedules the full workload, and once partial schedules are filtered out EvoX rises from last to first on this task.</p>
+<p>Cloudcast has a similar gap: its validity check confirms that each declared edge exists but trusts the cost the program declares for it. EvoX's best seed underprices its edges by about 15 to 25%, so we rescore every Cloudcast program at the true edge cost, as in the ranking table above.</p>
+<h2 id="what-we-recommend">What we recommend<a class="headerlink" href="#what-we-recommend" title="Permanent link">&para;</a></h2>
+<p>Report the seeds-by-iterations frontier and the best split at each budget, not a single score. Run several seeds, because single-seed rankings are unreliable. Tune depth per strategy and task instead of fixing the iteration count by habit.</p>
+<p>Collecting the full grid, 40 seeds of 200 iterations for each strategy and task, is a one-time cost; every split after that comes from replaying the logged runs. Predicting the best split for a new task without exploring the grid is still an open question.</p>
+<p>Paper: <a href="https://arxiv.org/abs/2609.19799">arXiv:2609.19799</a></p>
+
+
+
+
+
+
+
+  
+  
+
+
+
+  
+
+
+  
+
+
+
+      
+    </article>
+  </div>
+
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+          <button type="button" class="md-top md-icon" data-md-component="top" hidden>
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8z"/></svg>
+  Back to top
+</button>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+    
+      
+        
+      
+      <nav class="md-footer__inner md-grid" aria-label="Footer" >
+        
+          
+          <a href="../../../09/30/the-simple-baseline-i-could-not-beat/" class="md-footer__link md-footer__link--prev" aria-label="Previous: The Simple Baseline I Could Not Beat">
+            <div class="md-footer__button md-icon">
+              
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+            </div>
+            <div class="md-footer__title">
+              <span class="md-footer__direction">
+                Previous
+              </span>
+              <div class="md-ellipsis">
+                The Simple Baseline I Could Not Beat
+              </div>
+            </div>
+          </a>
+        
+        
+      </nav>
+    
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      
+      <script id="__config" type="application/json">{"annotate": null, "base": "../../../../..", "features": ["navigation.tabs", "navigation.indexes", "navigation.sections", "navigation.expand", "navigation.footer", "navigation.top", "search.highlight", "search.suggest", "content.code.copy", "toc.follow"], "search": "../../../../../assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": {"default": "latest", "provider": "mike"}}</script>
+    
+    
+  
+      <script src="../../../../../assets/javascripts/bundle.d7400e89.min.js"></script>
+      
+    
+  <div class="ga-notice" id="ga-notice" role="region" aria-label="Analytics notice">
+    <div class="ga-notice__inner">
+      <span class="ga-notice__text">
+        We use cookieless Google Analytics to count how many readers each post gets &mdash;
+        no cookies, no tracking across sites. Your page URL (without query parameters), browser,
+        and approximate location may be processed.
+        <a href="../../../../../privacy/">Read what's collected &rarr;</a>
+      </span>
+      <button class="ga-notice__btn" id="ga-notice-dismiss" type="button">Got it</button>
+    </div>
+  </div>
+  <script>
+    (function() {
+      var notice = document.getElementById('ga-notice');
+      var btn = document.getElementById('ga-notice-dismiss');
+      if (!notice || !btn) return;
+      try {
+        if (!localStorage.getItem('analytics-notice-dismissed')) {
+          notice.style.display = 'block';
+        }
+      } catch (e) { /* localStorage unavailable; just don't show */ }
+      btn.addEventListener('click', function() {
+        try { localStorage.setItem('analytics-notice-dismissed', '1'); } catch (e) {}
+        notice.style.display = 'none';
+      });
+    })();
+  </script>
+
+  </body>
+</html>
